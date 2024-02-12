@@ -1,0 +1,134 @@
+<apv-page-header
+  title="{{this.baseService.translate('company-pagetitle')}}"
+  backButton="true"
+></apv-page-header>
+
+<ion-content [fullscreen]="true">
+  <ion-row class="ion-justify-content-center ion-margin-vertical">
+    <ion-col size="11" size-md="10" size-lg="8" class="first-col bg-gradiant">
+      <ion-row class="main-card m-0 p-2" *ngIf="thirdPartyDetails">
+        <ion-card class="main-card m-0 p-0 w-100">
+          <div class="d-flex ion-align-items-center">
+            <div
+              class="logo-company d-flex ion-justify-content-center ion-align-items-center p-2"
+            >
+              <img
+                [src]="baseService.loadImage(thirdPartyDetails.Thirdparty_LogoFile,'Banner')"
+              />
+            </div>
+            <div class="d-flex flex-column w-100 p-2">
+              <ion-card-header class="pe-0 p-1">
+                <ion-card-title class="text-bold text-dark">
+                  {{thirdPartyDetails.Title}}
+                </ion-card-title>
+              </ion-card-header>
+              <ion-card-content class="pe-0 p-1">
+                <div class="d-flex ion-align-items-center">
+                  <ion-text class="text-small"
+                    >{{thirdPartyDetails.Type_Title}}</ion-text
+                  >
+                </div>
+                <div
+                  *ngFor="let field of thirdPartyDetails.Fields"
+                  class="d-flex"
+                >
+                  <ion-text class="text-small">{{field.Title}}:&nbsp;</ion-text>
+                  <ion-text class="text-small">{{field.Value}}</ion-text>
+                </div>
+              </ion-card-content>
+            </div>
+          </div>
+        </ion-card>
+        <ion-col size="12">
+          <div class="text-long space-line p-1">{{thirdPartyDetails.Description}}</div>
+        </ion-col>
+
+        <ion-col size="12">
+          <ion-slides autoplay="500" pager="true" [options]="sliderOpts">
+            <ion-slide *ngFor="let slide of thirdPartyDetails.Images">
+              <ion-img
+                [src]="slide.Value"
+                alt="{{slide.Title}}"
+                class="img-slider m-1"
+              ></ion-img>
+            </ion-slide>
+          </ion-slides>
+        </ion-col>
+
+        <ion-col size="12" class="mt-4">
+          <ion-label class="text-primary"
+            >{{baseService.translate('company-view-Jobs')}}
+          </ion-label>
+          <ion-text
+            *ngIf="listResultModel.Items?.length==0"
+            class="d-block text-small my-4"
+            >{{baseService.translate('company-view-NoJob')}}.</ion-text
+          >
+
+          <ion-card
+            *ngFor="let offer of listResultModel.Items"
+            [routerLink]="['/home/offer', offer.Id]"
+            class="m-0 mt-3 p-3"
+          >
+            <ion-card-content class="pe-0 p-1">
+              <div class="d-flex ion-align-items-center column-gap">
+                <ion-icon
+                  class="text-large text-primary"
+                  name="briefcase"
+                ></ion-icon>
+                <ion-text class="text-small text-primary"
+                  >{{offer.Title}}</ion-text
+                >
+              </div>
+              <div
+                class="d-flex ion-justify-content-between ion-align-items-center pt-1"
+              >
+                <div class="d-flex ion-align-items-center column-gap">
+                  <ion-icon
+                    class="text-large text-primary"
+                    name="cash"
+                  ></ion-icon>
+                  <ion-text class="text-small text-primary"
+                    >{{baseService.translate('offer-list-card-salary1').replace('value1',(offer.MinPrice
+                    | toRial:'first').toString())}}</ion-text
+                  >
+                  <ion-text class="text-small text-primary"
+                    >{{(offer.MaxPrice | toRial:'second').toString()}}</ion-text
+                  >
+                </div>
+                <div
+                  class="d-flex ion-align-items-center column-gap"
+                  [ngClass]="this.baseService.language().Direction === 'rtl' ? 'ms-4' : 'me-4'"
+                >
+                  <ion-icon
+                    class="text-large text-primary"
+                    name="calendar"
+                  ></ion-icon>
+                  <ion-text class="text-small text-primary"
+                    >{{offer.EndDate}}</ion-text
+                  >
+                </div>
+              </div>
+            </ion-card-content>
+          </ion-card>
+          <ion-infinite-scroll
+            *ngIf="listResultModel.HasNext"
+            threshold="100px"
+            (ionInfinite)="loadOffersData($event)"
+          >
+            <ion-infinite-scroll-content
+              loadingSpinner="crescent"
+              loadingText="{{baseService.translate('common-processing')}}"
+            >
+            </ion-infinite-scroll-content>
+          </ion-infinite-scroll>
+        </ion-col>
+      </ion-row>
+    </ion-col>
+    <ion-col size="12" class="text-center my-3">
+      <ion-button color="light" (click)="backLocation()">
+        {{this.baseService.translate('offer-detail-Return')}}
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-content>

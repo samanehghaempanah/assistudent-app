@@ -1,0 +1,86 @@
+<apv-page-header
+  title="{{this.baseService.translate('offer-detail-pagetitle')}}"
+  backButton="true"
+></apv-page-header>
+
+<ion-content [fullscreen]="true">
+  <ion-row class="ion-justify-content-center ion-margin-vertical">
+    <ion-col size="11" size-md="10" size-lg="8" class="first-col bg-gradiant">
+      <ion-row class="main-card m-0 p-2" *ngIf="offerDetails">
+        <ion-card class="main-card m-0 p-0 w-100">
+          <div class="d-flex ion-align-items-center">
+            <div
+              class="logo-company d-flex ion-justify-content-center ion-align-items-center p-2"
+            >
+              <img
+              [src]="baseService.loadImage(offerDetails.Thirdparty_LogoFile,'Banner')"
+              />
+            </div>
+            <div class="d-flex flex-column w-100">
+              <ion-card-header class="pe-0 p-1">
+                <ion-card-title class="text-bold text-dark">
+                  {{offerDetails.Thirdparty_Title}}
+                </ion-card-title>
+              </ion-card-header>
+              <ion-card-content class="pe-0 p-1">
+                <div class="d-flex ion-align-items-center column-gap">
+                  <ion-icon
+                    class="text-large text-primary"
+                    name="briefcase"
+                  ></ion-icon>
+                  <ion-text class="text-small text-primary"
+                    >{{offerDetails.Title}}</ion-text
+                  >
+                </div>
+                <div
+                  class="d-flex ion-justify-content-between ion-align-items-center pt-1"
+                >
+                  <div class="d-flex ion-align-items-center column-gap">
+                    <ion-icon
+                      class="text-large text-primary"
+                      name="cash"
+                    ></ion-icon>
+                    <ion-text class="text-small text-primary"
+                      >{{baseService.translate('offer-list-card-salary1').replace('value1',(offerDetails.MinPrice
+                      | toRial:'first').toString())}}</ion-text
+                    >
+                    <ion-text class="text-small text-primary"
+                      >{{(offerDetails.MaxPrice |
+                      toRial:'second').toString()}}</ion-text
+                    >
+                  </div>
+                  <div
+                    class="d-flex ion-align-items-center column-gap"
+                    [ngClass]="this.baseService.language().Direction === 'rtl' ? 'ms-4' : 'me-4'"
+                  >
+                    <ion-icon
+                      class="text-large text-primary"
+                      name="calendar"
+                    ></ion-icon>
+                    <ion-text class="text-small text-primary"
+                      >{{offerDetails.EndDate}}</ion-text
+                    >
+                  </div>
+                </div>
+              </ion-card-content>
+            </div>
+          </div>
+        </ion-card>
+        <ion-col size="12">
+          <div class="Description-job text-long p-1">{{offerDetails.Description}}</div>
+        </ion-col>
+        <ion-col size="12" class="d-flex ion-justify-content-evenly my-3">
+          <ion-button *ngIf="!offerDetails.UserForm_Id" color="primary" [routerLink]="['/home/form/view' , offerDetails.Form_Id , offerDetails.UserForm_Id ?? 0]"
+            >{{baseService.translate('offer-detail-Register')}}</ion-button>
+
+          <ion-button *ngIf="offerDetails.UserForm_Id" color="primary" [routerLink]="['/home/form/view' , offerDetails.Form_Id , offerDetails.UserForm_Id ?? 0]"
+            >{{baseService.translate('visa-list-view')}}</ion-button>
+
+          <ion-button color="light" (click)="backLocation()">
+            {{this.baseService.translate('offer-detail-Return')}}
+          </ion-button>
+        </ion-col>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+</ion-content>

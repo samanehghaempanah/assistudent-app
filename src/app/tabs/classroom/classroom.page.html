@@ -1,0 +1,126 @@
+<apv-page-header title="{{this.baseService.translate('tab-box-Classmate')}}"></apv-page-header>
+
+<apv-scrollableTab [Tabs]="Categories" [selectedTab]="selectedTab"
+  (onTabClick)="onTabClick($event)"></apv-scrollableTab>
+
+<ion-content [fullscreen]="true">
+  <!-- program -->
+  <ion-row class="forms d-flex flex-column" *ngIf="selectedTab === 'program' ">
+    <ion-col size="11" size-md="9" class="d-flex ion-justify-content-center flex-column bg-gradiant mx-auto my-1"
+      *ngFor="let item of coursesByDay">
+      <ion-card class="main-card m-0 p-0" color="light">
+        <ion-card-header class="p-2">
+          <ion-chip class="date">{{item.Day_Title}}</ion-chip>
+        </ion-card-header>
+        <ion-card-content class="px-2">
+
+
+          <ion-card class="m-0 p-0 mb-2" *ngFor="let course of item.Courses">
+            <ion-card-header class="dayCoruse p-2">
+              <ion-chip class="type" [ngClass]="{'dirction-ltr' : this.baseService.language().Direction === 'ltr',
+              'dirction-rtl' : this.baseService.language().Direction === 'rtl'}">{{course.LessonTitle}}</ion-chip>
+              <ion-chip class="time">{{course.ScheduleList[0].StartTime_short}} -
+                {{course.ScheduleList[0].EndTime_short}} </ion-chip>
+            </ion-card-header>
+            <ion-card-content class="px-2">
+              <div class="d-flex flex-column">
+                <ion-text class="text-dark">{{this.baseService.translate('classroom-program-teacher1')}}
+                  :
+                  <span class="text-primary">{{course.TeacherFirstName}} {{course.TeacherLastName}}</span><ion-icon
+                    name="chatbubbles-outline" class="text-primary mx-2"></ion-icon></ion-text>
+                <ion-text class="text-dark">{{this.baseService.translate('classroom-program-address')}} :
+                  {{course.ScheduleList[0].Class_Title}}
+                </ion-text>
+              </div>
+              <div class="btnBox d-flex">
+                <ion-button class="text-small" (click)="onMap(course.ScheduleList[0])"
+                  fill="clear">{{this.baseService.translate('classroom-program-Location-class')}}</ion-button>
+                <ion-button class="text-small"
+                  fill="clear">{{this.baseService.translate('classroom-Suggested-resources')}}</ion-button>
+              </div>
+            </ion-card-content>
+          </ion-card>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+
+  </ion-row>
+
+
+  <!-- history -->
+  <ion-row class="ion-justify-content-center ion-margin-vertical" *ngIf="selectedTab === 'history' ">
+    <ion-col size="11" size-md="10" size-lg="8" class="first-col mt-1">
+      <ion-accordion-group *ngFor="let item of SemesterList">
+        <ion-accordion class="my-1" toggleIcon="none">
+          <ion-item slot="header" (click)="onLoadDataCoursHistory(item)">
+            <div class="TermTitle d-flex ion-align-items-center px-2">
+              <ion-icon class="rtl text-large" name="caret-back-circle-outline" slot="start"
+                *ngIf="this.baseService.language().Direction === 'rtl'"></ion-icon>
+              <ion-icon class="ltr text-large" name="caret-forward-circle-outline" slot="start"
+                *ngIf="this.baseService.language().Direction === 'ltr'"></ion-icon>
+              <ion-label class="headerLabelAccordion px-1">{{item.Title}}</ion-label>
+            </div>
+            <div class="mx-4">
+              <ion-label *ngIf="item.ActiveSemester"
+                style="color: var(--ion-color-dark-text);">{{this.baseService.translate('classroom-history-card-title-status2')}}</ion-label>
+
+              <ion-label *ngIf="!item.ActiveSemester"
+                style="color: var(--ion-color-medium-text);">{{this.baseService.translate('classroom-history-card-title-status1')}}</ion-label>
+            </div>
+          </ion-item>
+          <div class="ion-padding text-content" slot="content" *ngIf="historys">
+            <ion-card class="m-0 p-0 my-2" *ngFor="let his of historys ">
+              <ion-card-content>
+                <div class="d-flex flex-column">
+                  <ion-text class="text-bold p-0">{{his.LessonTitle}}</ion-text>
+                  <ion-text>{{this.baseService.translate('classroom-history-Lesson-code')}}
+                    : {{his.Lesson_Code}}</ion-text>
+                  <ion-text>{{this.baseService.translate('classroom-history-Presentation-code')}}
+                    : {{his.Course_Code}}</ion-text>
+                  <ion-text class="d-flex">{{this.baseService.translate('classroom-program-teacher1')}}
+                    : <ion-text class="text-primary">{{his.TeacherFirstName}} {{his.TeacherLastName}}</ion-text>
+                    <ion-icon name="chatbubbles-outline" class="text-primary mx-2"></ion-icon>
+                  </ion-text>
+                  <div class="d-flex flex-column" *ngIf="item.ActiveSemester">
+                    <span *ngFor="let Schedule of his.ScheduleList " class="d-flex flex-column">
+                      <ion-text>
+                        {{this.baseService.translate('classroom-history-card-classTime')}}
+                        : {{Schedule.Day_Title}}
+                        <span>{{this.baseService.translate('classroom-history-card-time')}}
+                          : {{Schedule.StartTime_short}} - {{Schedule.EndTime_short}}</span></ion-text>
+                      <ion-text>{{this.baseService.translate('classroom-history-card-address-class')}}
+                        : {{Schedule.Class_Title}}</ion-text>
+                    </span>
+                    <ion-text>{{this.baseService.translate('classroom-history-card-examTime')}}
+                      : {{his.ExamDate | jdate}}
+                    </ion-text>
+                    <ion-text>{{this.baseService.translate('classroom-history-card-address-exam')}}
+                      : {{his.ExamPlace_Title}}
+                    </ion-text>
+                  </div>
+                </div>
+                <ion-row class="btnBox d-flex">
+                  <ion-col size="6" size-md="4" class="text-center">
+                    <ion-button class="text-small" *ngIf="item.ActiveSemester" (click)="onMap(his.ScheduleList[0])"
+                      fill="clear">{{this.baseService.translate('classroom-program-Location-class')}}</ion-button>
+                  </ion-col>
+                  <ion-col size="6" size-md="4" class="text-center">
+                    <ion-button class="text-small" *ngIf="item.ActiveSemester" (click)="onMapExam(his)"
+                      fill="clear">{{this.baseService.translate('classroom-program-Location-exam')}}</ion-button>
+                  </ion-col>
+                  <ion-col size="12" size-md="4" class="text-center">
+                    <ion-button class="text-small"
+                      fill="clear">{{this.baseService.translate('classroom-Suggested-resources')}}</ion-button>
+                  </ion-col>
+                </ion-row>
+              </ion-card-content>
+            </ion-card>
+          </div>
+        </ion-accordion>
+      </ion-accordion-group>
+      <div *ngIf="SemesterList.length == 0" class="text-center mt-3">
+        <ion-label>{{this.baseService.translate('classroom-history-empty-list')}}</ion-label>
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-content>

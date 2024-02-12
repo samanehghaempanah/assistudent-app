@@ -1,0 +1,65 @@
+.space-line {
+  white-space: pre-line;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.condition {
+  min-width: 184px;
+}
+
+ion-content {
+  --padding-bottom: 0 !important;
+}
+
+video {
+  width: 100%;
+  border-radius: 10px;
+}
+
+ion-card.version {
+  height: 100%;
+}
+
+.screenshot {
+  width: 300px;
+  height: 300px;
+}
+
+ion-list ion-item:nth-child(1)::part(native) {
+padding-inline: 0px !important;
+--border-style: none !important;
+}
+
+.goToTopBtn {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+}
+
+@keyframes jump {
+  0%   {transform: translate3d(0,15%,0);}
+  40%  {transform: translate3d(0,0,0);}
+  100% {transform: translate3d(0,15%,0);}
+}
+.jump {
+  transform-origin: 50% 50%;
+  animation: jump .9s linear alternate infinite;
+}
+
+@media screen and (max-width: 600px) {
+  .main-card {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .screenshot {
+      height: 475px;
+    }
+    ion-card {
+      width: 100%;
+    }
+  }
+}

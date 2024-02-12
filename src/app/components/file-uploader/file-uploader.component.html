@@ -1,0 +1,34 @@
+<div class="content d-flex ion-align-items-center">
+  <div class="img-box d-flex align-items justify-center">
+    <ion-button [disabled]="isDisabled" (click)="fileUpload.click()">
+      <ion-icon name="cloud-upload-outline" class="text-large mx-2"></ion-icon>
+      <!-- {{isMobileScreen ? "" : this.baseService.translate('common-btn-Upload')}} -->
+    </ion-button>
+    <input type="file" [accept]="acceptTypes.join(',')" #fileUpload style="display: none"
+      (change)="onFileSelected($event)" />
+  </div>
+  <div class="d-flex ion-align-items-center">
+    <ng-container *ngIf="(response?.Result?.FileURL || src) && accept === 21; else elseTemplate">
+      <ion-img (click)="onShowImage()" [src]="response?.Result?.FileURL || src" class="Preview-Image" />
+    </ng-container>
+    <ng-template #elseTemplate>
+      <ion-icon *ngIf="accept === 21" [ngStyle]="{'opacity': response?.Result || src ? '1' : '0.6'}" class="file-icon"  color="primary" name="images"></ion-icon>
+    </ng-template>
+    <ng-container *ngIf="accept === 23">
+      <ion-icon (click)="downloadFile()" [ngStyle]="{'opacity': response?.Result || src ? '1' : '0.6','cursor':'pointer'}" class="file-icon" color="primary" name="film"></ion-icon>
+    </ng-container>
+    <ng-container *ngIf="accept === 20">
+      <ion-icon (click)="downloadFile()" [ngStyle]="{'opacity': response?.Result || src ? '1' : '0.6','cursor':'pointer'}" class="file-icon" color="primary" name="document"></ion-icon>
+    </ng-container>
+    <ng-container *ngIf="accept === 22">
+      <ion-icon (click)="downloadFile()" [ngStyle]="{'opacity': response?.Result || src ? '1' : '0.6','cursor':'pointer'}" class="file-icon" color="primary" name="document-text"></ion-icon>
+    </ng-container>
+
+    <ion-icon style="cursor: pointer;" class="text-large mx-2" color="primary" name="close-circle-sharp" (click)="cancelUpload()"
+      *ngIf="this.uploadSub || response?.Result && src"></ion-icon>
+  </div>
+</div>
+<ion-progress-bar  [value]="uploadPrecentage" mode="determinate"></ion-progress-bar>
+<div class="name">
+  <p class="file-name">{{src?.substring(src?.lastIndexOf('/') + 1) || config.fileName}}</p>
+</div>

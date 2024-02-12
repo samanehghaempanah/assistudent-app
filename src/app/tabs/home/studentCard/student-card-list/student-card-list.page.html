@@ -1,0 +1,105 @@
+<apv-page-header [backButton]="'true'"
+  title="{{this.baseService.translate('studentCard-pagetitle')}}"></apv-page-header>
+
+<div *ngIf="!pageData.Loaded">
+  <apv-scrollableTab [Tabs]="tabs" [selectedTab]="pageData.selectedTab" 
+    (onTabClick)="onTabClick($event)"></apv-scrollableTab>
+</div>
+
+<ion-content [fullscreen]="true">
+  <div *ngIf="!pageData.Loaded">
+    <ion-row *ngIf="pageData.selectedTab === 'new'" class="forms d-flex flex-column">
+      <ion-col size="11" size-md="9" class="d-flex ion-justify-content-center flex-column bg-gradiant mx-auto my-1">
+        <ion-card class="main-card content m-0 p-0">
+          <ion-card-header class="p-2 text-primary" *ngIf="pageData.isStudent">
+            {{this.baseService.translate("studentCard-card-details")}}
+          </ion-card-header>
+          <ion-card-content class="px-2" *ngIf="pageData.isStudent">
+            <ion-radio-group (ionChange)="handleRadioGroup($event)">
+              <div class="d-flex ion-align-items-center mx-3 my-2" *ngFor="let type of TypeCardList">
+                <ion-radio [disabled]="type.Disabled" slot="end" [value]="type"></ion-radio>
+                <ion-label class="mx-2">
+                  {{type.Title}} <span>
+                    <ion-text class="text-small" color="primary" (click)="presentPopover($event , type)"
+                      style="cursor: pointer;">{{
+                      this.baseService.translate("studentCard-card-help")}}</ion-text>
+                  </span>
+                </ion-label>
+
+                <ion-popover #popover [isOpen]="pageData.isOpen" (didDismiss)="pageData.isOpen = false" side="bottom"
+                  alignment="{{this.baseService.language().Direction === 'rtl' ? 'end' : 'start'}}">
+                  <ng-template>
+                    <ion-content class="ion-padding lazyLoading"
+                      color="primary">{{pageData.popoverDescription}}</ion-content>
+                  </ng-template>
+                </ion-popover>
+              </div>
+            </ion-radio-group>
+
+            <br />
+
+            <!-- <div class="mt-4">
+              <label>
+                {{this.baseService.translate("studentCard-request-decs")}}
+              </label>
+              <ion-textarea [autoGrow]="true"> </ion-textarea>
+            </div> -->
+
+            <ion-card class="w-100 mx-auto finalPrice-content p-3" *ngIf="pageData.paymentCount">
+              <p>
+                {{this.baseService.translate("studentCard-request-issuance-fee").replace('{{value}}',pageData.paymentCount)}}
+              </p>
+              <p class="mt-2">
+                {{this.baseService.translate("studentCard-request-payable").replace('{{value}}',pageData.paymentCount)}}
+              </p>
+            </ion-card>
+
+            <ion-row class="ion-justify-content-center mt-3">
+              <ion-button color="primary" (click)="onSave()" [disabled]="pageData.Loaded || !pageData.paymentCount">
+                {{this.baseService.translate("studentCard-request-pay")}}
+              </ion-button>
+              <ion-button fill="clear" (click)="onCancelBtn()" [disabled]="pageData.Loaded">
+                {{this.baseService.translate("studentCard-request-cancel")}}
+              </ion-button>
+            </ion-row>
+          </ion-card-content>
+
+          <ion-card-content *ngIf="!pageData.isStudent">
+            <div>
+              <ion-col class="text-center">
+                <div>
+                  <ion-text class="mx-1">{{this.baseService.translate("student-card-noStudent")}}</ion-text>
+                </div>
+              </ion-col>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-row *ngIf="pageData.selectedTab === 'history'" class="forms d-flex flex-column">
+      <ion-col *ngFor="let card of cardHistoryItems" size="11" size-md="9"
+        class="d-flex ion-justify-content-center flex-column bg-gradiant mx-auto my-1">
+        <ion-card class="main-card content m-0 p-0">
+          <ion-card-header class="text-primary">
+            {{this.baseService.translate("studentCard-card-number")}}:
+            {{card.Card_Number}}
+          </ion-card-header>
+          <ion-card-content class="px-2">
+            <ion-row class="ion-justify-content-between">
+              <ion-col size="6" class="date-info pt-3">
+                {{this.baseService.translate("studentCard-issue-date")}} :
+                {{card.Delivery_Date}}
+              </ion-col>
+              <ion-col size="6" class="text-end">
+                <ion-chip [color]="card.status === 'delivered' ? 'success' : 'warning'">
+                  {{card.CardStatus_Title}}
+                </ion-chip>
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </div>
+</ion-content>

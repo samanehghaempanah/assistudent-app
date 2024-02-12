@@ -1,0 +1,67 @@
+.notify-card {
+  box-shadow: none;
+  border-bottom: 1px solid rgba(var(--ion-color-medium-text-rgb), 0.425);
+  border-radius: 0px !important;
+
+  .hideTitle {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .hideDescription {
+    display: -webkit-box;
+    -webkit-line-clamp: 4;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  a {
+    cursor: pointer;
+  }
+
+  img {
+    width: 100% !important;
+    max-height: 200px !important;
+    object-fit: cover;
+    border-radius: 15px 15px 0 0 !important;
+    cursor: pointer;
+  }
+
+  .cardActionsLeft,
+  .cardActionsRight {
+
+    ion-icon {
+      cursor: pointer;
+    }
+
+    .sharp {
+      color: white;
+    }
+  }
+
+  .card-notif-bar {
+    background: linear-gradient(270deg, var(--ion-color-primary) 2.83%, var(--ion-color-secondary) 130%);
+    border-radius: 0px 0px 10px 10px;
+    padding: 4px 10px;
+  }
+
+  .column-gap {
+    column-gap: 5px;
+  }
+
+  .textBox{
+    align-items: end;
+
+    p{
+      white-space: pre-line;
+    }
+  }
+
+  @media screen and (max-width: 768px) {
+    .textBox{
+      flex-direction: column;
+    }
+  }
+}

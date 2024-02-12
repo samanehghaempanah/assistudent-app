@@ -1,0 +1,107 @@
+.first-page {
+    height: -webkit-fill-available;
+    overflow-y: auto;
+
+    .header-box {
+        background: var(--ion-color-primary);
+        border-radius: 0px 0px 30px 30px;
+
+        .menu {
+            justify-content: space-evenly;
+
+            .menuBox2 {
+                cursor: pointer;
+            }
+
+            .button {
+                text-align: center !important;
+                border-radius: 15px;
+                width: 40px;
+                height: 42px;
+                background-color: var(--ion-color-light-text);
+                box-shadow: 3px 3px 5px rgba(var(--ion-color-light-text-contrast-rgb), 0.2),
+                    -3px -3px 5px rgba(var(--ion-color-light-text-rgb), 0.25), inset -5px -5px 3px var(--ion-color-light-text),
+                    inset 5px 5px 5px rgba(var(--ion-color-light-text));
+                padding-top: 0.65rem;
+
+                ion-img::part(image) {
+                    width: 23px;
+                    margin: auto;
+                }
+            }
+
+            p {
+                color: var(--ion-color-light-text);
+                font-size: 9px;
+            }
+        }
+    }
+}
+
+.reset-box {
+    direction: ltr;
+}
+
+.input-codes {
+    height: 55px;
+    border: 1px solid var(--ion-color-secondary-shade) !important;
+    border-radius: 4px !important;
+    background: var(--ion-color-primary-contrast);
+    text-align: center;
+    --padding-start: 0 !important;
+}
+
+.input-full {
+    border-color: var(--ion-color-success) !important;
+}
+
+.backLoginBtn {
+    cursor: pointer;
+}
+
+.space-line {
+    white-space: pre-line
+}
+
+.img-swiper {
+    swiper {
+        height: 100% !important;
+        position: relative;
+
+        img {
+            min-height: -webkit-fill-available !important;
+        }
+    }
+
+    .icon-sliders {
+        position: absolute;
+        bottom: 50%;
+        z-index: 999;
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+
+        ion-icon {
+            color: var(--ion-color-light-text);
+            font-size: 30px;
+            cursor: pointer;
+
+            .swiper-navigation-prev .swiper-navigation-disabled,
+            .swiper-navigation-prev .swiper-navigation-disabled {
+                opacity: 0.35;
+                cursor: auto;
+                pointer-events: none;
+            }
+        }
+    }
+}
+
+.coverWelcomePage {
+    background: rgba(var(--ion-color-white-rgb), 0.5);
+}
+
+@media screen and (max-width: 991.98px) {
+    .img-swiper {
+        display: none;
+    }
+}

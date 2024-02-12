@@ -1,0 +1,370 @@
+<apv-page-header
+  title="{{this.baseService.translate('offer-pagetitle')}}"
+  backButton="true"
+></apv-page-header>
+
+<apv-scrollableTab
+  [Tabs]="Categories"
+  [selectedTab]="selectedTab"
+  marginClasses="mt-4 mb-1"
+  (onTabClick)="onTabClick($event)"
+></apv-scrollableTab>
+
+<apv-search
+  paddingClasses="px-0"
+  placeholder="{{baseService.translate('offer-search-input')}}"
+  (onSearchClick)="onSearchClick($event)"
+></apv-search>
+
+<ion-content [fullscreen]="true">
+  <ion-row class="ion-justify-content-center">
+    <ion-col size="11" size-md="10" size-lg="8" class="first-col">
+      <ion-row>
+        <ion-col
+          size="12"
+          class="d-none bg-gradiant"
+          *ngIf="selectedTab === 'list'"
+        >
+          <div class="filter-box m-0 p-2">
+            <ion-list
+              (click)="openFilterBox()"
+              class="d-flex ion-align-items-center p-0 text-small column-gap"
+              [ngClass]="this.baseService.language().Direction === 'rtl' ? 'pe-1 ps-2' : 'pe-2 ps-1'"
+            >
+              <ion-icon
+                *ngIf="!filerBoxOpened && this.baseService.language().Direction === 'rtl'"
+                class="text-large text-light"
+                name="caret-back-circle-outline"
+              ></ion-icon>
+              <ion-icon
+                *ngIf="!filerBoxOpened && this.baseService.language().Direction === 'ltr'"
+                class="text-large text-light"
+                name="caret-forward-circle-outline"
+              ></ion-icon>
+              <ion-icon
+                *ngIf="filerBoxOpened"
+                class="text-large text-light"
+                name="caret-down-circle-outline"
+              ></ion-icon>
+              {{baseService.translate('offer-filter-box')}}
+            </ion-list>
+            <div *ngIf="filerBoxOpened">
+              <ion-row class="m-0">
+                <ion-col
+                  size="12"
+                  class="d-flex ion-align-items-center ion-justify-content-between"
+                >
+                  <label class="w-25 text-small"
+                    >{{baseService.translate('offer-filter-box-major')}}</label
+                  >
+                  <form #form="ngForm" class="w-75">
+                    <ion-select
+                      interface="popover"
+                      class="text-medium"
+                      [ngClass]="this.baseService.language().Direction === 'rtl' ? 'rtl' : ''"
+                      placeholder="{{baseService.translate('offer-filter-box-label')}}"
+                      [multiple]="true"
+                      (ionChange)="advanceSearch()"
+                    >
+                      <ion-select-option value="bachelor"
+                        >{{baseService.translate('offer-filter-box-major-Bachelor')}}</ion-select-option
+                      >
+                      <ion-select-option value="master"
+                        >{{baseService.translate('offer-filter-box-major-Master')}}</ion-select-option
+                      >
+                      <ion-select-option value="phd"
+                        >{{baseService.translate('offer-filter-box-major-phd')}}</ion-select-option
+                      >
+                    </ion-select>
+                  </form>
+                </ion-col>
+                <ion-col
+                  size="12"
+                  class="d-flex ion-align-items-center ion-justify-content-between"
+                >
+                  <label class="w-25 text-small"
+                    >{{baseService.translate('offer-filter-box-section')}}</label
+                  >
+                  <form #form="ngForm" class="w-75">
+                    <ion-select
+                      interface="popover"
+                      class="text-medium"
+                      [ngClass]="this.baseService.language().Direction === 'rtl' ? 'rtl' : ''"
+                      placeholder="{{baseService.translate('offer-filter-box-label')}}"
+                      [multiple]="true"
+                      (ionChange)="advanceSearch()"
+                    >
+                      <ion-select-option value="computer"
+                        >{{baseService.translate('offer-filter-box-section-Computer')}}</ion-select-option
+                      >
+                      <ion-select-option value="chemistry"
+                        >{{baseService.translate('offer-filter-box-section-chemistry')}}</ion-select-option
+                      >
+                      <ion-select-option value="medical"
+                        >{{baseService.translate('offer-filter-box-section-medical')}}</ion-select-option
+                      >
+                    </ion-select>
+                  </form>
+                </ion-col>
+                <ion-col
+                  size="12"
+                  class="d-flex ion-align-items-center ion-justify-content-between"
+                >
+                  <label class="w-25 text-small"
+                    >{{baseService.translate('offer-filter-box-gender')}}</label
+                  >
+                  <form #form="ngForm" class="w-75">
+                    <ion-select
+                      interface="popover"
+                      class="text-medium"
+                      [ngClass]="this.baseService.language().Direction === 'rtl' ? 'rtl' : ''"
+                      placeholder="{{baseService.translate('offer-filter-box-label')}}"
+                      [multiple]="true"
+                      (ionChange)="advanceSearch()"
+                    >
+                      <ion-select-option value="male"
+                        >{{baseService.translate('offer-filter-box-gender-male')}}</ion-select-option
+                      >
+                      <ion-select-option value="female"
+                        >{{baseService.translate('offer-filter-box-gender-female')}}</ion-select-option
+                      >
+                    </ion-select>
+                  </form>
+                </ion-col>
+                <ion-col
+                  size="12"
+                  class="d-flex ion-align-items-center ion-justify-content-center"
+                  ><ion-button [disabled]="!advanceSearchEnable" color="primary"
+                    >{{baseService.translate('offer-filter-box-btn')}}</ion-button
+                  ></ion-col
+                >
+              </ion-row>
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+
+      <!-- Banners slider -->
+      <ion-row *ngIf="selectedTab !== 'history'">
+        <ion-col size="12">
+          <ion-slides autoplay="500" pager="true" [options]="sliderOpts">
+            <ion-slide>
+              <ion-img src="./assets/icon/banner.svg" alt=""></ion-img>
+            </ion-slide>
+            <ion-slide>
+              <ion-img src="./assets/icon/banner.svg" alt=""></ion-img>
+            </ion-slide>
+          </ion-slides>
+        </ion-col>
+      </ion-row>
+
+      <div class="container-fluid">
+        <!-- Job seeker -->
+        <ion-row *ngIf="selectedTab === 'list'" class="mt-3">
+          <ion-col
+            size="12"
+            *ngFor="let offer of listResultModel.Items"
+            class="bg-gradiant my-2"
+          >
+            <ion-card [routerLink]="['./', offer.Id]" class="main-card m-0 p-0">
+              <div class="d-flex ion-align-items-center">
+                <div
+                  class="logo-company d-flex ion-justify-content-center ion-align-items-center p-2"
+                >
+                  <img
+                    [src]="baseService.loadImage(offer.Thirdparty_LogoFile,'Banner')"
+                  />
+                </div>
+                <div class="d-flex flex-column w-100">
+                  <ion-card-header class="pe-0 p-1">
+                    <ion-card-title class="text-bold text-dark">
+                      {{offer.Thirdparty_Title}}
+                    </ion-card-title>
+                  </ion-card-header>
+                  <ion-card-content class="pe-0 p-1">
+                    <div class="d-flex ion-align-items-center column-gap">
+                      <ion-icon
+                        class="text-large text-primary"
+                        name="briefcase"
+                      ></ion-icon>
+                      <ion-text class="text-small text-primary"
+                        >{{offer.Title}}</ion-text
+                      >
+                    </div>
+                    <div
+                      class="d-flex ion-justify-content-between ion-align-items-center pt-1"
+                    >
+                      <div class="d-flex ion-align-items-center column-gap">
+                        <ion-icon
+                          class="text-large text-primary"
+                          name="cash"
+                        ></ion-icon>
+                        <ion-text class="text-small text-primary"
+                          >{{baseService.translate('offer-list-card-salary1').replace('value1',(offer.MinPrice
+                          | toRial:'first').toString())}}</ion-text
+                        >
+                        <ion-text class="text-small text-primary"
+                          >{{(offer.MaxPrice |
+                          toRial:'second').toString()}}</ion-text
+                        >
+                      </div>
+                      <div
+                        class="d-flex ion-align-items-center column-gap"
+                        [ngClass]="this.baseService.language().Direction === 'rtl' ? 'ms-4' : 'me-4'"
+                      >
+                        <ion-icon 
+                          class="text-large text-primary"
+                          name="calendar"
+                        ></ion-icon>
+                        <ion-text class="text-small text-primary"
+                          >{{offer.EndDate}}</ion-text
+                        >
+                      </div>
+                    </div>
+                  </ion-card-content>
+                </div>
+              </div>
+            </ion-card>
+          </ion-col>
+          <ion-infinite-scroll
+            *ngIf="listResultModel.HasNext"
+            threshold="100px"
+            (ionInfinite)="loadOffersData($event)"
+          >
+            <ion-infinite-scroll-content
+              loadingSpinner="crescent"
+              loadingText="{{baseService.translate('common-processing')}}"
+            >
+            </ion-infinite-scroll-content>
+          </ion-infinite-scroll>
+        </ion-row>
+
+        <!-- Companys -->
+        <ion-row *ngIf="selectedTab === 'company'" class="mt-3">
+          <ion-col
+            size="12"
+            *ngFor="let thirdParty of listResultModel.Items"
+            class="bg-gradiant my-2"
+          >
+            <ion-card
+              [routerLink]="['./company', thirdParty.Id]"
+              class="main-card m-0 p-0"
+            >
+              <div class="d-flex ion-align-items-center">
+                <div
+                  class="logo-company d-flex ion-justify-content-center ion-align-items-center p-2"
+                >
+                  <img
+                    [src]="baseService.loadImage(thirdParty.LogoFile,'Banner')"
+                  />
+                </div>
+                <div class="d-flex flex-column p-2 px-0 w-100">
+                  <ion-card-header class="pe-0 pb-0 p-1">
+                    <ion-card-title class="text-bold text-dark">
+                      {{thirdParty.Title}}
+                    </ion-card-title>
+                  </ion-card-header>
+                  <ion-card-content class="pe-0 p-1">
+                    <ion-text class="text-small"
+                      >{{thirdParty.Type_Title}}</ion-text
+                    >
+                    <div class="d-flex ion-align-items-center column-gap mt-1">
+                      <ion-icon
+                        class="text-large text-primary"
+                        name="briefcase"
+                      ></ion-icon>
+                      <ion-text class="text-small text-bold text-primary"
+                        >{{thirdParty.OfferCount}}
+                        {{baseService.translate('company-total-Jobs')}}
+                      </ion-text>
+                    </div>
+                  </ion-card-content>
+                </div>
+              </div>
+            </ion-card>
+          </ion-col>
+          <ion-infinite-scroll
+            *ngIf="listResultModel.HasNext"
+            threshold="100px"
+            (ionInfinite)="loadThirdPartiesData($event)"
+          >
+            <ion-infinite-scroll-content
+              loadingSpinner="crescent"
+              loadingText="{{baseService.translate('common-processing')}}"
+            >
+            </ion-infinite-scroll-content>
+          </ion-infinite-scroll>
+        </ion-row>
+
+        <!-- History -->
+        <ion-row *ngIf="selectedTab === 'history'" class="mt-3">
+          <ion-col
+            size="12"
+            *ngFor="let request of listResultModel.Items"
+            class="bg-gradiant my-2"
+          >
+            <ion-card [routerLink]="['./history', request.Id]" class="main-card m-0 p-0">
+              <div class="d-flex ion-align-items-center">
+                <div
+                  class="logo-company d-flex ion-justify-content-center ion-align-items-center p-2"
+                >
+                  <img
+                    [src]="baseService.loadImage(request.Thirdparty_LogoFile,'Banner')"
+                  />
+                </div>
+                <div class="d-flex flex-column w-100 p-2">
+                  <ion-card-header class="pe-0 p-1">
+                    <ion-card-title class="text-bold text-dark">
+                      {{request.Thirdparty_Title}}
+                    </ion-card-title>
+                  </ion-card-header>
+                  <ion-card-content class="pe-0 p-1">
+                    <div class="d-flex ion-align-items-center column-gap">
+                      <ion-icon
+                        class="text-large text-primary"
+                        name="briefcase"
+                      ></ion-icon>
+                      <ion-text class="text-small text-primary"
+                        >{{request.Title}}</ion-text
+                      >
+                    </div>
+                    <div
+                      class="d-flex ion-justify-content-between ion-align-items-center pt-1"
+                    >
+                      <div class="d-flex ion-align-items-center column-gap">
+                        <ion-text class="text-small text-primary"
+                          >{{baseService.translate('offer-list-Date')}}:
+                          {{request.CreationDate}}</ion-text
+                        >
+                      </div>
+                      <div class="d-flex ion-align-items-center column-gap">
+                        <ion-badge
+                          class="text-small"
+                          color="{{(request.UserForm_Status === 3) ? ('warning') :
+                    (request.UserForm_Status === 5) ? ('success') : 
+                    (request.UserForm_Status === 6) ? ('danger') :('medium')}}"
+                          >{{request.UserForm_Status_Title}}</ion-badge
+                        >
+                      </div>
+                    </div>
+                  </ion-card-content>
+                </div>
+              </div>
+            </ion-card>
+          </ion-col>
+          <ion-infinite-scroll
+            *ngIf="listResultModel.HasNext"
+            threshold="100px"
+            (ionInfinite)="loadHistoriesData($event)"
+          >
+            <ion-infinite-scroll-content
+              loadingSpinner="crescent"
+              loadingText="{{baseService.translate('common-processing')}}"
+            >
+            </ion-infinite-scroll-content>
+          </ion-infinite-scroll>
+        </ion-row>
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-content>

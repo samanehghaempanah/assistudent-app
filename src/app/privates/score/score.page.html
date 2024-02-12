@@ -1,0 +1,210 @@
+<apv-page-header title="{{this.baseService.translate('score-page-title')}}" backButton="true"></apv-page-header>
+
+<ion-content [fullscreen]="true">
+  <div class="d-flex ion-justify-content-center mt-4 mb-3">
+    <ion-chip class="myScore ion-align-items-center">
+      <ion-text color="secondary" class="mx-1">{{this.baseService.translate("score-history-user")}} :
+        {{storageService.User.TotalScore}}</ion-text>
+      <!-- <svg width="20" height="19" viewBox="0 0 20 19" fill="none" xmlns="http://www.w3.org/2000/svg"
+        class="fill-secondary me-2">
+        <path fill-rule="evenodd" clip-rule="evenodd"
+          d="M5.53945 2.65925H17.1429C17.3097 2.65916 17.4764 2.67043 17.642 2.69297C17.5859 2.2739 17.4506 1.87125 17.2443 1.50931C17.038 1.14737 16.7649 0.833635 16.4416 0.587018C16.1182 0.340401 15.7513 0.16601 15.3629 0.0743615C14.9745 -0.0172871 14.5727 -0.024296 14.1817 0.0537573L2.8963 2.10387C2.7419 2.12904 2.58581 2.15699 2.42952 2.18803H2.41964C2.35067 2.20206 2.28241 2.21866 2.21498 2.23777C0.518846 2.69195 0.0223214 4.3284 0.0223214 5.3194V6.4632C0.00765536 6.58737 0.000129768 6.71301 0 6.83947V15.9599C0.000827142 16.7659 0.302112 17.5386 0.837751 18.1086C1.37339 18.6785 2.09964 18.9991 2.85714 19H17.1429C17.9004 18.9991 18.6266 18.6785 19.1622 18.1086C19.6979 17.5386 19.9992 16.7659 20 15.9599V6.83947C19.9992 6.03344 19.6979 5.26068 19.1622 4.69074C18.6266 4.12079 17.9004 3.80021 17.1429 3.79933H5.73661C4.98079 3.79933 4.89797 2.82465 5.53945 2.65925ZM15.0223 12.9197C14.7398 12.9197 14.4636 12.8306 14.2286 12.6636C13.9937 12.4965 13.8106 12.2591 13.7025 11.9814C13.5944 11.7036 13.5661 11.398 13.6212 11.1031C13.6763 10.8083 13.8124 10.5374 14.0122 10.3248C14.212 10.1122 14.4665 9.96746 14.7436 9.90881C15.0207 9.85015 15.308 9.88026 15.569 9.99531C15.83 10.1104 16.0532 10.3052 16.2101 10.5552C16.3671 10.8051 16.4509 11.099 16.4509 11.3997C16.4509 11.8028 16.3004 12.1894 16.0325 12.4745C15.7646 12.7596 15.4012 12.9197 15.0223 12.9197Z" />
+      </svg> -->
+      <svg class="mb-1" width="22" height="13" viewBox="0 0 22 13" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path fill-rule="evenodd" clip-rule="evenodd" class="fill-secondary"
+          d="M13.7895 6.48816C13.7895 6.48816 13.7895 6.48816 13.7895 6.48815C13.7895 6.26379 13.7781 6.04208 13.7559 5.82357C13.7781 6.04208 13.7895 6.26379 13.7895 6.48816ZM13.3795 4.21124C12.6527 2.26806 11.0225 0.765801 9.00001 0.215572C9.00001 0.215573 9 0.215573 9 0.215574C11.0225 0.765802 12.6527 2.26806 13.3795 4.21124ZM17.2105 6.48815C17.2105 9.94515 14.5118 12.7718 11.1062 12.9763C13.3262 11.6675 14.8158 9.25179 14.8158 6.48815C14.8158 3.72452 13.3262 1.30878 11.1062 0C14.5118 0.204485 17.2105 3.03116 17.2105 6.48815Z" />
+        <path fill-rule="evenodd" clip-rule="evenodd" class="fill-secondary"
+          d="M17.7895 6.48816C17.7895 6.48816 17.7895 6.48816 17.7895 6.48815C17.7895 6.26379 17.7781 6.04208 17.7559 5.82357C17.7781 6.04208 17.7895 6.26379 17.7895 6.48816ZM17.3795 4.21124C16.6527 2.26806 15.0225 0.765801 13 0.215572C13 0.215573 13 0.215573 13 0.215574C15.0225 0.765802 16.6527 2.26806 17.3795 4.21124ZM21.2105 6.48815C21.2105 9.94515 18.5118 12.7718 15.1062 12.9763C17.3262 11.6675 18.8158 9.25179 18.8158 6.48815C18.8158 3.72452 17.3262 1.30878 15.1062 0C18.5118 0.204485 21.2105 3.03116 21.2105 6.48815Z" />
+        <path class="fill-secondary"
+          d="M1.52192e-06 6.5C1.83576e-06 2.91015 2.91015 7.15916e-08 6.5 3.85426e-07C10.0899 6.99261e-07 13 2.91015 13 6.5C13 10.0899 10.0899 13 6.5 13C2.91015 13 1.20809e-06 10.0899 1.52192e-06 6.5Z" />
+      </svg>
+    </ion-chip>
+  </div>
+
+  <apv-scrollableTab [Tabs]="PageData.Categories" [selectedTab]="PageData.selectedTab" marginClasses="mt-1 mb-3"
+    (onTabClick)="onTabClick($event)"></apv-scrollableTab>
+
+  <!-- promotions -->
+  <ion-row class="ion-justify-content-center ion-margin-vertical" *ngIf="PageData.selectedTab === 'promotion' ">
+    <ion-col size="5" class="first-col my-1 mx-1 bg-gradiant" *ngFor="let promotion of PageData.promotions">
+      <ion-card class="main-card promotionCard m-0 p-0">
+        <ion-card-content class="m-0 p-0">
+          <ion-card class="m-0 p-0" [disabled]="!PageData.activeCard" (click)="onGetPromotion(promotion)">
+            <ion-row>
+              <ion-col size="12" class="text-center">
+                <ion-title class="text-primary">{{promotion.Title}}</ion-title>
+              </ion-col>
+              <ion-col size="12" class="text-center">
+                <ion-text class="text-small text-medium">
+                  {{promotion.Description}}
+                </ion-text>
+              </ion-col>
+              <ion-col size="12" class="d-flex ion-justify-content-center">
+                <ion-img class="imgPromotion" src="{{promotion.Image}}"></ion-img>
+              </ion-col>
+              <ion-col size="12" class="text-center">
+                <ion-chip class="progress-bar-container p-0 mx-auto">
+                  <!-- <div class="progress-bar" [style.width.%]="progress"></div> -->
+                  <div class="progress-bar"
+                    [ngStyle]="{'width.%': (storageService.User.TotalScore === promotion.score) ? '100' : PageData.dropdownOpened}">
+                  </div>
+                  <ion-text class="mx-auto">{{this.baseService.translate("score-score")}}
+                    {{promotion.Score}}</ion-text>
+                </ion-chip>
+              </ion-col>
+            </ion-row>
+          </ion-card>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+
+  <!-- History -->
+  <ion-row class="ion-justify-content-center ion-margin-vertical" *ngIf="PageData.selectedTab === 'history' ">
+    <ion-col size="11" size-md="10" size-lg="8" class="first-col my-1 bg-gradiant"
+      *ngIf="PageData.listModel.TotalCount > 0">
+      <ion-card class="main-card m-0 p-0">
+        <ion-card-content class="m-0 p-0">
+          <div class="scoreHistoryRow m-2 d-flex flex-row ion-justify-content-around py-2 ion-align-items-center"
+            *ngFor="let score of PageData.listModel.Items">
+            <ion-col class="text-center">
+              <ion-text class="text-small text-medium">
+                {{score.ActionDate | jdate: 'info'}}
+              </ion-text>
+            </ion-col>
+            <ion-col size="6" class="text-center">
+              <ion-text class="text-dark">{{score.Action_Title}}</ion-text>
+            </ion-col>
+            <ion-col class="text-center">
+              <div>
+                <ion-text class="mx-1" *ngIf="score.Score >=0" color="success">{{score.Score}}</ion-text>
+
+                <ion-text class="mx-1" *ngIf="score.Score<0" color="danger">{{score.Score * -1}}</ion-text>
+                
+                <ion-text class="mx-1"
+                  [ngStyle]="{'color': (score.Score >=0) ? 'var(--ion-color-success)' : 'var(--ion-color-danger)'}">{{this.baseService.translate("score-score")}}</ion-text>
+              </div>
+            </ion-col>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+
+  <!-- earn Score -->
+  <ion-row class="ion-justify-content-center ion-margin-vertical" *ngIf="PageData.selectedTab === 'get' ">
+    <ion-col size="11" size-md="10" size-lg="8" class="my-0 mx-auto bg-gradiant">
+      <ion-card class="main-card m-0 p-0">
+        <ion-card-content>
+          <p class="text-dark text-long" *ngIf="PageData.listModel.Items.length > 0">
+            {{this.baseService.translate('score-help-tab-p')}}
+          </p>
+          <ion-text class="text-style text-justify text-dark" *ngIf="PageData.listModel.Items.length === 0">
+            {{this.baseService.translate('score-empty-useOrget')}}
+          </ion-text>
+          <div *ngIf="PageData.Loaded">
+            <ion-card *ngFor="let item of PageData.listModel.Items" class="mx-0 my-2 p-0">
+              <ion-card-header class="d-flex header-card-page3 p-0">
+                <ion-col size="9" size-lg="8" class="d-flex offer-btn">
+                  <ion-chip color="primary" class="text-primary">{{item.Title}}</ion-chip>
+                </ion-col>
+                <ion-col size="3" size-lg="4" class="d-flex ion-justify-content-end ion-align-items-center">
+                  <ion-text color="warning" class="number-score-forms mx-2">{{item.Score}}</ion-text>
+                  <svg class="mb-1 ms-2" width="22" height="13" viewBox="0 0 22 13" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" class="fill-warning"
+                      d="M13.7895 6.48816C13.7895 6.48816 13.7895 6.48816 13.7895 6.48815C13.7895 6.26379 13.7781 6.04208 13.7559 5.82357C13.7781 6.04208 13.7895 6.26379 13.7895 6.48816ZM13.3795 4.21124C12.6527 2.26806 11.0225 0.765801 9.00001 0.215572C9.00001 0.215573 9 0.215573 9 0.215574C11.0225 0.765802 12.6527 2.26806 13.3795 4.21124ZM17.2105 6.48815C17.2105 9.94515 14.5118 12.7718 11.1062 12.9763C13.3262 11.6675 14.8158 9.25179 14.8158 6.48815C14.8158 3.72452 13.3262 1.30878 11.1062 0C14.5118 0.204485 17.2105 3.03116 17.2105 6.48815Z" />
+                    <path fill-rule="evenodd" clip-rule="evenodd" class="fill-warning"
+                      d="M17.7895 6.48816C17.7895 6.48816 17.7895 6.48816 17.7895 6.48815C17.7895 6.26379 17.7781 6.04208 17.7559 5.82357C17.7781 6.04208 17.7895 6.26379 17.7895 6.48816ZM17.3795 4.21124C16.6527 2.26806 15.0225 0.765801 13 0.215572C13 0.215573 13 0.215573 13 0.215574C15.0225 0.765802 16.6527 2.26806 17.3795 4.21124ZM21.2105 6.48815C21.2105 9.94515 18.5118 12.7718 15.1062 12.9763C17.3262 11.6675 18.8158 9.25179 18.8158 6.48815C18.8158 3.72452 17.3262 1.30878 15.1062 0C18.5118 0.204485 21.2105 3.03116 21.2105 6.48815Z" />
+                    <path class="fill-warning"
+                      d="M1.52192e-06 6.5C1.83576e-06 2.91015 2.91015 7.15916e-08 6.5 3.85426e-07C10.0899 6.99261e-07 13 2.91015 13 6.5C13 10.0899 10.0899 13 6.5 13C2.91015 13 1.20809e-06 10.0899 1.52192e-06 6.5Z" />
+                  </svg>
+                </ion-col>
+              </ion-card-header>
+              <ion-card-content class="d-flex ion-align-items-center p-0">
+                <ion-col size="8" size-lg="7" class="account-text d-flex">
+                  <ion-text class="text-medium text-long">{{item.Description}}</ion-text>
+                </ion-col>
+                <ion-col size="4" size-lg="5" class="d-flex btn-active flex-row ion-justify-content-end">
+                  <ion-chip class="unlimit-btn" *ngIf="item.EndDate">{{item.EndDate | jdate:'info'}}</ion-chip>
+                  <ion-chip class="unlimit-btn"
+                    *ngIf="!item.EndDate">{{this.baseService.translate("score-page3-btn-unlimit")}}</ion-chip>
+                </ion-col>
+              </ion-card-content>
+            </ion-card>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+
+  <!-- use Score -->
+  <ion-row class="ion-justify-content-center ion-margin-vertical" *ngIf="PageData.selectedTab === 'use' ">
+    <ion-col size="11" size-md="10" size-lg="8" class="my-0 mx-auto bg-gradiant">
+      <ion-card class="main-card m-0 p-0">
+        <ion-card-content>
+          <p class="text-long text-dark" *ngIf="PageData.listModel.Items.length > 0">
+            {{this.baseService.translate('score-use-tab-p')}}
+          </p>
+          <ion-text class="text-style text-justify text-dark" *ngIf="PageData.listModel.Items.length === 0">
+            {{this.baseService.translate('score-empty-useOrget')}}
+          </ion-text>
+          <div *ngIf="PageData.Loaded">
+            <ion-card *ngFor="let item of PageData.listModel.Items" class="mx-0 my-2 p-0">
+              <ion-card-header class="d-flex header-card-page3 p-0">
+                <ion-col size="9" size-lg="8" class="d-flex offer-btn">
+                  <ion-chip color="primary" class="text-primary">{{item.Title}}</ion-chip>
+                </ion-col>
+                <ion-col size="3" size-lg="4" class="d-flex ion-justify-content-end ion-align-items-center">
+                  <ion-text color="warning" class="number-score-forms mx-2">{{item.Score * -1}}</ion-text>
+                  <svg class="mb-1 ms-2" width="22" height="13" viewBox="0 0 22 13" fill="none"
+                    xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" class="fill-warning"
+                      d="M13.7895 6.48816C13.7895 6.48816 13.7895 6.48816 13.7895 6.48815C13.7895 6.26379 13.7781 6.04208 13.7559 5.82357C13.7781 6.04208 13.7895 6.26379 13.7895 6.48816ZM13.3795 4.21124C12.6527 2.26806 11.0225 0.765801 9.00001 0.215572C9.00001 0.215573 9 0.215573 9 0.215574C11.0225 0.765802 12.6527 2.26806 13.3795 4.21124ZM17.2105 6.48815C17.2105 9.94515 14.5118 12.7718 11.1062 12.9763C13.3262 11.6675 14.8158 9.25179 14.8158 6.48815C14.8158 3.72452 13.3262 1.30878 11.1062 0C14.5118 0.204485 17.2105 3.03116 17.2105 6.48815Z" />
+                    <path fill-rule="evenodd" clip-rule="evenodd" class="fill-warning"
+                      d="M17.7895 6.48816C17.7895 6.48816 17.7895 6.48816 17.7895 6.48815C17.7895 6.26379 17.7781 6.04208 17.7559 5.82357C17.7781 6.04208 17.7895 6.26379 17.7895 6.48816ZM17.3795 4.21124C16.6527 2.26806 15.0225 0.765801 13 0.215572C13 0.215573 13 0.215573 13 0.215574C15.0225 0.765802 16.6527 2.26806 17.3795 4.21124ZM21.2105 6.48815C21.2105 9.94515 18.5118 12.7718 15.1062 12.9763C17.3262 11.6675 18.8158 9.25179 18.8158 6.48815C18.8158 3.72452 17.3262 1.30878 15.1062 0C18.5118 0.204485 21.2105 3.03116 21.2105 6.48815Z" />
+                    <path class="fill-warning"
+                      d="M1.52192e-06 6.5C1.83576e-06 2.91015 2.91015 7.15916e-08 6.5 3.85426e-07C10.0899 6.99261e-07 13 2.91015 13 6.5C13 10.0899 10.0899 13 6.5 13C2.91015 13 1.20809e-06 10.0899 1.52192e-06 6.5Z" />
+                  </svg>
+                </ion-col>
+              </ion-card-header>
+              <ion-card-content class="d-flex ion-align-items-center p-0">
+                <ion-col size="8" size-lg="7" class="account-text d-flex">
+                  <ion-text class="text-medium text-long">{{item.Description}}</ion-text>
+                </ion-col>
+                <ion-col size="4" size-lg="5" class="d-flex btn-active flex-row ion-justify-content-end">
+                  <ion-chip class="unlimit-btn" *ngIf="item.EndDate">{{item.EndDate | jdate:'info'}}</ion-chip>
+                  <ion-chip class="unlimit-btn"
+                    *ngIf="!item.EndDate">{{this.baseService.translate("score-page3-btn-unlimit")}}</ion-chip>
+                </ion-col>
+              </ion-card-content>
+            </ion-card>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+
+  <!-- common question -->
+  <ion-row class="ion-justify-content-center ion-margin-vertical" *ngIf="PageData.selectedTab === 'faq' ">
+    <ion-col size="12" size-md="10" size-lg="8">
+      <ion-accordion-group [multiple]="false" *ngFor="let question of PageData.questions;let i=index"
+        (ionChange)="accordionGroupChange($event)">
+        <div class="card-bg mt-3" [ngClass]="{'gradient': PageData.openIndex===i}">
+          <ion-card class="m-0 p-0">
+            <ion-card-content class="m-0 p-0">
+              <ion-accordion value="{{i}}" toggleIcon="caret-back-circle" toggleIconSlot="start">
+                <ion-item slot="header">
+                  <ion-label class="headerLabelAccordion text-long text-dark">{{question.Question}}</ion-label>
+                </ion-item>
+                <div class="ion-padding text-content" slot="content">
+                  <ion-text class="text-long">{{question.Answer}}</ion-text>
+                </div>
+              </ion-accordion>
+            </ion-card-content>
+          </ion-card>
+        </div>
+      </ion-accordion-group>
+    </ion-col>
+  </ion-row>
+</ion-content>

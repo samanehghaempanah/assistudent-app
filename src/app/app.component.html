@@ -1,0 +1,175 @@
+<ion-app>
+  <ion-menu contentId="main-content" type="overlay" swipe-gesture="false" side="{{
+      this.baseService.language().Direction === 'rtl' ? 'end' : 'start'
+    }}">
+    <ion-content>
+      <!-- Menu Header -->
+      <div class="d-flex flex-column ion-align-items-center text-light" *ngIf="storageService.User">
+        <div class="userInfo d-flex ion-justify-content-around text-dark my-3 mx-auto p-3" routerLink="/home/profile"
+          (click)="closeMenu()">
+          <img src="{{
+              baseService.loadImage(
+                storageService.User.ProfileImageFile,
+                'Profile'
+              )
+            }}" class="avatar" />
+          <div class="text-style p-1">
+            <label>{{ storageService.User.FirstName }}
+              {{ storageService.User.LastName }}</label>
+            <p class="text-small">
+              {{ this.baseService.translate("menu-avatar-box-label") }} :
+              {{ storageService.User.Username }}
+            </p>
+          </div>
+        </div>
+        <!-- <div class="accounts m-auto">
+          <ion-list class="w-100 text-style text-center" (click)="openAccounts()">{{ this.baseService.translate("menu-avatar-box-dropbox") }}
+            <ion-icon name="chevron-down-outline"></ion-icon>
+          </ion-list>
+          <div class="accounts-list d-flex" *ngIf="accountsOpened">
+            <div *ngFor="let role of Roles">
+              <div *ngIf="role.Value!=CurrentRole && CurrentRole">
+                <ion-item lines="none" detail="false" color="primary" id="{{ role.Value }}" class="text-center">
+                  <ion-img src="{{
+                      baseService.loadImage(storageService.User.profileImage, 'Profile')
+                    }}" class="mx-1"></ion-img> -->
+        <!-- <label class="text-style">{{
+                    this.baseService.translate("menu-avatar-box-student")
+                  }}</label> -->
+        <!-- <label>{{ role.Key }}</label>
+                </ion-item>
+              </div>
+            </div>
+            <ion-item lines="none" detail="false" color="primary" class="text-center">
+              <ion-icon name="add-outline" class="text-large mx-3"></ion-icon>
+              <label class="text-small">{{
+                this.baseService.translate("menu-avatar-box-addAccount")
+                }}</label>
+            </ion-item>
+          </div>
+        </div> -->
+      </div>
+      <!-- Menu List -->
+      <div class="menu-list py-1 px-0">
+        <ul class="p-0">
+          <!-- <li
+            id="open-modal"
+            expand="block"
+            [routerLink]="['/university', 'AboutUni']"
+            (click)="closeMenu()"
+          >
+            <span>
+              <ion-icon
+                name="information-circle-outline"
+                class="text-large text-primary"
+              ></ion-icon>
+            </span>
+            <div class="text-style">
+              {{ this.baseService.translate("menu-list-item-AboutUni") }}
+            </div>
+          </li>
+          <hr class="my-3" /> -->
+          <li id="open-modal" expand="block" [routerLink]="['/about', 'AboutApp']" (click)="closeMenu()">
+            <span>
+              <ion-icon name="grid-outline" class="text-large text-primary"></ion-icon>
+            </span>
+            <div class="text-style">
+              {{ this.baseService.translate("menu-list-item-AboutApp") }}
+            </div>
+          </li>
+          <li id="open-modal" expand="block" *ngIf="isChat" [routerLink]="['./chat']" (click)="closeMenu()">
+            <span>
+              <ion-icon name="call-outline" class="text-large text-primary"></ion-icon>
+            </span>
+            <div class="text-style">
+              {{ this.baseService.translate("menu-list-item-support") }}
+            </div>
+          </li>
+          <li id="open-modal" expand="block" *ngIf="survayMenuInfo" [routerLink]="[survayMenuInfo.URL]"
+            (click)="closeMenu()">
+            <span>
+              <ion-icon name="{{survayMenuInfo.Icon}}" class="text-large text-primary"></ion-icon>
+            </span>
+            <div class="text-style">
+              {{survayMenuInfo.Title}}
+            </div>
+          </li>
+          <hr class="my-3" />
+          <li id="open-modal" expand="block" [routerLink]="['/setting']" (click)="closeMenu()">
+            <span>
+              <ion-icon name="settings-outline" class="text-large text-primary"></ion-icon>
+            </span>
+            <div class="text-style">
+              {{ this.baseService.translate("menu-list-item-Setting") }}
+            </div>
+          </li>
+          <li id="open-modal" expand="block" [routerLink]="['/download']" (click)="closeMenu()">
+            <span>
+              <ion-icon name="cloud-download-outline" class="text-large text-primary"></ion-icon>
+            </span>
+            <span class="w-100 d-flex ion-align-items-center ion-justify-content-between p-0 m-0">
+              <div class="text-style">
+                {{ this.baseService.translate("common-btn-confirm-informal") }}
+              </div>
+              <ion-icon *ngIf="UpdateApp" name="alert-circle-outline" color="secondary" class="ms-2"></ion-icon>
+            </span>
+          </li>
+          <hr class="my-3" />
+          <li id="open-modal" expand="block" (click)="logout()" (click)="closeMenu()">
+            <span>
+              <ion-icon name="exit-outline" class="text-large" color="danger"></ion-icon>
+            </span>
+            <div class="text-style">
+              {{ this.baseService.translate("menu-list-item-LogOut")}}
+            </div>
+          </li>
+          <hr class="my-3" />
+          <div class="social d-flex ion-justify-content-center ion-align-items-center" *ngIf="isNonIranian">
+            <a href="https://instagram.com/iaun_international?igshid=YmMyMTA2M2Y=" class="mx-2" target="_blank"><svg
+                width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path class="fill-light" fill-rule="evenodd" clip-rule="evenodd"
+                  d="M10 20C15.5228 20 20 15.5228 20 10C20 4.47715 15.5228 0 10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20ZM8 4C5.79086 4 4 5.79086 4 8V12C4 14.2091 5.79086 16 8 16H12C14.2091 16 16 14.2091 16 12V8C16 5.79086 14.2091 4 12 4H8Z"
+                  fill="white" />
+                <path class="fill-light"
+                  d="M10.0826 6.84131C8.38074 6.84131 7 8.22205 7 9.92394C7 11.6258 8.38074 13.0066 10.0826 13.0066C11.7845 13.0066 13.1653 11.6258 13.1653 9.92394C13.1653 8.22205 11.7845 6.84131 10.0826 6.84131ZM10.0826 11.9236C8.97851 11.9236 8.08302 11.0281 8.08302 9.92394C8.08302 8.81982 8.97851 7.92433 10.0826 7.92433C11.1868 7.92433 12.0822 8.81982 12.0822 9.92394C12.0822 11.0281 11.1868 11.9236 10.0826 11.9236Z"
+                  fill="white" />
+                <path class="fill-light"
+                  d="M14.0067 6.71967C14.0067 7.11819 13.6832 7.43935 13.2871 7.43935C12.8885 7.43935 12.5674 7.11584 12.5674 6.71967C12.5674 6.32116 12.8909 6 13.2871 6C13.6832 6 14.0067 6.3235 14.0067 6.71967Z"
+                  fill="white" />
+              </svg>
+            </a>
+            <a href="https://www.facebook.com/iaun_international" class="mx-2" target="_blank"><ion-icon
+                name="logo-facebook" class="text-light text-xlarge"></ion-icon></a>
+            <!-- <a href="https://t.me/iaun_international" target="_blank" class="mx-2"><ion-img src="./assets/icon/Telegram.png"></ion-img></a> -->
+            <a href="https://t.me/iaun_international" target="_blank" class="mx-2">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 333334 333334" shape-rendering="geometricPrecision"
+                text-rendering="geometricPrecision" image-rendering="optimizeQuality" fill-rule="evenodd"
+                clip-rule="evenodd" width="20px" height="20px">
+                <path class="fill-light"
+                  d="M166667 0c92048 0 166667 74619 166667 166667s-74619 166667-166667 166667S0 258715 0 166667 74619 0 166667 0zm80219 91205l-29735 149919s-4158 10396-15594 5404l-68410-53854s76104-68409 79222-71320c3119-2911 2079-3534 2079-3534 207-3535-5614 0-5614 0l-100846 64043-42002-14140s-6446-2288-7069-7277c-624-4992 7277-7694 7277-7694l166970-65498s13722-6030 13722 3951zm-87637 122889l-27141 24745s-2122 1609-4443 601l5197-45965 26387 20619z" />
+              </svg>
+            </a>
+            <a href="https://twitter.com/iaun_international" class="mx-2" target="_blank"><svg width="20" height="20"
+                viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                <path class="fill-light" fill-rule="evenodd" clip-rule="evenodd"
+                  d="M10 20C15.5228 20 20 15.5228 20 10C20 4.47715 15.5228 0 10 0C4.47715 0 0 4.47715 0 10C0 15.5228 4.47715 20 10 20ZM14.8809 7.81661C14.8809 11.1523 12.6104 15 8.46049 15C7.2337 15.0007 6.03256 14.6071 5 13.8659C5.17893 13.8903 5.35901 13.9026 5.53926 13.9029C6.55566 13.9047 7.54303 13.5237 8.34232 12.8212C7.87151 12.8106 7.4154 12.6359 7.03764 12.3213C6.65989 12.0067 6.37933 11.568 6.23514 11.0665C6.57299 11.1396 6.92136 11.1248 7.25328 11.0232C6.74227 10.9081 6.28266 10.5986 5.95256 10.1472C5.62246 9.69589 5.44226 9.13056 5.44258 8.54735V8.5161C5.75624 8.71033 6.1067 8.81827 6.46502 8.831C5.98774 8.47381 5.64992 7.9267 5.52022 7.30085C5.39053 6.675 5.47868 6.01739 5.76678 5.46165C6.33361 6.24107 7.04051 6.87851 7.84166 7.33265C8.6428 7.78679 9.52031 8.04749 10.4173 8.09785C10.3054 7.55649 10.356 6.98898 10.5613 6.48304C10.7667 5.97711 11.1152 5.56094 11.5531 5.29888C11.991 5.03681 12.4939 4.94345 12.984 5.03322C13.4741 5.12299 13.9241 5.39091 14.2645 5.79553C14.7696 5.68374 15.2541 5.47654 15.6971 5.18281C15.5282 5.76726 15.1756 6.26336 14.7047 6.57916C15.1519 6.52103 15.5887 6.3873 16 6.18254C15.6973 6.68967 15.3161 7.13233 14.8744 7.4897C14.8787 7.59787 14.8809 7.70844 14.8809 7.81661Z"
+                  fill="white" />
+              </svg>
+            </a>
+          </div>
+        </ul>
+      </div>
+      <div class="d-flex flex-column ion-align-items-center mt-2">
+        <ion-img class="mt-3 mb-4" src="./assets/icon/IAUN-logo.png" (click)="openUniUrl()"></ion-img>
+        <ion-text class="space-line text-center">{{
+          this.baseService.translate("login-select-roles-label")
+          }}</ion-text>
+        <ion-text [routerLink]="['/about', 'ChangesApp']" (click)="closeMenu()" style="cursor: pointer;">{{
+          this.baseService.translate("common-version") }}
+          {{ version }}</ion-text>
+      </div>
+    </ion-content>
+  </ion-menu>
+  <ion-router-outlet id="main-content"></ion-router-outlet>
+  <app-install></app-install>
+</ion-app>

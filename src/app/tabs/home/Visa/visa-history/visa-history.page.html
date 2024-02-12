@@ -1,0 +1,35 @@
+<div *ngFor="let history of listModel.Items" class="bg-gradiant mb-4">
+  <ion-card class="main-card m-0 p-0">
+    <ion-card-header>
+      <ion-card-title class="text-primary">{{history.Title}}</ion-card-title>
+      <ion-chip
+        class="mt-3 me-0 pe-0"
+        *ngIf="history.UserForm_Id"
+        [color]="history.UserForm_Status === FormStatus.Draft ? 'dark' : history.UserForm_Status === FormStatus.Submit ? 'primary' : history.UserForm_Status === FormStatus.Inprogress ? 'warning' : history.UserForm_Status === FormStatus.Reject ? 'danger' : history.UserForm_Status === FormStatus.Accept ? 'success' :'medium'"
+      >
+        <ion-badge
+          class="ms-2"
+          [color]="history.UserForm_Status === FormStatus.Draft ? 'dark' : history.UserForm_Status === FormStatus.Submit ? 'primary' : history.UserForm_Status === FormStatus.Inprogress ? 'warning' : history.UserForm_Status === FormStatus.Reject ? 'danger' : history.UserForm_Status === FormStatus.Accept ? 'success' :'medium'"
+        >
+          {{history.UserForm_FormStatus_Title}}
+        </ion-badge>
+        {{history.UserForm_Update_Date | jdate:'date'}}
+      </ion-chip>
+    </ion-card-header>
+    <ion-card-content class="d-flex flex-column text-small">
+      <ion-text
+        [color]="history.UserForm_Status === FormStatus.Draft ? 'dark' : history.UserForm_Status === FormStatus.Submit ? 'primary' : history.UserForm_Status === FormStatus.Inprogress ? 'warning' : history.UserForm_Status === FormStatus.Reject ? 'danger' : history.UserForm_Status === FormStatus.Accept ? 'success' :'medium'"
+        class="text-small"
+        >{{ this.baseService.translate("visa-list-level1-descriptionTite")
+        }}</ion-text
+      >
+      {{history.UserForm_Note}}
+    </ion-card-content>
+  </ion-card>
+</div>
+
+<ion-infinite-scroll *ngIf="listModel.HasNext" threshold="100px" (ionInfinite)="loadData($event)">
+  <ion-infinite-scroll-content loadingSpinner="crescent"
+    loadingText="{{baseService.translate('common-processing')}}">
+  </ion-infinite-scroll-content>
+</ion-infinite-scroll>

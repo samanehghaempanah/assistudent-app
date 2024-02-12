@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "183402732247",
+    "project_id": "behdadeh-university-najafabad",
+    "storage_bucket": "behdadeh-university-najafabad.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:183402732247:android:5487d2253ce545f816ee92",
+        "android_client_info": {
+          "package_name": "apv.myuni.client"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdZ_a9ZFQQkZfOZNtMF1f0PHbbijIT8rA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

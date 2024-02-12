@@ -1,0 +1,79 @@
+<apv-page-header title="{{this.baseService.translate('common-btn-confirm-informal')}}" backButton="true">
+</apv-page-header>
+
+<ion-content [fullscreen]="true">
+  <ion-row class="ion-justify-content-center ion-margin-vertical">
+    <ion-col size="11" size-md="10" size-lg="8" class="first-col">
+      <ion-card class="ion-padding">
+        <div class="download-content">
+          <ion-grid class="ion-text-center">
+            <!-- start phone -->
+            <span class="label text-long">
+              {{this.baseService.translate('download-phone-label')}}
+            </span>
+            <ion-row class="ion-justify-content-center ion-margin-bottom">
+              <ion-col size="12" size-lg="5" size-md="12">
+                  <a class="download-link" href="https://play.google.com/store/apps/details?id=apv.myuni.client" target="_blank">
+                    <ion-card class="ion-padding-top">
+                      <img alt="google play" src="/assets/files/googlePlay.png" width="120" height="60"/>
+                      <ion-card-header>
+                        <ion-card-title>
+                          {{this.baseService.translate('download-phone-google-play')}}
+                        </ion-card-title>
+                      </ion-card-header>
+                    </ion-card>
+                  </a>
+                </ion-col>
+              <ion-col size="12" size-lg="5" size-md="12">
+                <a class="download-link" href="https://mydownload.iaun.ac.ir/app/myuni.apk">
+                  <ion-card class="ion-padding-top">
+                    <img alt="android" src="/assets/files/android.png" width="60" height="60" />
+                    <ion-card-header>
+                      <ion-card-title>
+                        {{this.baseService.translate('download-phone-site')}}
+                      </ion-card-title>
+                    </ion-card-header>
+                  </ion-card>
+                </a>
+              </ion-col>
+            </ion-row>
+            <!-- end phone -->
+
+            <!-- start pc -->
+            <span class="label text-long">
+              {{this.baseService.translate('download-ios-label')}}
+            </span>
+            <ion-row class="ion-justify-content-center">
+              <ion-col *ngIf="!baseService.isAndroidApp()" size="12" size-lg="5" size-md="12">
+                <a class="download-link" (click)="onInstallPWA()">
+                  <ion-card class="ion-padding-top">
+                    <img alt="google play" src="/assets/files/pwaicon.png" width="60" height="60" />
+                    <ion-card-header>
+                      <ion-card-title>
+                        {{this.baseService.translate('install-pwa-btn')}}
+                      </ion-card-title>
+                    </ion-card-header>
+                  </ion-card>
+                  <ion-card-content class="text-long text-center">{{this.baseService.translate('download-pwa-desc')}}.</ion-card-content>
+                </a>
+              </ion-col>
+              <ion-col size="12" size-lg="5" size-md="12">
+                <a class="download-link" routerLink="/home">
+                  <ion-card class="ion-padding-top">
+                    <img alt="web" src="/assets/files/web.png" width="60" height="60" />
+                    <ion-card-header>
+                      <ion-card-title>
+                        {{this.baseService.translate('download-ios-web')}}
+                      </ion-card-title>
+                    </ion-card-header>
+                  </ion-card>
+                </a>
+              </ion-col>
+            </ion-row>
+            <!-- end pc -->
+          </ion-grid>
+        </div>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+</ion-content>

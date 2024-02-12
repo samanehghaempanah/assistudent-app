@@ -1,0 +1,25 @@
+.content {
+  background-color: var(--ion-color-light);
+}
+
+ion-card-header {
+  font-weight: bold;
+}
+
+.finalPrice-content {
+  box-shadow: none;
+  margin-top: 20px;
+}
+
+.centerlize {
+  text-align: center;
+}
+
+.date-info {
+  font-size: small;
+}
+
+ion-chip {
+  --color: var(--ion-color-light-text);
+  font-size: 10px;
+}

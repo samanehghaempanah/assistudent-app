@@ -1,0 +1,81 @@
+<div class="bg-gradiant m-auto" *ngIf="PageData.newsItems.length!=0" style="margin-bottom: 100px !important;">
+  <ion-card class="main-card news-card ion-padding ion-no-margin">
+    <ion-card-header class="d-flex ion-align-items-center ion-no-padding ion-padding-bottom">
+      <ion-icon name="ellipsis-vertical-outline" class="text-large px-2" color="primary"></ion-icon>
+      <ion-card-title class="text-primary">{{this.baseService.translate("home-news-header")}}</ion-card-title>
+    </ion-card-header>
+
+    <div *ngIf="PageData.Loaded">
+      <div class="py-2" *ngFor="let item of PageData.newsItems">
+        <div class="d-flex ion-align-items-center" (click)="baseService.openLink(item.Link)">
+          <img [alt]="item.title" [src]="baseService.loadImage(item.MainFile, 'Common')" expand="block" class="m-0" />
+          <ion-card-content color="medium" class="text-style ion-no-padding px-3 hideDescription">
+            <p class="title">
+              {{item.Title}}
+            </p>
+            <p>
+              {{item.Description}}
+            </p>
+          </ion-card-content>
+        </div>
+      </div>
+    </div>
+
+    <div *ngIf="!PageData.Loaded">
+      <div class="py-2">
+        <div class="d-flex ion-align-items-center">
+
+          <ion-thumbnail slot="start">
+            <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+          </ion-thumbnail>
+
+          <ion-card-content style="width: 100%;">
+            <p class="title text-long">
+              <ion-skeleton-text [animated]="true" class="w-full"></ion-skeleton-text>
+            </p>
+            <p>
+              <ion-skeleton-text [animated]="true" class="w-75"></ion-skeleton-text>
+            </p>
+          </ion-card-content>
+        </div>
+      </div>
+      
+      <div class="py-2">
+        <div class="d-flex ion-align-items-center">
+
+          <ion-thumbnail slot="start">
+            <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+          </ion-thumbnail>
+
+          <ion-card-content style="width: 100%;">
+            <p class="title text-long">
+              <ion-skeleton-text [animated]="true" class="w-full"></ion-skeleton-text>
+            </p>
+            <p>
+              <ion-skeleton-text [animated]="true" class="w-75"></ion-skeleton-text>
+            </p>
+          </ion-card-content>
+        </div>
+      </div>
+
+      <div class="py-2">
+        <div class="d-flex ion-align-items-center">
+
+          <ion-thumbnail slot="start">
+            <ion-skeleton-text [animated]="true"></ion-skeleton-text>
+          </ion-thumbnail>
+
+          <ion-card-content style="width: 100%;">
+            <p class="title text-long">
+              <ion-skeleton-text [animated]="true" class="w-full"></ion-skeleton-text>
+            </p>
+            <p>
+              <ion-skeleton-text [animated]="true" class="w-75"></ion-skeleton-text>
+            </p>
+          </ion-card-content>
+        </div>
+      </div>
+    </div>
+
+  </ion-card>
+</div>

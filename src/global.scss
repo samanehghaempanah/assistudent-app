@@ -1,0 +1,45 @@
+/*
+ * App Global CSS
+ * ----------------------------------------------------------------------------
+ * Put style rules here that you want to apply globally. These styles are for
+ * the entire app and not just one component. Additionally, this file can be
+ * used as an entry point to import other CSS/Sass files to be included in the
+ * output CSS.
+ * For more information on global stylesheets, visit the documentation:
+ * https://ionicframework.com/docs/layout/global-stylesheets
+ */
+
+/* Core CSS required for Ionic components to work properly */
+
+@import "~swiper/swiper-bundle.min.css";
+@import "~@ionic/angular/css/core.css";
+/* Basic CSS for apps built with Ionic */
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+@import "~@ionic/angular/css/display.css";
+
+/* Optional CSS utils that can be commented out */
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+
+@import "assets/fonts/inter/interFont.scss";
+@import "assets/fonts/openSans/openSansFont.scss";
+@import "assets/fonts/dana/danaFont.scss";
+@import "assets/fonts/notoSansArabic/notoSansArabicFont.scss";
+@import "theme/apvStyle.scss";
+
+// ion-action-sheet.my-custom-class {
+//   left: 0;
+//   --background: #1a2cd0;
+//   --backdrop-opacity: 0.6;
+//   --button-background-selected: var(--ion-color-white);
+//   --button-color: var(--ion-color-light-text);
+//   --ion-color-primary-contrast: #0012b3;
+//   --color: var(--ion-color-light-text);
+//   /* role: "destructive" button iOS styling override */
+//   --ion-color-danger: #0012b3;
+// }

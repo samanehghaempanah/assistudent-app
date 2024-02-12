@@ -1,0 +1,49 @@
+<apv-page-header title="{{this.PageData.Item?.Title ?? ''}}" backButton="true"></apv-page-header>
+
+<ion-content class="iframe-container">
+
+  <ion-row *ngIf="!PageData.Waiting && !PageData.Item?.BookletFile">
+    <ion-col size="11" size-md="10" size-lg="8" class="text-center mx-auto mt-5">
+      <ion-text>{{this.baseService.translate("Booklet-view-booklet-noBooklet")}}.</ion-text>
+    </ion-col>
+  </ion-row>
+
+  <div>
+    <ngx-extended-pdf-viewer #pdfViewer [customToolbar]="customCheckboxZoomToolbar"
+      [base64Src]="PageData.Item?.BookletFile" [textLayer]="true" [zoom]="zoom"></ngx-extended-pdf-viewer>
+
+    <ng-template #customCheckboxZoomToolbar>
+      <div id="toolbarViewer" class="pb-1">
+        <div *ngIf="PageData.Item?.Title && !this.PageData.isClose" class="d-flex ion-justify-content-between p-2 px-4">
+          <div class="d-flex flex-column ion-justify-content-center">
+            <ion-label class="text-bold">{{PageData.Item?.Title}} - {{PageData.Item?.Lesson_Title}}</ion-label>
+            <ion-label>{{PageData.Item?.Teacher_FirstName}}</ion-label>
+          </div>
+          <ion-button color="dark" fill="outline" (click)="return()">
+            {{this.baseService.translate("signup-return")}}
+          </ion-button>
+        </div>
+        <div *ngIf="!this.PageData.isClose" [class.invisible]="false" class="d-flex flex-row-reverse ion-align-items-center" id="toolbarViewerMiddle">
+          <pdf-zoom-dropdown class="invisible"></pdf-zoom-dropdown>
+
+          <input type="radio" id="zoom50" class="toolbarField radio" tabindex="94" (click)="zoom = '50%'" name="zoom"
+            [checked]="zoom==='50%'" />
+          <label for="zoom50" class="toolbarLabel">50%</label>
+
+          <input type="radio" id="zoom100" class="toolbarField radio" tabindex="95" (click)="zoom = '100%'" name="zoom"
+            [checked]="zoom==='100%'" />
+          <label for="zoom100" class="toolbarLabel">100%</label>
+
+          <input type="radio" id="zoom200" class="toolbarField radio" tabindex="96" (click)="zoom = '200%'" name="zoom"
+            [checked]="zoom==='200%'" />
+          <label for="zoom200" class="toolbarLabel">200%</label>
+        </div>
+        <div class="text-center" style="margin-top: 2.2rem !important;">
+          <ion-icon (click)="closeBar()" class="cursor-pointer" name="ellipsis-horizontal-outline"></ion-icon>
+        </div>
+      </div>
+    </ng-template>
+  </div>
+  <!-- <embed *ngIf="!PageData.Waiting && PageData.Item?.BookletFile" [src]="PageData.Item?.BookletFile"
+    type="application/pdf" width="100%" height="600px" /> -->
+</ion-content>

@@ -1,0 +1,74 @@
+.notification-box {
+  background: linear-gradient(
+    180deg,
+    var(--ion-color-primary) 0%,
+    var(--ion-color-secondary) 100%
+  );
+
+  ion-card-title,
+  p {
+    color: var(--ion-color-light-text);
+    word-break: break-all;
+  }
+
+  button {
+    background-color: var(--ion-color-light-text);
+    width: auto;
+    height: 40px;
+    font-weight: 500;
+    border-radius: 5px;
+  }
+}
+
+mat-vertical-stepper {
+  .form-box {
+    justify-content: space-around;
+  }
+  .zipCode {
+    font-size: 13px;
+  }
+}
+
+.tr-complete {
+  color: var(--ion-color-success);
+}
+
+.tr-incomplete {
+  color: var(--ion-color-danger);
+}
+
+.tr-noselect {
+  color: var(--ion-color-medium);
+}
+
+.table-container {
+  .table {
+    width: 100%;
+    text-align: center;
+
+    th,
+    td {
+      padding: 5px 0px;
+
+      table {
+        width: 100%;
+
+        td,
+        th {
+          border: none;
+          max-width: 40px;
+          overflow: hidden;
+        }
+
+        button {
+          background-color: var(--ion-color-medium);
+          border-radius: 50px;
+        }
+      }
+    }
+  }
+}
+
+.trashStation{
+  cursor: pointer;
+}

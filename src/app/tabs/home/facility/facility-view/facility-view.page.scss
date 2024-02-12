@@ -1,0 +1,140 @@
+// .dormitory-text ion-text {
+//   font-weight: 700;
+// }
+
+// .accomodation-text {
+//   position: relative;
+// }
+
+// .accomodation-text ion-text {
+//   font-weight: 500;
+//   margin-left: 20px;
+//   margin-right: 20px;
+// }
+
+// .accomodation-text::before {
+//   content: "";
+//   position: absolute;
+//   background-color: var(--ion-color-secondary-shade);
+//   width: 9px;
+//   height: 9px;
+//   border-radius: 50%;
+//   top: 6px;
+// }
+
+// .dormitory-choose-box {
+//   margin: 20px 10px;
+//   padding: 33px 20px;
+// }
+
+// .text-box-dormitory {
+//   color: var(--ion-color-light-contrast);
+//   font-weight: 400;
+// }
+
+// .border-box {
+//   background: var(--ion-color-white);
+//   border: 1px solid var(--ion-color-medium);
+//   height: 41px;
+//   padding: 10px;
+//   margin: 30px 0;
+// }
+
+// .label-box {
+//   color: var(--ion-color-primary);
+//   font-weight: 500;
+// }
+
+// .annualy-text {
+//   position: relative;
+//   display: flex;
+//   align-items: center;
+// }
+
+// .annualy-text ion-text {
+//   color: var(--ion-color-medium-text);
+//   font-weight: 500;
+//   margin-left: 5px;
+//   margin-right: 5px;
+// }
+
+// .annualy-text::before {
+//   content: "";
+//   position: absolute;
+//   background-color: var(--ion-color-medium);
+//   width: 2px;
+//   height: 21px;
+// }
+
+// .btn-facility {
+//   margin-top: 4px;
+// }
+
+// .category-facility-view,
+// .border-box {
+//   align-items: center;
+//   justify-content: space-between;
+// }
+
+// .row-one {
+//   align-items: center;
+// }
+
+// .fridge {
+//   width: 62px;
+//   margin: 0 3px;
+// }
+
+// .fridge ion-text {
+//   color: var(--ion-color-secondary-shade);
+//   font-weight: 400;
+// }
+
+// .svg-boolean {
+//   margin: 0 3px;
+// }
+
+.viewFacilities-container{
+  max-width: 436px;
+  margin: auto;
+  .category {
+    color: var(--ion-color-secondary);
+  }
+  .title {
+    font-size: large;
+    font-weight: bold;
+  }
+  ion-icon {
+    font-size: 20px;
+  }
+  .price-chip {
+    background-color: var(--ion-color-primary);
+    color: var(--ion-color-light-text);
+    border-radius: 15px;
+    font-size: 11px;
+  }
+  .desc {
+    font-size: 11px;
+  }
+  .drop-down-container {
+    width: 100%;
+    border-radius: 10px;
+    background-color: var(--ion-color-white);
+    border: 0.5px solid rgb(var(--ion-color-medium-rgb));
+    img {
+      transition: all 0.2s;
+    }
+    button {
+      width: 100%;
+      background-color: transparent;
+      &:hover {
+        background-color: rgba(var(--ion-color-primary-rgb), 0.15);
+        border-radius: 10px;
+      }
+    }
+  }
+}
+
+.transform {
+  transform: rotate(0.25turn)
+}

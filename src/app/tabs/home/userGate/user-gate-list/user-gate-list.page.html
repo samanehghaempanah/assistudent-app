@@ -1,0 +1,72 @@
+<apv-page-header [backButton]="'true'" title="{{this.baseService.translate('UserGate-title-page')}}"></apv-page-header>
+
+<apv-search marginClasses="mt-3 mb-1" placeholder="{{baseService.translate('Notification-search-input')}}"
+  (onSearchClick)="onSearchClick($event)"></apv-search>
+
+<ion-content [fullscreen]="true" class="lazyLoading">
+  <ion-row class="ion-justify-content-center">
+    <ion-col size="11" size-md="10" size-lg="8" class="first-col my-1 bg-gradiant">
+      <ion-card class="main-card m-0 p-0">
+        <ion-card-content *ngIf="listModel.Items">
+          <div class="log-card-box p-2 my-3" *ngFor="let item of listModel.Items; let lastItem = last;">
+            <div class="my-2">
+              <ion-text class="text-bold mx-1">{{baseService.translate('UserGate-list-date')}} : <span>{{item.PassingDate |
+                  jdate:'date'}}</span></ion-text>
+            </div>
+            <ion-row>
+              <ion-col size="12" class="mb-2">
+                <ion-row>
+                  <ion-col class="text-center">
+                    <ion-text class="text-primary">{{baseService.translate('UserGate-list-gateName-Entry')}} : <span
+                        class="text-dark">{{item.EntryPlace_Title}}</span></ion-text>
+                  </ion-col>
+                  <ion-col class="text-center">
+                    <ion-text class="text-primary">{{baseService.translate('UserGate-list-time')}} : <span
+                        class="text-dark">{{item.EntryTime}}</span></ion-text>
+                  </ion-col>
+                  <ion-col class="text-center">
+                    <ion-text class="text-primary">{{baseService.translate('UserGate-list-typeDate')}} : <span
+                        class="text-dark">{{item.EntryAccessType_Title}}</span></ion-text>
+                  </ion-col>
+                </ion-row>
+              </ion-col>
+
+              <ion-col size="12">
+                <ion-row>
+                  <ion-col class="text-center">
+                    <ion-text class="text-primary">{{baseService.translate('UserGate-list-gateName-Exit')}} : <span
+                        class="text-dark">{{item.ExitPlace_Title}}</span></ion-text>
+                  </ion-col>
+                  <ion-col class="text-center">
+                    <ion-text class="text-primary">{{baseService.translate('UserGate-list-time')}} : <span
+                        class="text-dark">{{item.ExitTime}}</span></ion-text>
+                  </ion-col>
+                  <ion-col class="text-center">
+                    <ion-text class="text-primary">{{baseService.translate('UserGate-list-typeDate')}} : <span
+                        class="text-dark">{{item.ExitAccessType_Title}}</span></ion-text>
+                  </ion-col>
+                </ion-row>
+              </ion-col>
+            </ion-row>
+          </div>
+
+          <ion-infinite-scroll *ngIf="listModel.HasNext" threshold="100px" (ionInfinite)="loadData($event)">
+            <ion-infinite-scroll-content loadingSpinner="crescent"
+              loadingText="{{baseService.translate('common-processing')}}">
+            </ion-infinite-scroll-content>
+          </ion-infinite-scroll>
+        </ion-card-content>
+
+        <ion-card-content *ngIf="listModel.TotalCount === 0">
+          <div>
+            <ion-col class="text-center">
+              <div>
+                <ion-text class="mx-1">{{this.baseService.translate("classroom-history-empty-list")}}</ion-text>
+              </div>
+            </ion-col>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+</ion-content>

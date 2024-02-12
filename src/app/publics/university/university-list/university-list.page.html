@@ -1,0 +1,28 @@
+<apv-page-header title="{{this.baseService.translate('university-list-header-aboutUni')}}" backButton="true">
+</apv-page-header>
+
+<ion-content [fullscreen]="true">
+  <ion-row class="ion-justify-content-center ion-margin-vertical ion-no-padding">
+    <ion-col size="11" size-md="10" size-lg="8" class="first-col px-4">
+      <ion-row>
+        <ion-col size="6" size-md="4" size-lg="3" *ngFor="let item of items">
+          <ion-card class="m-0" [routerLink]="item.id===6 ? '' : ['./', item.id]" (click)="openLink(item.id)">
+            <ion-card-header>
+              <ion-card-title class="text-center">
+                  <mat-icon *ngIf="item.id!=4" class="material-symbols text-primary">
+                    {{item.icon}}
+                    </mat-icon>
+                <ion-icon *ngIf="item.id===4" name="{{item.icon}}" class="text-xlarge text-bold text-primary"></ion-icon>
+              </ion-card-title>
+            </ion-card-header>
+            <ion-card-content class="text-center p-0">
+              <ion-text class="text-primary">
+                {{item.title}}
+              </ion-text>
+            </ion-card-content>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+</ion-content>

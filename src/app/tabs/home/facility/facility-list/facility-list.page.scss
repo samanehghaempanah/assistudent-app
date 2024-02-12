@@ -1,0 +1,89 @@
+.text-header-dormitory {
+  font-weight: 700;
+}
+
+
+// New Facilities
+
+.newFacilities-container{
+  margin: auto;
+  .category {
+    color: var(--ion-color-secondary);
+  }
+  .title {
+    font-size: large;
+    font-weight: bold;
+  }
+  ion-icon {
+    font-size: 20px;
+  }
+  ion-chip {
+    background-color: var(--ion-color-primary);
+    color: var(--ion-color-light-text);
+    border-radius: 15px;
+    // font-size: 10px;
+  }
+  .details-btn {
+    font-weight: bold;
+  }
+  .desc {
+    font-size: 11px;
+  }
+}
+// History
+
+.historyFacilities-container{
+  margin: auto;
+  .category {
+    color: var(--ion-color-secondary);
+  }
+  .status {
+    color: var(--ion-color-light-text);
+    border-radius: 15px;
+  }
+  .title {
+    font-size: large;
+    font-weight: bold;
+  }
+  .price-chip {
+    background-color: var(--ion-color-primary);
+    color: var(--ion-color-light-text);
+    border-radius: 15px;
+  }
+}
+
+.bullet:before {
+  content: "";
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background-color: var(--ion-color-secondary-shade);
+}
+
+.active-bullet:before {
+  background-color: var(--ion-color-success);
+}
+
+.expire-bullet:before {
+  background-color: var(--ion-color-primary-tint);
+}
+
+.draft-bullet:before {
+  background-color: var(--ion-color-light-shade);
+}
+
+
+
+.active-date {
+  color: var(--ion-color-success);
+}
+
+.draft-date {
+  color: var(--ion-color-light-shade);
+}
+
+// Footer
+.facility-list-image {
+  max-width: 215px;
+  max-height: 215px;
+}

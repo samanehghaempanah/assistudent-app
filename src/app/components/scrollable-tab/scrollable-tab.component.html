@@ -1,0 +1,13 @@
+<ion-row class="searchBar"  [class]="marginClasses">
+  <ion-col size="11" size-md="10" size-lg="8" class=" mx-auto">
+    <ion-segment #segmentButton class="mx-auto" id="scrollableTab"
+      [ngClass]="isCategory ? 'category' : ''" [scrollable]="true" [(ngModel)]="selectedTab" (ionChange)="($event)">
+      <span *ngFor="let tab of Tabs" (click)="onClick(tab)" class="item-box w-100 m-auto d-flex ion-align-items-center">
+        <ion-segment-button #IonSegmentButton class="text-style m-0" [disabled]="clickable === 'false'"
+          value="{{ tab.value }}">
+          <span>{{ tab.title }}</span>
+        </ion-segment-button>
+      </span>
+    </ion-segment>
+  </ion-col>
+</ion-row>

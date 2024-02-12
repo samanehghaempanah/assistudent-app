@@ -1,0 +1,48 @@
+.date {
+  background: var(--ion-color-primary);
+  color: var(--ion-color-light-text);
+  border-radius: 50px !important;
+}
+
+.type {
+  background: rgba(var(--ion-color-primary-rgb), 0.1);
+  border-radius: 50px !important;
+}
+
+.time {
+  background: var(--ion-color-light);
+  border-radius: 50px !important;
+  margin: 0 -40px;
+}
+
+.dirction-ltr {
+  padding-right: 3rem;
+}
+
+.dirction-rtl {
+  padding-left: 3rem;
+}
+
+.btnBox {
+  justify-content: flex-end;
+}
+
+ion-accordion {
+  background: var(--ion-color-light) !important;
+
+  .TermTitle {
+    background: var(--ion-color-primary);
+    border-radius: 10px;
+    color: var(--ion-color-light-text);
+    position: relative;
+    padding: 2px 0;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .dayCoruse {
+    ion-chip {
+      font-size: 11px;
+    }
+  }
+}

@@ -1,0 +1,129 @@
+<apv-page-header
+  title="{{this.baseService.translate('facility-list-title')}}"
+  backButton="true"
+></apv-page-header>
+
+<apv-scrollableTab
+  [Tabs]="Categories"
+  [selectedTab]="selectedTab"
+  (onTabClick)="onTabClick($event)"
+></apv-scrollableTab>
+<apv-scrollableTab
+  [Tabs]="NewCategories"
+  [isCategory]="true"
+  marginClasses="mt-1 mb-3"
+  (onTabClick)="onTabClickForNewFacilities($event)"
+></apv-scrollableTab>
+
+<ion-content [fullscreen]="true">
+  <!-- New Facilities -->
+  <div *ngIf="selectedTab == 'list'">
+    <ion-row class="d-flex flex-column newFacilities-container">
+      <ion-col
+        size="11"
+        size-md="9"
+        size-lg="6"
+        class="d-flex ion-justify-content-center flex-column bg-gradiant mx-auto my-2"
+        *ngFor="let facility of FacilitiesItems"
+      >
+        <ion-card class="main-card m-0 pt-2 px-2">
+          <ion-card-content class="p-0">
+            <ion-row>
+              <ion-col size="7">
+                <ion-text>
+                  <p class="category">{{facility.category}}</p>
+                </ion-text>
+                <ion-text class="text-primary">
+                  <p class="title mt-2">{{facility.title}}</p>
+                </ion-text>
+                <ion-row>
+                  <ion-chip> {{facility.price}} </ion-chip>
+                  <span class="pt-2 mx-2 text-primary">
+                    {{this.baseService.translate('facility-list-Monthly')}}
+                  </span>
+                </ion-row>
+                <ion-text> {{facility.desc}} </ion-text>
+              </ion-col>
+              <ion-col size="5">
+                <img [src]="facility.img" width="100%" />
+              </ion-col>
+            </ion-row>
+            <div
+              class="d-flex flex-row ion-justify-content-between ion-padding"
+            >
+              <ion-text
+                color="tertiary"
+                class="details-btn"
+                [routerLink]="['./' , 'new' , facility.id]"
+              >
+                {{this.baseService.translate('facility-list-Details')}}
+              </ion-text>
+
+              <div>
+                <ion-icon name="star" color="warning"></ion-icon>
+                <ion-icon name="star" color="warning"></ion-icon>
+                <ion-icon name="star" color="warning"></ion-icon>
+                <ion-icon name="star" color="medium"></ion-icon>
+                <ion-icon name="star" color="medium"></ion-icon>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </div>
+
+  <!-- History -->
+  <div *ngIf="selectedTab == 'History' ">
+    <ion-row class="d-flex flex-column historyFacilities-container">
+      <ion-col
+        size="11"
+        size-md="9"
+        size-lg="6"
+        class="d-flex ion-justify-content-center flex-column bg-gradiant mx-auto my-2"
+        *ngFor="let history of FacilitiesHistoryItems"
+      >
+        <ion-card
+          class="main-card m-0 pt-2 px-2"
+          [routerLink]="['./' , 'history' , history.id]"
+        >
+          <ion-card-content class="p-0">
+            <ion-row>
+              <ion-col size="7">
+                <ion-text class="d-flex flex-row">
+                  <p class="category mx-2 pt-2">{{history.categoryTitle}}</p>
+                  <ion-chip
+                    class="status"
+                    [ngStyle]="{'--background' : (history.status===this.baseService.translate('facility-list-ACTIVE') ) ? ('var(--ion-color-success)') :
+                  (history.status===this.baseService.translate('facility-list-Expire')) ? ('var(--ion-color-danger)') :
+                  (history.status===this.baseService.translate('facility-list-Draft')) ? ('var(--ion-color-light-shade)') : ('--ion-color-light-shade')}"
+                  >
+                    {{history.status}}
+                  </ion-chip>
+                </ion-text>
+                <ion-text class="text-primary">
+                  <p class="title my-1">{{history.title}}</p>
+                </ion-text>
+                <ion-row>
+                  <ion-chip class="price-chip"> {{history.price}} </ion-chip>
+                  <span class="pt-2 mx-2 text-primary">
+                    {{this.baseService.translate('facility-list-Monthly')}}
+                  </span>
+                </ion-row>
+                <ion-text>
+                  <p class="my-2">
+                    {{this.baseService.translate('facility-list-DueDate')}} :
+                    {{history.userExpireDate}}
+                  </p>
+                </ion-text>
+              </ion-col>
+              <ion-col size="5">
+                <img [src]="history.img" width="100%" />
+              </ion-col>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </div>
+</ion-content>

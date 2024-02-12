@@ -1,0 +1,38 @@
+.news-card {
+  min-height: 200px;
+  border-radius: 13px;
+
+  .hideDescription {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  img {
+    width: 85px;
+    height: 85px;
+    object-fit: cover;
+    border-radius: 10px;
+    cursor: pointer;
+  }
+
+  .title {
+    font-weight: bold;
+  }
+
+  ion-thumbnail {
+    width: 85px;
+    height: 85px;
+    --border-radius: 10px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+
+  img,
+  ion-thumbnail {
+    width: 65px !important;
+    height: 65px !important;
+  }
+}

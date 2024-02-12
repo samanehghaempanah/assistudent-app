@@ -1,0 +1,58 @@
+.backup-icon {
+  background: linear-gradient(
+    180deg,
+    var(--ion-color-primary) 0%,
+    var(--ion-color-secondary) 100%
+  );
+  width: 50px;
+  height: 50px;
+  border-radius: 10px;
+  text-align: center;
+  padding-top: 10px;
+}
+
+.support {
+  box-shadow: 0px 4px 15px rgba(var(--ion-color-dark-text-rgb), 0.15) !important;
+
+  ion-card-content {
+    // justify-content: space-between;
+    // align-items: center;
+    padding: 10px;
+
+    ion-text {
+      color: var(--ion-color-light-text);
+      font-weight: 700;
+    }
+  }
+}
+
+.last-text {
+  max-width: 200px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.btn-chat {
+  width: 20px;
+  height: 20px;
+  border-radius: 100%;
+  background: linear-gradient(
+    180deg,
+    var(--ion-color-primary) 28.13%,
+    var(--ion-color-secondary) 100%
+  );
+}
+
+.avatar-box {
+  width: 70px;
+  height: 70px;
+  border-radius: 10px;
+}
+
+.new-msg {
+  position: fixed;
+  bottom: 100px;
+  right: 0%;
+  z-index: 999;
+}

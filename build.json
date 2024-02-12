@@ -1,0 +1,12 @@
+{
+  "android": {
+    "release": {
+      "keystore": "C:\\university\\Projects\\00_Appiveh\\keyStores\\najafabaduni.keystore",
+      "storePassword": "j7Ks5Gw4F",
+      "alias": "najafabaduni",
+      "password": "j7Ks5Gw4F",
+      "keystoreType": "",
+      "packageType": "apk"
+    }
+  }
+}

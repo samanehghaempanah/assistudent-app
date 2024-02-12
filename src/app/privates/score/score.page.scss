@@ -1,0 +1,75 @@
+ion-accordion {
+  border: none !important;
+  box-shadow: none !important;
+}
+
+.card-bg {
+  height: fit-content;
+  background-color: var(--ion-color-primary);
+  border-radius: 15px;
+  padding: 2px;
+  transition: all 0.3s;
+}
+
+.gradient {
+  background: linear-gradient(180deg, var(--ion-color-primary) 0%, var(--ion-color-secondary) 100%) !important;
+}
+
+.myScore {
+  background: none;
+  border: 1px solid var(--ion-color-secondary);
+  border-radius: 50px !important;
+}
+
+.scoreHistoryRow {
+  background-color: rgba(var(--ion-color-primary-rgb), 0.1);
+  border-radius: 50px;
+
+  ion-text {
+    font-size: 12px;
+  }
+}
+
+.promotionCard {
+  // max-height: 150px !important;
+  cursor: pointer;
+
+  .imgPromotion {
+    width: 50px;
+    height: 50px;
+    border-radius: 50px;
+  }
+}
+
+.progress-bar-container {
+  border-radius: 15px;
+  width: 100%;
+  height: 20px;
+  direction: ltr;
+  position: relative;
+
+  .progress-bar {
+    background: linear-gradient(90deg, var(--ion-color-warning) 0%, var(--ion-color-warning-tint) 130.83%);
+    border-radius: 15px 0px 0px 15px;
+    height: 20px;
+    position: absolute;
+    left: 0;
+  }
+
+  ion-text {
+    position: absolute;
+    bottom: 0;
+    top: 0;
+    left: 0;
+    right: 0;
+    color: var(--ion-color-light-text);
+  }
+}
+
+.headerLabelAccordion {
+  font-size: 12px !important;
+}
+
+.guidScrollTab {
+  width: 70%;
+}

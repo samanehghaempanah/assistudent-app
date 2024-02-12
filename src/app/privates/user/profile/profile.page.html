@@ -1,0 +1,117 @@
+<apv-page-header title="{{this.baseService.translate('profile-title')}}" backButton="true"></apv-page-header>
+
+<ion-content [fullscreen]="true">
+  <ion-row class="ion-justify-content-center ion-margin-vertical" *ngIf="memberData">
+    <ion-col size="11" size-md="6" size-lg="6" class="first-col">
+      <div class="avatar-bax d-flex ion-justify-content-center">
+        <div>
+          <ion-img class="large-avatar"
+            src="{{baseService.loadImage(memberData.ProfileImageFile, 'Profile')}}"></ion-img>
+          <ion-icon name="camera-outline" (click)="editAvatar()" class="text-large p-1"></ion-icon>
+        </div>
+      </div>
+      <div class="bg-gradiant">
+        <ion-card class="main-card m-0 p-0 pt-5">
+          <ion-card-content>
+            <ion-row>
+              <ion-col size="12" class="d-flex flex-column mt-1">
+                <ion-label class="mb-1">{{this.baseService.translate('profile-inputs-fullname')}} :
+                  <span class="text-bold">{{memberData.FirstName}} {{memberData.LastName}}</span></ion-label>
+                <ion-label class="mb-1">{{this.baseService.translate('profile-inputs-National-code')}} :
+                  <span class="text-bold">{{memberData.Username}}</span></ion-label>
+                <ion-label class="mb-1">{{this.baseService.translate('profile-inputs-Phone-Number')}} :
+                  <span class="text-bold">{{memberData.PhoneNo}}</span></ion-label>
+                <ion-label class="mb-1">{{this.baseService.translate('profile-inputs-service')}}:
+                  <span class="text-bold" *ngIf="useGps">{{this.baseService.translate('profile-does-have')}}</span>
+                  <span class="text-bold" *ngIf="!useGps">{{this.baseService.translate('profile-does-not-have')}}</span>
+                </ion-label>
+                <ion-label class="mb-1">{{this.baseService.translate('profile-inputs-Birthday')}}:
+                  <span class="text-bold" *ngIf="!PageData.isNonIranian">{{memberData.BirthDate | jdate:'date'}}</span>
+                  <span class="text-bold" *ngIf="PageData.isNonIranian">{{memberData.BirthDate | date}}</span>
+                </ion-label>
+                <ion-label class="mb-1">{{this.baseService.translate('profile-inputs-Email')}}:
+                  <span class="text-bold">{{memberData.Email}}</span></ion-label>
+              </ion-col>
+            </ion-row>
+            <ion-row>
+              <ion-col size="12" class="btn-form-new d-flex ion-justify-content-center">
+                <ion-button (click)="onEmailSet(memberData)"
+                  *ngIf="memberData.Email === null || memberData.Email.length === 0 || memberData.Email === '' ">{{this.baseService.translate('profile-inputs-setEmail')}}</ion-button>
+
+                <ion-button *ngIf="memberData.BirthDate === null || memberData.BirthDate.length === 0 || memberData.BirthDate === ''"
+                  (click)="setBirthOpen(true)">{{this.baseService.translate('profile-inputs-setBirthday')}}</ion-button>
+
+                <ion-button
+                  (click)="setPasswordOpen(true)">{{this.baseService.translate('profile-form-changepass')}}</ion-button>
+              </ion-col>
+              <!-- For set Birth Date -->
+              <ion-modal [isOpen]="isBirthModalOpen" [backdropDismiss]="false">
+                <ng-template>
+                  <ion-content class="ion-padding" style="background-color: var(--ion-color-white);">
+                    <div class="d-flex">
+                      <ion-title>{{this.baseService.translate('profile-inputs-setBirthday')}}</ion-title>
+                      <ion-button fill="clear"
+                        (click)="setBirthOpen(false)">{{this.baseService.translate('common-btn-cancel')}}</ion-button>
+                    </div>
+                    <div>
+                      <div>
+                        <ion-label class="my-2">{{this.baseService.translate('profile-inputs-Birthday')}}</ion-label>
+                        <apv-datepickerfa (datepicker)="onChangeBirthDate($event , memberData)"
+                          *ngIf="!PageData.isNonIranian"></apv-datepickerfa>
+
+                        <apv-datepickeren (datepicker)="onChangeBirthDate($event , memberData)"
+                          *ngIf="PageData.isNonIranian"></apv-datepickeren>
+                      </div>
+                    </div>
+                  </ion-content>
+                  <ion-footer style="background-color: var(--ion-color-white);">
+                    <div class="d-flex ion-justify-content-center">
+                      <ion-button
+                        (click)="onBirthDateSet(memberData)">{{this.baseService.translate('profile-save-btn')}}</ion-button>
+                    </div>
+                  </ion-footer>
+                </ng-template>
+              </ion-modal>
+
+              <!-- For Change Password -->
+              <ion-modal [isOpen]="isPasswordModalOpen" [backdropDismiss]="false">
+                <ng-template>
+                  <ion-content class="ion-padding" style="background-color: var(--ion-color-white);">
+                    <div class="d-flex">
+                      <ion-title>{{this.baseService.translate('profile-form-changepass')}}</ion-title>
+                      <ion-button fill="clear"
+                        (click)="onCancelChangePassword()">{{this.baseService.translate('common-btn-cancel')}}</ion-button>
+                    </div>
+                    <div>
+                      <div>
+                        <ion-label>{{this.baseService.translate('profile-form-oldpass')}}</ion-label>
+                        <ion-input type="password" class="mb-2"
+                          [(ngModel)]="pageDataChangePassword.oldPassword"></ion-input>
+                      </div>
+                      <div>
+                        <ion-label>{{this.baseService.translate('profile-form-newpass')}}</ion-label>
+                        <ion-input type="password" class="mb-2"
+                          [(ngModel)]="pageDataChangePassword.newPassword"></ion-input>
+                      </div>
+                      <div>
+                        <ion-label>{{this.baseService.translate('profile-form-confirmpass')}}</ion-label>
+                        <ion-input type="password" class="mb-2"
+                          [(ngModel)]="pageDataChangePassword.confirmNewPassword"></ion-input>
+                      </div>
+                    </div>
+                  </ion-content>
+                  <ion-footer style="background-color: var(--ion-color-white);">
+                    <div class="d-flex ion-justify-content-center">
+                      <ion-button
+                        (click)="onChangePassword()">{{this.baseService.translate('profile-save-btn')}}</ion-button>
+                    </div>
+                  </ion-footer>
+                </ng-template>
+              </ion-modal>
+            </ion-row>
+          </ion-card-content>
+        </ion-card>
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-content>

@@ -1,0 +1,134 @@
+<div class="notification-component">
+  <div class="notification-container">
+    <p class="text-center text-light pt-2">
+      {{ this.baseService.translate("Notification-title-dashboard") }}
+    </p>
+    <div class="text-center pt-2" *ngIf="PageData.Notifications.length == 0">
+      <ion-text class="text-center text-light">
+        {{ this.baseService.translate("Notification-dis-noNotifications") }}
+      </ion-text>
+    </div>
+  </div>
+
+  <div [ngClass]="{ 'notifi-box': PageData.Notifications.length != 0 }">
+
+    <ion-row>
+      <ion-col size="10" size-md="8" class="mx-auto">
+        <mat-accordion multi>
+          <mat-expansion-panel hideToggle>
+            <mat-expansion-panel-header (click)="onGoTONotification()">
+              <ion-card class="notif-card mb-0 mx-auto" *ngIf="PageData.Notifications.length >= 1">
+                <ion-grid>
+                  <ion-row class="mb-3">
+                    <ion-col size="3">
+                      <img *ngIf="PageData.Notification.MainFile"
+                        [src]=" baseService.loadImage(PageData.Notification.MainFile, 'Banner') "
+                        alt="{{ PageData.Notification.Title }}" />
+                    </ion-col>
+                    <ion-col size="9">
+                      <ion-card-header class="py-2 px-1">
+                        <ion-card-title class="text-style text-ellipsis text-bold text-start text-small text-dark">
+                          {{ PageData.Notification.Title }}
+                        </ion-card-title>
+                        <ion-card-content color="medium" class="text-style text-start text-xsmall p-0 pt-2">
+                          {{ PageData.Notification.Description }}
+                        </ion-card-content>
+                      </ion-card-header>
+                      <ion-col size="12" class="date-row d-flex ion-justify-content-end">
+                        <ion-text class="text-style text-end text-xsmall text-medium py-0 px-1">
+                          {{ PageData.Notification.StartDate | jdate : "info" }}
+                        </ion-text>
+                      </ion-col>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+                <div footer class="d-flex w-100 px-2">
+                  <div class="d-flex ion-align-items-start pt-1">
+                    <span class="d-flex ion-align-items-start px-3">
+                      <ion-icon color="success" name="bookmark" *ngIf="PageData.Notification.saved"
+                        class="text-light"></ion-icon>
+                      <ion-icon name="bookmark-outline" *ngIf="!PageData.Notification.saved" class="text-light"></ion-icon>
+                    </span>
+                    <span class="d-flex ion-align-items-start">
+                      <ion-text class="text-small text-light px-2 pt-1">{{
+                        PageData.Notification.ViewCount
+                        }}</ion-text>
+                      <ion-icon name="eye-outline" class="text-light"></ion-icon>
+                    </span>
+                    <span class="d-flex ion-align-items-start px-3">
+                      <ion-text class="text-small text-light px-2 pt-1">{{
+                        PageData.Notification.LikeCount
+                        }}</ion-text>
+                      <ion-icon *ngIf="PageData.Notification.liked" color="danger" name="heart" class="text-light"></ion-icon>
+                      <ion-icon name="heart-outline" *ngIf="!PageData.Notification.liked" class="text-light"></ion-icon>
+                    </span>
+                  </div>
+                </div>
+              </ion-card>
+              <div id="footer1" *ngIf="PageData.Notifications.length > 1 && !PageData.display"></div>
+              <div id="footer2" *ngIf="PageData.Notifications.length > 1 && !PageData.display"></div>
+            </mat-expansion-panel-header>
+            <div *ngFor="let notification of PageData.Notifications; index as i; first as isFirst">
+              <ion-card class="notif-card my-3 mb-0 mx-auto" *ngIf="PageData.Notifications.length > 1 && !isFirst"
+                (click)="onGoTONotification()">
+                <ion-grid>
+                  <ion-row class="mb-3">
+                    <ion-col size="3">
+                      <img [src]="baseService.loadImage(notification.MainFile, 'Banner')"
+                        alt="{{ PageData.Notification.Title }}" />
+                    </ion-col>
+                    <ion-col size="9">
+                      <ion-card-header class="py-0 px-1">
+                        <ion-card-title class="text-style text-ellipsis text-bold text-start text-small text-dark">
+                          {{ notification.Title }}
+                        </ion-card-title>
+                        <ion-card-content color="medium" class="text-style text-start text-xsmall p-0 pt-2">
+                          {{ notification.Description }}
+                        </ion-card-content>
+                      </ion-card-header>
+                      <ion-col size="12" class="date-row d-flex ion-justify-content-end">
+                        <ion-text class="text-style text-start text-xsmall text-medium py-0 px-1">
+                          {{ notification.StartDate | jdate : "info" }}
+                        </ion-text>
+                      </ion-col>
+                    </ion-col>
+                  </ion-row>
+                </ion-grid>
+                <div footer class="d-flex w-100 px-2">
+                  <div class="d-flex ion-align-items-start pt-1">
+                    <span class="px-3">
+                      <ion-icon color="success" name="bookmark" *ngIf="notification.saved"
+                        class="text-light"></ion-icon>
+                      <ion-icon name="bookmark-outline" *ngIf="!notification.saved" class="text-light"></ion-icon>
+                    </span>
+                    <span>
+                      <ion-text class="text-small text-light px-2">{{
+                        PageData.Notification.ViewCount
+                        }}</ion-text>
+                      <ion-icon name="eye-outline" class="text-light"></ion-icon>
+                    </span>
+                    <span class="px-3">
+                      <ion-text class="text-small text-light px-2">{{
+                        PageData.Notification.LikeCount
+                        }}</ion-text>
+                      <ion-icon *ngIf="PageData.Notification.liked" color="danger" name="heart" class="text-light"></ion-icon>
+                      <ion-icon name="heart-outline" *ngIf="!PageData.Notification.liked" class="text-light"></ion-icon>
+                    </span>
+                  </div>
+                </div>
+              </ion-card>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </ion-col>
+    </ion-row>
+  </div>
+
+  <!-- end hidden grid -->
+  <ion-row class="icon-drop ion-justify-content-center mt-3" *ngIf="PageData.Notifications.length > 1">
+    <ion-icon name="chevron-down-circle-outline" class="text-xlarge" (click)="openAll()"
+      *ngIf="!PageData.display"></ion-icon>
+    <ion-icon name="chevron-up-circle-outline" class="text-xlarge" (click)="closeAll()"
+      *ngIf="PageData.display"></ion-icon>
+  </ion-row>
+</div>

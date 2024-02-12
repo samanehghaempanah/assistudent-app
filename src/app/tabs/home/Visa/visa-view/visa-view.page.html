@@ -1,0 +1,225 @@
+<apv-page-header title="{{title}}" backButton="true"></apv-page-header>
+
+<ion-content [fullscreen]="true">
+  <ion-row class="ion-justify-content-center ion-margin-vertical">
+    <ion-col size="11" size-md="10" size-lg="8" class="first-col">
+      <div class="bg-gradiant mb-4" *ngIf="visaForm">
+        <ion-card class="main-card m-0 p-0" *ngIf="visaForm">
+          <ion-card-header class="d-flex ion-justify-content-between ion-align-items-center">
+            <ion-card-title class="text-primary">{{visaForm.Title}}</ion-card-title>
+            <ion-chip *ngIf="visaForm.UserForm_FormStatus_Title != null"
+              [color]="visaForm.UserForm_Status === FormStatus.Draft ? 'dark' : visaForm.UserForm_Status === FormStatus.Submit ? 'primary' : visaForm.UserForm_Status === FormStatus.Inprogress ? 'warning' : visaForm.UserForm_Status === FormStatus.Reject ? 'danger' : visaForm.UserForm_Status === FormStatus.Accept ? 'success' :'medium'">{{
+              this.baseService.translate("visa-history-status")}}:
+              {{visaForm.UserForm_FormStatus_Title}}</ion-chip>
+          </ion-card-header>
+          <ion-card class="inner-card m-0 mb-3 mx-auto">
+            <ion-card-header [ngClass]="{'pb-0' : showDescription}">
+              <div class="d-flex ion-align-items-center column-gap" (click)="showMore()">
+                <ion-icon *ngIf="!showDescription" name="caret-up-circle-outline" color="secondary"></ion-icon>
+                <ion-icon *ngIf="showDescription" name="caret-down-circle-outline" color="secondary"></ion-icon>
+                <ion-text class="text-small" color="secondary">{{
+                  this.baseService.translate("visa-view-description")}}</ion-text>
+              </div>
+            </ion-card-header>
+            <ion-card-content *ngIf="showDescription" class="text-small">
+              {{visaForm.Description}}
+            </ion-card-content>
+          </ion-card>
+          <ion-card class="inner-card m-0 mx-auto">
+            <ion-card-content class="px-1">
+              <!-- Form Fields -->
+              <ion-row *ngFor="let field of visaForm.Fields">
+                <!-- Label Type -->
+                <ion-col size="12" class="ion-padding" *ngIf="field.FieldType === FieldType.Label ">
+                  <ion-label class="text-small">{{field.Title}}.</ion-label>
+                </ion-col>
+                <!-- H1 Type -->
+                <ion-col size="12" class="ion-padding" *ngIf="field.FieldType == FieldType.H1">
+                  <h1>{{field.Title}}</h1>
+                </ion-col>
+                <!-- H2 Type -->
+                <ion-col size="12" class="ion-padding" *ngIf="field.FieldType == FieldType.H2">
+                  <h2>{{field.Title}}</h2>
+                </ion-col>
+                <!-- H3 Type -->
+                <ion-col size="12" class="ion-padding" *ngIf="field.FieldType == FieldType.H3">
+                  <h3>{{field.Title}}</h3>
+                </ion-col>
+                <!-- P Type -->
+                <ion-col size="12" class="ion-padding" *ngIf="field.FieldType == FieldType.P">
+                  <p class="my-1">{{field.Title}}:</p>
+                  <!-- <p class="space-line my-1">{{field.PossibleValue}}</p> -->
+                  <p class="space-line my-1">{{field.DefaultValue}}</p>
+                </ion-col>
+                <!-- Line Type -->
+                <ion-col size="12" class="ion-padding" *ngIf="field.fieldType == FieldType.Line">
+                  <hr class="divider" />
+                </ion-col>
+                <!-- Hidden Type -->
+                <input *ngIf="field.fieldType == FieldType.Hidden" type="hidden" [(ngModel)]="field.Value" />
+                <!-- Image Type -->
+                <ion-img *ngIf="field.fieldType == FieldType.Image" [src]="field.Value"></ion-img>
+                <!-- File Type -->
+                <ion-col size="12" class="d-flex ion-justify-content-between ion-align-items-center ion-padding"
+                  *ngIf="field.FieldType == FieldType.ImageUploader || field.FieldType == FieldType.FileUploader || field.FieldType == FieldType.PdfUploader || field.FieldType == FieldType.videoUploader ">
+                  <ion-label class="text-small">{{field.Title}}:</ion-label>
+                  <apv-file-uploader [accept]="field.FieldType" [src]="field.Value" [isDisabled]="!Editable"
+                    (responseChange)="uploder($event , field)" class="w-75"></apv-file-uploader>
+                </ion-col>
+                <!-- String Type -->
+                <ion-col size="12"
+                  class="d-flex ion-justify-content-between ion-align-items-center column-gap ion-padding" *ngIf="field.FieldType == FieldType.TextInput
+                  || field.FieldType == FieldType.NumberInput
+                  || field.FieldType == FieldType.PasswordInput
+                  || field.FieldType == FieldType.EmailInput
+                  || field.FieldType == FieldType.TellInput
+                  || field.FieldType == FieldType.MobileInput
+                  || field.FieldType == FieldType.UrlInput
+                  || field.FieldType == FieldType.AddressComponent">
+                  <ion-label class="text-small">{{field.Title}}:</ion-label>
+
+                  <ion-input
+                    *ngIf="field.FieldType == FieldType.TextInput || field.FieldType == FieldType.AddressComponent"
+                    [required]="field.Required" [disabled]="!Editable" [(ngModel)]="field.Value"
+                    class="w-75"></ion-input>
+
+                  <ion-input *ngIf="field.FieldType == FieldType.NumberInput" [required]="field.Required"
+                    [disabled]="!Editable" [(ngModel)]="field.Value" type="number" class="w-75"></ion-input>
+
+                  <ion-input *ngIf="field.FieldType == FieldType.PasswordInput" [required]="field.Required"
+                    [disabled]="!Editable" [(ngModel)]="field.Value" type="password" class="w-75"></ion-input>
+
+                  <ion-input *ngIf="field.FieldType == FieldType.EmailInput" [required]="field.Required"
+                    [disabled]="!Editable" [(ngModel)]="field.Value" type="email" class="w-75"></ion-input>
+
+                  <ion-input *ngIf="field.FieldType == FieldType.TellInput || field.FieldType == FieldType.MobileInput"
+                    [required]="field.Required" [disabled]="!Editable" [(ngModel)]="field.Value" type="tell"
+                    class="w-75"></ion-input>
+
+                  <ion-input *ngIf="field.FieldType == FieldType.UrlInput" [required]="field.Required"
+                    [disabled]="!Editable" [(ngModel)]="field.Value" type="url" class="w-75"></ion-input>
+                </ion-col>
+                <!-- Textarea Type -->
+                <ion-col size="12"
+                  class="d-flex ion-justify-content-between ion-align-items-center column-gap ion-padding"
+                  *ngIf="field.FieldType == FieldType.TextareaInput">
+                  <ion-label class="text-small">{{field.Title}}:</ion-label>
+                  <ion-textarea [autoGrow]="true" [disabled]="!Editable" [(ngModel)]="field.Value" class="w-75">
+                  </ion-textarea>
+                </ion-col>
+                <!-- DateTime Type -->
+                <ion-col size="12"
+                  class="d-flex ion-justify-content-between ion-align-items-center column-gap ion-padding"
+                  *ngIf="field.FieldType == FieldType.DateInput || field.FieldType == FieldType.TimeInput || field.FieldType == FieldType.DateTimeInput">
+                  <ion-label class="text-small">{{field.Title}}:</ion-label>
+                  <ion-datetime [disabled]="!Editable" [(ngModel)]="field.Value" #datetime locale="en-EN" class="w-75">
+                    <ion-buttons slot="buttons">
+                      <ion-button color="danger" (click)="datetime.reset()">Reset</ion-button>
+                      <ion-button color="warning" (click)="datetime.cancel()">Never mind</ion-button>
+                      <ion-button color="success" (click)="datetime.confirm()">All Set</ion-button>
+                    </ion-buttons>
+                  </ion-datetime>
+                </ion-col>
+                <!-- Range Type -->
+                <ion-col size="12"
+                  class="d-flex ion-justify-content-between ion-align-items-center column-gap ion-padding"
+                  *ngIf="field.FieldType == FieldType.RangeComponent">
+                  <ion-label class="text-small">{{field.Title}}:</ion-label>
+                  <ion-range [pin]="true" [pinFormatter]="pinFormatter" [disabled]="!Editable" [(ngModel)]="field.Value"
+                    class="w-75"></ion-range>
+                </ion-col>
+                <!-- Select Type -->
+                <ion-col size="12"
+                  class="d-flex ion-justify-content-between ion-align-items-center column-gap ion-padding"
+                  *ngIf="field.FieldType == FieldType.SelectComponent || field.FieldType == FieldType.ListComponent">
+                  <ion-label class="text-small">{{field.Title}}:</ion-label>
+                  <ion-select interface="popover" [disabled]="!Editable" [(ngModel)]="field.Value" class="w-75">
+                    <div *ngFor="let option of field.PossibleValue">
+                      <ion-select-option value="{{option}}">{{option}}</ion-select-option>
+                    </div>
+                  </ion-select>
+                </ion-col>
+                <!-- Radio Type -->
+                <ion-col
+                  size="12"
+                  class="d-flex flex-column ion-justify-content-center ion-align-items-between column-gap ion-padding"
+                  *ngIf="field.FieldType == FieldType.RadioComponent"
+                >
+                  <ion-label class="text-small">{{field.Title}}:</ion-label>
+                  <div *ngIf="field.PossibleValue !== '' ">
+                    <div *ngFor="let option of field.PossibleValue">
+                      <ion-radio-group [(ngModel)]="field.Value" class="d-flex ion-align-items-center mt-1">
+                        <ion-radio
+                          slot="start"
+                          [value]="option.Value"
+                          [disabled]="!Editable"
+                        >
+                        </ion-radio>
+                        <ion-label class="mx-2">{{option.Key}}</ion-label>
+                      </ion-radio-group>
+                    </div>
+                  </div>
+                  <div *ngIf="field.DefaultValue !== '' " class="d-flex">
+                    <div *ngFor="let option of field.DefaultValue">
+                      <ion-label>{{option.Key}}</ion-label>
+                      <ion-radio-group [(ngModel)]="field.Value">
+                        <ion-radio
+                          slot="end"
+                          [value]="option.Value"
+                          [disabled]="!Editable"
+                        >
+                        </ion-radio>
+                      </ion-radio-group>
+                    </div>
+                  </div>
+                </ion-col>
+                <!-- Checkbox Type -->
+                <ion-col size="12"
+                  class="d-flex ion-justify-content-between ion-align-items-center column-gap ion-padding"
+                  *ngIf="field.FieldType == FieldType.CheckComponent">
+                  <ion-label class="text-small">{{field.Title}}:</ion-label>
+                  <div *ngFor="let option of field.PossibleValue">
+                    <ion-checkbox slot="start" [disabled]="!Editable" [(ngModel)]="field.Value"></ion-checkbox>
+                    <ion-label class="w-75">{{option}}</ion-label>
+                  </div>
+                </ion-col>
+                <!-- Button Type -->
+                <ion-col size="12" class="ion-padding" *ngIf="field.FieldType == FieldType.ButtonComponent">
+                  <ion-button color="primary" [disabled]="!Editable">{{field.Title}}</ion-button>
+                </ion-col>
+                <!-- Link Type -->
+                <ion-col size="12" class="ion-padding" *ngIf="field.FieldType == FieldType.LinkComponent">
+                  <div>
+                    <p class="text-justify space-line my-1">
+                      {{field.Description}}
+                    </p>
+                    <a class="text-primary" (click)="baseService.openLink(field.PossibleValue)">{{field.Title}}</a>
+                  </div>
+                </ion-col>
+              </ion-row>
+            </ion-card-content>
+          </ion-card>
+          <ion-col size="12">
+            <ion-row class="mb-1 px-3">
+              <ion-text>
+                {{this.baseService.translate('visa-list-status-desc')}}
+              </ion-text>
+            </ion-row>
+            <ion-row class="px-2">
+              <ion-textarea [rows]="8" [maxlength]="100" [autoGrow]="false" [disabled]="!Editable" name="note"
+                [(ngModel)]="visaForm.UserForm_Note"></ion-textarea>
+            </ion-row>
+          </ion-col>
+          <ion-row class="ion-justify-content-center mb-3" *ngIf="Editable">
+            <ion-button (click)="submit()">
+              {{this.baseService.translate('visa-list-SUBMIT')}}
+            </ion-button>
+            <ion-button color="light" (click)="draft()">
+              {{this.baseService.translate('visa-list-draft')}}
+            </ion-button>
+          </ion-row>
+        </ion-card>
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-content>

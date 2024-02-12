@@ -1,0 +1,34 @@
+<ion-tabs (ionTabsWillChange)="tabChanged($event)">
+  <ion-tab-bar slot="bottom" class="py-2">
+    <ion-tab-button tab="home">
+      <div class="tab-box d-flex flex-column ion-align-items-center">
+        <ion-icon class="text-large" name="school-outline"></ion-icon>
+        <ion-label>{{this.baseService.translate('tab-box-Home')}}</ion-label>
+      </div>
+    </ion-tab-button>
+
+    <ion-tab-button tab="classroom" *ngIf="isClassroom">
+      <div class="tab-box d-flex flex-column ion-align-items-center">
+        <ion-icon class="text-large" name="easel-outline"></ion-icon>
+        <ion-label>{{this.baseService.translate('tab-box-Classmate')}}</ion-label>
+      </div>
+    </ion-tab-button>
+
+    <ion-tab-button tab="notification">
+      <div class="tab-box d-flex flex-column ion-align-items-center">
+        <ion-icon class="text-large" name="mail-outline"></ion-icon>
+        <ion-label>{{this.baseService.translate('tab-box-Notification')}}</ion-label>
+      </div>
+      <ion-badge color="secondary" class="text-small" *ngIf="notificationCount > 0">{{notificationCount}}</ion-badge>
+    </ion-tab-button>
+
+    <!-- tab="chat" *ngIf="isChat" -->
+    <ion-tab-button (click)="presentAlert()">
+      <div class="tab-box d-flex flex-column ion-align-items-center">
+        <ion-icon class="text-large" name="chatbubbles-outline"></ion-icon>
+        <ion-label>{{this.baseService.translate('tab-box-Chat')}}</ion-label>
+      </div>
+      <ion-badge color="secondary" class="text-small" *ngIf="chatCount > 0">{{chatCount}}</ion-badge>
+    </ion-tab-button>
+  </ion-tab-bar>
+</ion-tabs>

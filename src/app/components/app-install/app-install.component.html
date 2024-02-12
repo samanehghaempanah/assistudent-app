@@ -1,0 +1,21 @@
+<div
+  *ngIf="this.pwaService.ShowPopup && router.url !== '/download'"
+  class="container"
+>
+  <div
+    [ngStyle]="{ bottom: router.url === '/login' ? '0' : '82px' }"
+    class="pwa-installer"
+  >
+    <p>
+      {{ this.baseService.translate("install-pwa-desc") }}
+    </p>
+    <div class="controlls">
+      <ion-button (click)="onInstallPWA()" color="light">{{
+        baseService.translate("common-btn-confirm-informal")
+      }}</ion-button>
+      <ion-button (click)="onDontShowPWA()" color="dark">{{
+        baseService.translate("common-btn-dismiss-informal")
+      }}</ion-button>
+    </div>
+  </div>
+</div>

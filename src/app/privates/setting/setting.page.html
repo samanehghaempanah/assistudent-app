@@ -1,0 +1,82 @@
+<apv-page-header
+  title="{{this.baseService.translate('menu-list-item-Setting')}}"
+  backButton="true"
+></apv-page-header>
+
+<ion-content [fullscreen]="true">
+  <ion-row class="ion-justify-content-center ion-margin-vertical">
+    <ion-col size="11" size-md="10" size-lg="8" class="first-col bg-gradiant">
+      <ion-card class="main-card m-0 p-0">
+        <!-- Change Template -->
+        <ion-card class="mt-3">
+          <ion-card-header>
+            <ion-card-title>
+              <ion-label class="text-dark"
+                >{{this.baseService.translate('setting-changeTemp-title')}}</ion-label
+              >
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content
+            class="d-flex flex-row ion-justify-content-between ion-align-items-center"
+          >
+            <div class="d-flex">
+              <div
+                [ngClass]="{'themeSelected' : blueThemeSelected}"
+                class="color-picker d-flex ion-justify-content-center ion-align-items-center m-2"
+                (click)="onChangeTemplate(1, storageService.settingApp.modeName)"
+              >
+                <span class="color firstTheme" style="background: var(--ion-color-primary);"></span>
+                <span class="color colorTwo firstTheme" style="background: var(--ion-color-secondary);"></span>
+              </div>
+              <div
+                [ngClass]="{'themeSelected' : orangeThemeSelected}"
+                class="color-picker d-flex ion-justify-content-center ion-align-items-center m-2"
+                (click)="onChangeTemplate(2, storageService.settingApp.modeName)"
+              >
+                <span class="color secondTheme" style="background: var(--ion-color-primary);"></span>
+                <span class="color colorTwo secondTheme" style="background: var(--ion-color-secondary);"></span>
+              </div>
+            </div>
+            <div class="d-flex">
+              <div
+                [ngClass]="{'modeSelected' : lightModeSelected}"
+                class="color-picker d-flex ion-justify-content-center ion-align-items-center m-2"
+                (click)="onChangeTemplate(storageService.settingApp.themeId, 'light')"
+              >
+                <ion-icon name="sunny-outline" class="text-xxlarge"></ion-icon>
+              </div>
+              <div
+                [ngClass]="{'modeSelected' : darkModeSelected}"
+                class="color-picker d-flex ion-justify-content-center ion-align-items-center m-2"
+                (click)="onChangeTemplate(storageService.settingApp.themeId, 'dark')"
+              >
+                <ion-icon name="moon-outline" class="text-xxlarge"></ion-icon>
+              </div>
+            </div>
+          </ion-card-content>
+        </ion-card>
+
+        <!-- Change Language -->
+        <ion-card class="mt-3">
+          <ion-card-header>
+            <ion-card-title>
+              <ion-label class="text-dark"
+                >{{this.baseService.translate('setting-changeLng-title')}}</ion-label
+              >
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content
+            class="d-flex ion-justify-content-evenly ion-align-items-center"
+          >
+            <ion-button
+              *ngFor="let lang of PageData.languages"
+              (click)="onChangeLanguage(lang)"
+              color="{{this.storageService.Language.Caption===lang.Caption ? 'primary' : 'light'}}"
+              >{{lang.Caption}}</ion-button
+            >
+          </ion-card-content>
+        </ion-card>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+</ion-content>

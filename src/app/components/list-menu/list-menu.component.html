@@ -1,0 +1,79 @@
+<div class="list-manu__container pb-0" [ngClass]="{'radius' : router.url !== '/home'}">
+
+  <div *ngIf="!displayDropdown && router.url == '/home' " class="scroll-list">
+    <div *ngFor="let option of menu" class="menuBox mx-2">
+      <a (click)="goToLink(option)" [ngClass]="{'disabled' : option.Disable}">
+        <div class="button mx-auto pt-3">
+
+          <ion-icon *ngIf="(option.MenuType !== MenuType.OuterLink) &&  !option.Icon.startsWith('https:') && !option.Icon.startsWith('/assets')" [name]="option.Icon"
+            class="mx-auto text-xlarge" color="secondary"></ion-icon>
+
+          <ion-icon *ngIf="(option.MenuType === MenuType.OuterLink) && !option.Icon.startsWith('https:') && !option.Icon.startsWith('/assets')" [name]="option.Icon"
+            class="mx-auto text-xlarge" color="tertiary"></ion-icon>
+
+          <img *ngIf="option.Icon.startsWith('https:') || option.Icon.startsWith('/assets')" class="mx-auto text-xlarge menuImg"
+            [src]="option.Icon">
+
+        </div>
+      </a>
+      <p class="mt-2">
+        {{option.Title}}
+      </p>
+    </div>
+  </div>
+
+  <!-- start hidden grid -->
+  <mat-accordion>
+    <mat-expansion-panel [expanded]="displayDropdown" class="list-menu">
+      <ion-row class="dropdown-content mx-auto" #container>
+        <ion-col size-md="2" size="3" *ngFor="let option of options" class="menuBox2">
+          <a (click)="goToLink(option)" [ngClass]="{'disabled' : option.Disable}">
+            <div class="button mx-auto pt-3">
+              <ion-icon *ngIf="!option.Icon.startsWith('https:') && !option.Icon.startsWith('/assets')"
+                [name]="option.Icon" class="text-xlarge" color="secondary"></ion-icon>
+              <img *ngIf="option.Icon.startsWith('https:') || option.Icon.startsWith('/assets')" class="text-xlarge menuImg"
+                [src]="option.Icon">
+            </div>
+          </a>
+          <p class="mt-2 mx-auto">
+            {{option.Title}}
+          </p>
+        </ion-col>
+      </ion-row>
+
+
+      <ion-row class="mt-4">
+        <div class="drop-down-container p-2 mx-auto">
+          <div class="d-flex ion-align-items-center" (click)="displayPackages=!displayPackages">
+            <ion-icon name="caret-down-circle-outline" class="text-xlarge"
+              [ngClass]="{'transform' : displayPackages}"></ion-icon>
+            <span class="mx-2"> {{this.baseService.translate('menu-list-more-options')}} </span>
+          </div>
+          <ion-row style="direction: ltr;" *ngIf="displayPackages">
+            <ion-col size-md="2" size="3" *ngFor="let option of moreOptions" class="menuBox2">
+              <a (click)="goToLink(option)" [ngClass]="{'disabled' : option.Disable}">
+                <div class="button mx-auto pt-3">
+                  <ion-icon *ngIf="!option.Icon.startsWith('https:') && !option.Icon.startsWith('/assets')"
+                    [name]="option.Icon" class="text-xlarge" color="tertiary"></ion-icon>
+                  <img *ngIf="option.Icon.startsWith('https:') || option.Icon.startsWith('/assets')" class="text-xlarge menuImg"
+                    [src]="option.Icon">
+                </div>
+              </a>
+              <p class="mt-2 mx-auto">
+                {{option.Title}}
+              </p>
+            </ion-col>
+          </ion-row>
+        </div>
+      </ion-row>
+
+
+    </mat-expansion-panel>
+  </mat-accordion>
+  <!-- end hidden grid -->
+
+  <ion-row class="ion-justify-content-center arrow mt-1 pb-1">
+    <ion-icon name="chevron-up-circle-outline" class="text-xlarge displayDropdown"
+      (click)="displayDropdown = !displayDropdown" [ngClass]="!displayDropdown ? 'open' : ''"></ion-icon>
+  </ion-row>
+</div>

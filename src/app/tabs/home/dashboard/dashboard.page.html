@@ -1,0 +1,34 @@
+<apv-page-header [isNotifsShown]="PageData.isNotifsShown" [isZeroNotif]="PageData.isNotifEmpty"
+  title="{{this.baseService.translate('home-title-1')}}"></apv-page-header>
+
+<ion-content [fullscreen]="true">
+
+  <apv-notification (isNotifListShown)="getNotifsShownStatus($event)"
+    (isNotifEmpty)="getNotifStatus($event)"></apv-notification>
+
+  <!-- Banner Slider -->
+  <ion-row class="banner-box px-4 pb-0">
+    <ion-col size="11" size-md="8" size-lg="6" class="mx-auto p-0 my-2">
+      <ng-container *ngIf="PageData.Loaded">
+        <apv-carousel [sliderItems]="PageData.Ads"></apv-carousel>
+      </ng-container>
+
+      <ng-container *ngIf="!PageData.Loaded">
+        <div>
+          <ion-thumbnail slot="start">
+            <ion-skeleton-text [animated]="true" class="w-full"></ion-skeleton-text>
+          </ion-thumbnail>
+        </div>
+      </ng-container>
+
+    </ion-col>
+  </ion-row>
+
+  <!-- News -->
+  <ion-row>
+    <ion-col size="11" size-md="8" class="mx-auto p-0 my-2">
+      <apv-news></apv-news>
+    </ion-col>
+  </ion-row>
+  
+</ion-content>

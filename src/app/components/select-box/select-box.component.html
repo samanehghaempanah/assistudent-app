@@ -1,0 +1,20 @@
+<mat-form-field>
+  <mat-label>{{label}}</mat-label>
+  <mat-select #matSelect class="selectBox" (selectionChange)="onSelectionChange($event)" [(ngModel)]="entityModel" [multiple]="multiple"
+    (appScrollEnd)="loadAllOnScroll()">
+
+    <div class="searchBox" *ngIf="searchable">
+      <ion-icon name="search-outline" class="mx-2"></ion-icon>
+      <form [formGroup]="PageData.formGroup">
+        <input type="text" matInput formControlName="myControl"
+          placeholder="{{this.baseService.translate('common-selectBox-search')}}">
+      </form>
+    </div>
+
+     <mat-option *ngIf="!showOptions">None</mat-option>
+
+    <mat-option *ngFor="let item of PageData.filteredOptions" [value]="item">
+      {{item.Title}}
+    </mat-option>
+  </mat-select>
+</mat-form-field>

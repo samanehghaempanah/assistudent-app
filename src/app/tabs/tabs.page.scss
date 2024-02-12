@@ -1,0 +1,17 @@
+.tab-box {
+  width: 70px;
+  padding: 8px 0 !important;
+}
+
+.tab-selected .tab-box {
+  background: rgba(var(--ion-color-primary-rgb), 0.5);
+  border-radius: 15px !important;
+}
+
+ion-tab-button:not(.tab-selected) .tab-box:hover {
+  color: var(--ion-color-secondary) !important;
+}
+
+ion-label {
+  font-size: 9px !important;
+}

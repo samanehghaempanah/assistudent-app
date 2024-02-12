@@ -1,0 +1,100 @@
+<apv-page-header title="{{this.baseService.translate('form-list-title')}}" backButton="true"></apv-page-header>
+
+<apv-scrollableTab  [Tabs]="Categories" [selectedTab]="selectedTab" marginClasses="mt-4 mb-1"
+  (onTabClick)="onTabClick($event)"></apv-scrollableTab>
+
+<ion-content>
+  <ion-row class="ion-justify-content-center ion-margin-vertical">
+    <ion-col size="11" size-md="10" size-lg="8" class="first-col">
+      <div *ngIf="selectedTab === 'list' ">
+        <div class="bg-gradiant mb-4" *ngFor="let form of listModel.Items">
+          <ion-card class="main-card m-0 p-0">
+            <ion-card-header>
+              <ion-card-title class="text-primary">{{form.Title}}</ion-card-title>
+              <ion-chip class="pe-0 me-0 mt-3" *ngIf="form.UserForm_Id"
+                [color]="form.UserForm_Status === FormStatus.Draft ? 'dark' : form.UserForm_Status === FormStatus.Submit ? 'primary' : form.UserForm_Status === FormStatus.Inprogress ? 'warning' : form.UserForm_Status === FormStatus.Reject ? 'danger' : form.UserForm_Status === FormStatus.Accept ? 'success' :'medium'">
+                <ion-badge class="ms-2"
+                  [color]="form.UserForm_Status === FormStatus.Draft ? 'dark' : form.UserForm_Status === FormStatus.Submit ? 'primary' : form.UserForm_Status === FormStatus.Inprogress ? 'warning' : form.UserForm_Status === FormStatus.Reject ? 'danger' : form.UserForm_Status === FormStatus.Accept ? 'success' :'medium'">
+                  {{form.UserForm_FormStatus_Title}}
+                </ion-badge>
+                {{form.UserForm_Update_Date | jdate:'date'}}
+              </ion-chip>
+
+              <ion-chip class="pe-0 me-0 mt-3" *ngIf="form.UserForm_PaymentStatus!==PaymentStatus.Unknown"
+                [color]="form.UserForm_PaymentStatus === PaymentStatus.Repetitious ? 'dark' : form.UserForm_PaymentStatus === PaymentStatus.StartPaymentTransaction ? 'primary' : form.UserForm_PaymentStatus === PaymentStatus.Waiting ? 'warning' : form.UserForm_PaymentStatus === PaymentStatus.Failed ? 'danger' : form.UserForm_PaymentStatus === PaymentStatus.Successfull ? 'success' :'medium'">
+                <ion-badge class="ms-2"
+                  [color]="form.UserForm_PaymentStatus === PaymentStatus.Repetitious ? 'dark' : form.UserForm_PaymentStatus === PaymentStatus.StartPaymentTransaction ? 'primary' : form.UserForm_PaymentStatus === PaymentStatus.Waiting ? 'warning' : form.UserForm_PaymentStatus === PaymentStatus.Failed ? 'danger' : form.UserForm_PaymentStatus === PaymentStatus.Successfull ? 'success' :'medium'">
+                  {{form.UserForm_PaymentStatus_Title}}
+                </ion-badge>
+                {{form.UserForm_PaymentAmount.toLocaleString('en')}}
+                {{this.baseService.translate('common-Currency')}}
+              </ion-chip>
+            </ion-card-header>
+            <ion-card-content *ngIf="!form.UserForm_Id" class="text-long text-base">
+              {{form.Description}}
+            </ion-card-content>
+            <ion-card-content *ngIf="form.UserForm_Id" class="d-flex flex-column text-mediumSize">
+              <ion-text
+                [color]="form.UserForm_Status === FormStatus.Draft ? 'dark' : form.UserForm_Status === FormStatus.Submit ? 'primary' : form.UserForm_Status === FormStatus.Inprogress ? 'warning' : form.UserForm_Status === FormStatus.Reject ? 'danger' : form.UserForm_Status === FormStatus.Accept ? 'success' :'medium'"
+                class="text-mediumSize">{{
+                this.baseService.translate("form-list-level1-descriptionTite")
+                }}</ion-text>
+              {{form.UserForm_Note}}
+            </ion-card-content>
+            <div class="d-flex ion-justify-content-center mb-3">
+              <ion-button *ngIf="!form.UserForm_Id" [disabled]="form.FormType === FormType.Unknown"
+                [routerLink]="['/home/form/view'  , form.Id, form.UserForm_Id ?? 0]">{{
+                this.baseService.translate("form-list-create")
+                }}</ion-button>
+              <ion-button *ngIf="form.UserForm_Id" [disabled]="form.FormType === FormType.Unknown"
+                [routerLink]="['/home/form/view' , form.Id, form.UserForm_Id ?? 0]">{{
+                this.baseService.translate("form-list-view") }}</ion-button>
+            </div>
+          </ion-card>
+          <ion-infinite-scroll *ngIf="listModel.HasNext" threshold="100px" (ionInfinite)="loadData($event)">
+            <ion-infinite-scroll-content loadingSpinner="crescent"
+              loadingText="{{baseService.translate('common-processing')}}">
+            </ion-infinite-scroll-content>
+          </ion-infinite-scroll>
+        </div>
+      </div>
+      <div *ngIf="selectedTab === 'history' ">
+        <div *ngFor="let history of listModel.Items" class="bg-gradiant mb-4">
+          <ion-card class="main-card m-0 p-0" [routerLink]="['/home/form/view' , history.Id, history.UserForm_Id ?? 0]">
+            <ion-card-header>
+              <ion-card-title class="text-primary">{{history.Title}}</ion-card-title>
+              <ion-chip class="pe-0 me-0 mt-3" *ngIf="history.UserForm_Id"
+                [color]="history.UserForm_Status === FormStatus.Draft ? 'dark' : history.UserForm_Status === FormStatus.Submit ? 'primary' : history.UserForm_Status === FormStatus.Inprogress ? 'warning' : history.UserForm_Status === FormStatus.Reject ? 'danger' : history.UserForm_Status === FormStatus.Accept ? 'success' :'medium'">
+                <ion-badge class="ms-2"
+                  [color]="history.UserForm_Status === FormStatus.Draft ? 'dark' : history.UserForm_Status === FormStatus.Submit ? 'primary' : history.UserForm_Status === FormStatus.Inprogress ? 'warning' : history.UserForm_Status === FormStatus.Reject ? 'danger' : history.UserForm_Status === FormStatus.Accept ? 'success' :'medium'">
+                  {{history.UserForm_FormStatus_Title}}
+                </ion-badge>
+                {{history.UserForm_Update_Date | jdate:'date'}}
+              </ion-chip>
+
+              <ion-chip class="pe-0 me-0 mt-3" *ngIf="history.UserForm_PaymentStatus!==PaymentStatus.Unknown"
+                [color]="history.UserForm_PaymentStatus === PaymentStatus.Repetitious ? 'dark' : history.UserForm_PaymentStatus === PaymentStatus.StartPaymentTransaction ? 'primary' : history.UserForm_PaymentStatus === PaymentStatus.Waiting ? 'warning' : history.UserForm_PaymentStatus === PaymentStatus.Failed ? 'danger' : history.UserForm_PaymentStatus === PaymentStatus.Successfull ? 'success' :'medium'">
+                <ion-badge class="ms-2"
+                  [color]="history.UserForm_PaymentStatus === PaymentStatus.Repetitious ? 'dark' : history.UserForm_PaymentStatus === PaymentStatus.StartPaymentTransaction ? 'primary' : history.UserForm_PaymentStatus === PaymentStatus.Waiting ? 'warning' : history.UserForm_PaymentStatus === PaymentStatus.Failed ? 'danger' : history.UserForm_PaymentStatus === PaymentStatus.Successfull ? 'success' :'medium'">
+                  {{history.UserForm_PaymentStatus_Title}}
+                </ion-badge>
+                {{history.UserForm_PaymentAmount.toLocaleString('en')}}
+                {{this.baseService.translate('common-Currency')}}
+              </ion-chip>
+            </ion-card-header>
+            <ion-card-content class="d-flex flex-column text-mediumSize">
+              <ion-text class="text-small">{{this.baseService.translate("visa-list-level1-descriptionTite")}}</ion-text>
+              {{history.UserForm_Note}}
+            </ion-card-content>
+          </ion-card>
+
+          <ion-infinite-scroll *ngIf="listModel.HasNext" threshold="100px" (ionInfinite)="loadData($event)">
+            <ion-infinite-scroll-content loadingSpinner="crescent"
+              loadingText="{{baseService.translate('common-processing')}}">
+            </ion-infinite-scroll-content>
+          </ion-infinite-scroll>
+        </div>
+      </div>
+    </ion-col>
+  </ion-row>
+</ion-content>

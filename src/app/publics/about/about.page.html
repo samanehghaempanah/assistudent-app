@@ -1,0 +1,499 @@
+<apv-page-header title="{{title}}" backButton="true"></apv-page-header>
+
+<apv-scrollableTab [Tabs]="Categories" [selectedTab]="selectedTab"
+  (onTabClick)="onTabClick($event)"></apv-scrollableTab>
+
+<ion-content [fullscreen]="true">
+
+  <!-- AboutApp component -->
+  <ion-row class="ion-justify-content-center ion-margin-vertical" *ngIf="selectedTab === 'AboutApp'">
+    <ion-col size="11" size-md="10" size-lg="8" class="first-col bg-gradiant">
+      <ion-card class="main-card m-0 p-0">
+        <ion-card-header class="mb-3">
+          <p class="text-long text-dark mb-2">
+            {{this.baseService.translate("about-about-app-text1")}}
+          </p>
+          <p class="text-long text-dark mb-2">
+            {{this.baseService.translate("about-about-app-text2")}}
+          </p>
+          <p class="text-long text-dark mb-2">
+            {{this.baseService.translate("about-about-app-text3")}}
+          </p>
+          <p class="text-long text-dark mb-2">
+            {{this.baseService.translate("about-about-app-text4")}}
+          </p>
+          <p class="text-long text-dark mb-2">
+            {{this.baseService.translate("about-about-app-text5")}}
+          </p>
+        </ion-card-header>
+        <ion-card-content class="m-0">
+          <video controls>
+            <source src="https://mydownload.iaun.ac.ir/video/intro.mp4" type="video/mp4" />
+            Your browser does not support HTML video.
+          </video>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+
+  <!-- Version -->
+  <ion-row class="ion-justify-content-center ion-margin-vertical" *ngIf="selectedTab === 'ChangesApp' ">
+    <ion-col size="11" size-md="10" size-lg="8" class="first-col bg-gradiant">
+      <ion-card class="main-card m-0 p-0 version">
+        <ion-card-content>
+          <!-- 1.2.2 -->
+          <ion-list>
+            <ion-item>
+              <ion-text color="secondary">{{this.baseService.translate('common-version')}} 1.2.2</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text>*
+                {{this.baseService.translate('version-list-title17')}}</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text>*
+                {{this.baseService.translate('version-list-title18')}}</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text>*
+                {{this.baseService.translate('version-list-title19')}}</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text>*
+                {{this.baseService.translate('version-list-title20')}}</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text>*
+                {{this.baseService.translate('version-list-title21')}}</ion-text>
+            </ion-item>
+          </ion-list>
+          <!-- 1.1.2 -->
+          <ion-list>
+            <ion-item>
+              <ion-text color="secondary">{{this.baseService.translate('common-version')}} 1.1.2</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text>*
+                {{this.baseService.translate('version-list-title16')}}</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text>*
+                {{this.baseService.translate('version-list-title11')}}</ion-text>
+            </ion-item>
+          </ion-list>
+          <!-- 0.1.15 -->
+          <ion-list>
+            <ion-item>
+              <ion-text color="secondary">{{this.baseService.translate('common-version')}}
+                0.1.15</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text>*
+                {{this.baseService.translate('version-list-title14')}}</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text>*
+                {{this.baseService.translate('version-list-title15')}}</ion-text>
+            </ion-item>
+          </ion-list>
+          <!-- 0.1.12 -->
+          <ion-list>
+            <ion-item>
+              <ion-text color="secondary">{{this.baseService.translate('common-version')}} 0.1.12</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text>*
+                {{this.baseService.translate('version-list-title13')}}</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text>*
+                {{this.baseService.translate('version-list-title8')}}</ion-text>
+            </ion-item>
+          </ion-list>
+          <!-- 0.1.9 -->
+          <ion-list>
+            <ion-item>
+              <ion-text color="secondary">{{this.baseService.translate('common-version')}} 0.1.9</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text>*
+                {{this.baseService.translate('version-list-title8')}}</ion-text>
+            </ion-item>
+          </ion-list>
+          <!-- 0.1.7 -->
+          <ion-list>
+            <ion-item>
+              <ion-text color="secondary">{{this.baseService.translate('common-version')}} 0.1.7</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text>*
+                {{this.baseService.translate('version-list-title13')}}</ion-text>
+            </ion-item>
+          </ion-list>
+          <!-- 0.1.6 -->
+          <ion-list>
+            <ion-item>
+              <ion-text color="secondary">{{this.baseService.translate('common-version')}} 0.1.6</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text>*
+                {{this.baseService.translate('version-list-title9')}}</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text>*
+                {{this.baseService.translate('version-list-title10')}}</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text>*
+                {{this.baseService.translate('version-list-title11')}}</ion-text>
+            </ion-item>
+          </ion-list>
+          <!-- 0.1.5 -->
+          <ion-list>
+            <ion-item>
+              <ion-text color="secondary">{{this.baseService.translate('common-version')}} 0.1.5</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text>*
+                {{this.baseService.translate('version-list-title12')}}</ion-text>
+            </ion-item>
+          </ion-list>
+          <!-- 0.1.4 -->
+          <ion-list>
+            <ion-item>
+              <ion-text color="secondary">{{this.baseService.translate('common-version')}} 0.1.4</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text>*
+                {{this.baseService.translate('version-list-title8')}}</ion-text>
+            </ion-item>
+          </ion-list>
+          <!-- 0.1.3 -->
+          <ion-list>
+            <ion-item>
+              <ion-text color="secondary">{{this.baseService.translate('common-version')}} 0.1.3</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text>*
+                {{this.baseService.translate('version-list-title4')}}</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text>*
+                {{this.baseService.translate('version-list-title5')}}</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text>*
+                {{this.baseService.translate('version-list-title6')}}</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text>*
+                {{this.baseService.translate('version-list-title7')}}</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text>*
+                {{this.baseService.translate('version-list-title8')}}</ion-text>
+            </ion-item>
+          </ion-list>
+          <!-- 0.0.9 -->
+          <ion-list>
+            <ion-item>
+              <ion-text color="secondary">{{this.baseService.translate('common-version')}} 0.0.9</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text>*
+                {{this.baseService.translate('version-list-title1')}}</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text>*
+                {{this.baseService.translate('version-list-title2')}}</ion-text>
+            </ion-item>
+            <ion-item>
+              <ion-text>*
+                {{this.baseService.translate('version-list-title3')}}</ion-text>
+            </ion-item>
+          </ion-list>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+
+  <!-- guide component -->
+  <ion-row class="ion-justify-content-center ion-margin-vertical" *ngIf="selectedTab === 'guide'">
+    <ion-col size="11" size-md="10" size-lg="8" class="first-col">
+      <div class="d-flex flex-column px-4" id="anchorList123">
+        <ion-text color="secondary"
+          class="text-bold my-3">{{this.baseService.translate('about-guidline-headline-title')}}</ion-text>
+        <span (click)="gotoAnchor('profile')" class="d-flex ion-align-items-center mb-1">
+          <ion-icon name="stop" color="primary"></ion-icon>
+          <a class="cursor-pointer me-2">{{this.baseService.translate('about-guidline-profile-title')}}</a>
+        </span>
+        <span (click)="gotoAnchor('setting')" class="d-flex ion-align-items-center mb-1">
+          <ion-icon name="stop" color="primary"></ion-icon>
+          <a class="cursor-pointer me-2">{{this.baseService.translate('about-guidline-setting-title')}}</a>
+        </span>
+        <span (click)="gotoAnchor('score')" class="d-flex ion-align-items-center mb-1">
+          <ion-icon name="stop" color="primary"></ion-icon>
+          <a class="cursor-pointer me-2">{{this.baseService.translate('about-guidline-score&wallet-headline')}}</a>
+        </span>
+        <span (click)="gotoAnchor('menu')" class="d-flex ion-align-items-center mb-1">
+          <ion-icon name="stop" color="primary"></ion-icon>
+          <a class="cursor-pointer me-2">{{this.baseService.translate('about-guidline-menu-headline')}}</a>
+        </span>
+        <span (click)="gotoAnchor('notification')" class="d-flex ion-align-items-center mb-1">
+          <ion-icon name="stop" color="primary"></ion-icon>
+          <a class="cursor-pointer me-2">{{this.baseService.translate('about-guidline-notification-title')}}</a>
+        </span>
+      </div>
+      <ion-card class="main-card d-flex ion-justify-content-around ion-padding">
+        <ion-img [src]="PageData.guidesImage[0].src" class="screenshot w-50"></ion-img>
+        <ion-card class="ion-padding w-50">
+          <ion-card-header class="px-0">
+            <ion-card-title class="space-line text-primary">
+              {{this.baseService.translate('about-guidline-welcome-title')}}
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="text-long p-0 m-0">
+            {{this.baseService.translate('about-guidline-welcome-desc')}}
+          </ion-card-content>
+        </ion-card>
+      </ion-card>
+      <ion-card class="main-card d-flex ion-justify-content-around ion-padding">
+        <ion-img [src]="PageData.guidesImage[1].src" class="screenshot w-50"></ion-img>
+        <ion-card class="ion-padding w-50">
+          <ion-card-header class="px-0">
+            <ion-card-title class="space-line text-primary">
+              {{this.baseService.translate('about-guidline-login-title')}}
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="text-long p-0 m-0">
+            {{this.baseService.translate('about-guidline-login-desc')}}
+          </ion-card-content>
+        </ion-card>
+      </ion-card>
+      <ion-card class="main-card d-flex ion-justify-content-around ion-padding">
+        <ion-img [src]="PageData.guidesImage[2].src" class="screenshot w-50"></ion-img>
+        <ion-card class="ion-padding w-50">
+          <ion-card-header class="px-0">
+            <ion-card-title class="space-line text-primary">
+              {{this.baseService.translate('about-guidline-home-title')}}
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="text-long p-0 m-0">
+            {{this.baseService.translate('about-guidline-home-desc')}}
+          </ion-card-content>
+        </ion-card>
+      </ion-card>
+      <ion-card class="main-card d-flex ion-justify-content-around ion-padding">
+        <ion-img [src]="PageData.guidesImage[3].src" class="screenshot w-50"></ion-img>
+        <ion-card class="ion-padding w-50">
+          <ion-card-header class="px-0">
+            <ion-card-title class="space-line text-primary">
+              {{this.baseService.translate('about-guidline-more-title')}}
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="text-long p-0 m-0">
+            {{this.baseService.translate('about-guidline-more-desc')}}
+          </ion-card-content>
+        </ion-card>
+      </ion-card>
+      <ion-card class="main-card d-flex ion-justify-content-around ion-padding">
+        <ion-img [src]="PageData.guidesImage[4].src" class="screenshot w-50"></ion-img>
+        <ion-card class="ion-padding w-50">
+          <ion-card-header class="px-0">
+            <ion-card-title class="space-line text-primary">
+              {{this.baseService.translate('about-guidline-sidemenu-title')}}
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="p-0 m-0">
+            <p class="text-long my-3">{{this.baseService.translate('about-guidline-sidemenu1-desc')}}</p>
+            <p class="text-long my-3">{{this.baseService.translate('about-guidline-sidemenu2-desc')}}</p>
+            <p class="text-long my-3">{{this.baseService.translate('about-guidline-sidemenu3-desc')}}</p>
+            <p class="text-long my-3">{{this.baseService.translate('about-guidline-sidemenu4-desc')}}</p>
+            <p class="text-long my-3">{{this.baseService.translate('about-guidline-sidemenu5-desc')}}</p>
+          </ion-card-content>
+        </ion-card>
+      </ion-card>
+      <ion-card class="main-card d-flex ion-justify-content-around ion-padding" id="profile">
+        <ion-img [src]="PageData.guidesImage[5].src" class="screenshot w-50"></ion-img>
+        <ion-card class="ion-padding w-50">
+          <ion-card-header class="px-0">
+            <ion-card-title class="space-line text-primary">
+              {{this.baseService.translate('about-guidline-profile-title')}}
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="text-long p-0 m-0">
+            {{this.baseService.translate('about-guidline-profile-desc')}}
+          </ion-card-content>
+        </ion-card>
+      </ion-card>
+      <ion-card class="main-card d-flex ion-justify-content-around ion-padding" id="setting">
+        <ion-img [src]="PageData.guidesImage[6].src" class="screenshot w-50"></ion-img>
+        <ion-card class="ion-padding w-50">
+          <ion-card-header class="px-0">
+            <ion-card-title class="space-line text-primary">
+              {{this.baseService.translate('about-guidline-setting-title')}}
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="text-long p-0 m-0">
+            {{this.baseService.translate('about-guidline-setting-desc')}}
+          </ion-card-content>
+        </ion-card>
+      </ion-card>
+      <ion-card class="main-card d-flex ion-justify-content-around ion-padding" id="score">
+        <ion-img [src]="PageData.guidesImage[7].src" class="screenshot w-50"></ion-img>
+        <ion-card class="ion-padding w-50">
+          <ion-card-header class="px-0">
+            <ion-card-title class="space-line text-primary">
+              {{this.baseService.translate('about-guidline-score-title')}}
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="text-long p-0 m-0">
+            {{this.baseService.translate('about-guidline-score-desc')}}
+          </ion-card-content>
+        </ion-card>
+      </ion-card>
+      <ion-card class="main-card d-flex ion-justify-content-around ion-padding">
+        <ion-img [src]="PageData.guidesImage[8].src" class="screenshot w-50"></ion-img>
+        <ion-card class="ion-padding w-50">
+          <ion-card-header class="px-0">
+            <ion-card-title class="space-line text-primary">
+              {{this.baseService.translate('about-guidline-wallet-title')}}
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="text-long p-0 m-0">
+            {{this.baseService.translate('about-guidline-wallet-desc')}}
+          </ion-card-content>
+        </ion-card>
+      </ion-card>
+      <ion-card class="main-card d-flex ion-justify-content-around ion-padding" id="menu"
+        *ngIf="!PageData.isNonIranian">
+        <ion-img [src]="PageData.guidesImage[15].src" class="screenshot w-50"></ion-img>
+        <ion-card class="ion-padding w-50">
+          <ion-card-header class="px-0">
+            <ion-card-title class="space-line text-primary">
+              {{this.baseService.translate('about-guidline-studentcard-title')}}
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="text-long p-0 m-0">
+            {{this.baseService.translate('about-guidline-studentcard-desc')}}
+          </ion-card-content>
+        </ion-card>
+      </ion-card>
+      <!-- <ion-card class="main-card d-flex ion-justify-content-around ion-padding">
+        <ion-img src="assets/icon/help/classmate.PNG" class="screenshot w-50"></ion-img>
+        <ion-card class="ion-padding w-50">
+          <ion-card-header class="px-0">
+            <ion-card-title class="space-line text-primary">
+              {{this.baseService.translate('about-guidline-classmate-title')}}
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="text-long p-0 m-0">
+            {{this.baseService.translate('about-guidline-classmate-desc')}}
+          </ion-card-content>
+        </ion-card>
+      </ion-card> -->
+      <ion-card class="main-card d-flex ion-justify-content-around ion-padding" *ngIf="PageData.isNonIranian">
+        <ion-img [src]="PageData.guidesImage[9].src" class="screenshot w-50"></ion-img>
+        <ion-card class="ion-padding w-50">
+          <ion-card-header class="px-0">
+            <ion-card-title class="space-line text-primary">
+              {{this.baseService.translate('about-guidline-forms-title')}}
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="text-long p-0 m-0">
+            {{this.baseService.translate('about-guidline-forms-desc')}}
+          </ion-card-content>
+        </ion-card>
+      </ion-card>
+      <ion-card class="main-card d-flex ion-justify-content-around ion-padding">
+        <ion-img [src]="PageData.guidesImage[10].src" class="screenshot w-50"></ion-img>
+        <ion-card class="ion-padding w-50">
+          <ion-card-header class="px-0">
+            <ion-card-title class="space-line text-primary">
+              {{this.baseService.translate('about-guidline-location-title')}}
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="text-long p-0 m-0">
+            {{this.baseService.translate('about-guidline-location-desc')}}
+          </ion-card-content>
+        </ion-card>
+      </ion-card>
+      <ion-card class="main-card d-flex ion-justify-content-around ion-padding">
+        <ion-img [src]="PageData.guidesImage[11].src" class="screenshot w-50"></ion-img>
+        <ion-card class="ion-padding w-50">
+          <ion-card-header class="px-0">
+            <ion-card-title class="space-line text-primary">
+              {{this.baseService.translate('about-guidline-gps-title')}}
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="text-long p-0 m-0">
+            {{this.baseService.translate('about-guidline-gps-desc')}}
+          </ion-card-content>
+        </ion-card>
+      </ion-card>
+      <!-- <ion-card class="main-card d-flex ion-justify-content-around ion-padding">
+        <ion-img [src]="PageData.guidesImage[14].src" class="screenshot w-50"></ion-img>
+        <ion-card class="ion-padding w-50">
+          <ion-card-header class="px-0">
+            <ion-card-title class="space-line text-primary">
+              {{this.baseService.translate('about-guidline-offer-title')}}
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="text-long p-0 m-0">
+            {{this.baseService.translate('about-guidline-offer-desc')}}
+          </ion-card-content>
+        </ion-card>
+      </ion-card> -->
+      <ion-card class="main-card d-flex ion-justify-content-around ion-padding">
+        <ion-img [src]="PageData.guidesImage[12].src" class="screenshot w-50"></ion-img>
+        <ion-card class="ion-padding w-50">
+          <ion-card-header class="px-0">
+            <ion-card-title class="space-line text-primary">
+              {{this.baseService.translate('about-guidline-gate-title')}}
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="text-long p-0 m-0">
+            {{this.baseService.translate('about-guidline-gate-desc')}}
+          </ion-card-content>
+        </ion-card>
+      </ion-card>
+      <ion-card class="main-card d-flex ion-justify-content-around ion-padding" id="notification">
+        <ion-img [src]="PageData.guidesImage[13].src" class="screenshot w-50"></ion-img>
+        <ion-card class="ion-padding w-50">
+          <ion-card-header class="px-0">
+            <ion-card-title class="space-line text-primary">
+              {{this.baseService.translate('about-guidline-notification-title')}}
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="text-long p-0 m-0">
+            {{this.baseService.translate('about-guidline-notification-desc')}}
+          </ion-card-content>
+        </ion-card>
+      </ion-card>
+      <!-- <ion-card class="main-card d-flex ion-justify-content-around ion-padding">
+        <ion-img
+          src="assets/icon/help/chat.PNG"
+          class="screenshot w-50"
+        ></ion-img>
+        <ion-card class="ion-padding w-50">
+          <ion-card-header class="px-0">
+            <ion-card-title class="space-line text-primary">
+              {{this.baseService.translate('about-guidline-chat-title')}}
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content class="text-long p-0 m-0">
+            {{this.baseService.translate('about-guidline-chat-desc')}}
+          </ion-card-content>
+        </ion-card>
+      </ion-card> -->
+    </ion-col>
+    <div class="goToTopBtn">
+      <ion-fab (click)="gotoAnchor('anchorList123')" vertical="bottom" horizontal="end" slot="fixed">
+        <ion-fab-button class="toolbar-color" size="small" color="secondary">
+          <ion-icon name="arrow-up" class="jump text-xlarge"></ion-icon>
+        </ion-fab-button>
+      </ion-fab>
+    </div>
+  </ion-row>
+
+</ion-content>

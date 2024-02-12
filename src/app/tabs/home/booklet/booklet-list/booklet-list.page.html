@@ -1,0 +1,516 @@
+<apv-page-header title="{{this.baseService.translate('home-menu-handout')}}" backButton="true"></apv-page-header>
+
+<!-- Searchbar -->
+<apv-search *ngIf="selectedTab != 'newBooklet'" marginClasses="mt-3" paddingClasses="px-0"
+  placeholder="{{baseService.translate('Booklet-list-searchbar-placeholder')}}"
+  (onSearchClick)="onSearchClick($event)"></apv-search>
+
+<!-- Common Tabs -->
+<apv-scrollableTab [Tabs]="Categories" [selectedTab]="selectedTab" (onTabClick)="onTabClick($event)"
+  marginClasses="mt-1 mb-0"></apv-scrollableTab>
+
+<!-- myBooklet Tab Active For Teacher -->
+<apv-scrollableTab *ngIf="PageData.isTeacher && selectedTab === 'myBooklet'" [Tabs]="MyBookletCategories"
+  [selectedTab]="MyBookletselectedTab" (onTabClick)="onMyBookletTabClick($event)"
+  marginClasses="mt-1 mb-1"></apv-scrollableTab>
+
+<!-- FilterBox -->
+<ion-row *ngIf="!PageData.showBookletDetails && !PageData.showHeadlines && selectedTab != 'newBooklet'">
+  <ion-col size="11" size-md="10" size-lg="8" class="mx-auto">
+    <div class="filter-box d-flex flex-column ion-justify-content-end ion-align-items-start m-0 py-1">
+      <ion-select interface="popover" class="text-dark" (ionChange)="onFilterBox($event)"
+        [ngClass]="this.baseService.language().Direction === 'rtl' ? 'rtl' : ''" (ionChange)="advanceSearch()"
+        value="newest">
+        <ion-select-option value="newest">{{baseService.translate('Booklet-filterbox-newest')}}</ion-select-option>
+        <ion-select-option
+          value="bestselling">{{baseService.translate('Booklet-filterbox-bestselling')}}</ion-select-option>
+        <ion-select-option
+          value="expensive">{{baseService.translate('Booklet-filterbox-expensive')}}</ion-select-option>
+        <ion-select-option value="cheapest">{{baseService.translate('Booklet-filterbox-cheapest')}}</ion-select-option>
+      </ion-select>
+    </div>
+  </ion-col>
+</ion-row>
+
+<ion-content [fullscreen]="true">
+  <!-- allItem -->
+  <ion-row class="d-flex"
+    *ngIf="selectedTab === 'allItem' && !PageData.showBookletDetails && !PageData.showUserBookletDetails">
+    <ion-col size="11" size-md="10" size-lg="8" class="mx-auto">
+      <ion-row *ngIf="PageData.listModel.TotalCount > 0">
+        <ion-col size="6" size-md="4" size-lg="3" class="card-cursor d-flex ion-align-items-center my-1"
+          *ngFor="let item of PageData.listModel.Items;let index = index; let lastItem = last;">
+          <ion-card class="flex-1 text-center m-2 my-3 p-2">
+            <div (click)="showBookletDetails(item)">
+              <img *ngIf="item.CoverImageFile?.length>0" [alt]="item.Title" [src]="item.CoverImageFile"
+                class="booklet-img" />
+              <img *ngIf="!item.CoverImageFile && item.CoverImageFile?.length===0" [alt]="item.Title"
+                src="./assets/files/booklet-nophoto.png" class="booklet-img" />
+              <ion-card-header class="text-center p-0">
+                <ion-card-title class="text-long text-center text-ellipsis text-small">{{item.Title}} -
+                  {{item.Lesson_Title}}</ion-card-title>
+                <ion-card-subtitle class="text-long text-center text-small">{{item.Teacher_FirstName}}
+                  {{item.Teacher_LastName}}</ion-card-subtitle>
+              </ion-card-header>
+            </div>
+            <ion-card-content class="d-flex ion-justify-content-center ion-align-items-center px-0">
+              <div (click)="payment(item)"
+                class="basket-icon d-flex ion-justify-content-around ion-align-items-center p-1 px-3">
+                <mat-icon
+                  class="material-symbols-outlined d-flex ion-justify-content-end ion-align-items-center text-small text-light">
+                  shopping_cart
+                </mat-icon>
+                <ion-text class="text-small text-light">
+                  {{item.Price}} {{baseService.translate('score-page-title')}}
+                </ion-text>
+              </div>
+            </ion-card-content>
+          </ion-card>
+          <div
+            *ngIf="(!lastItem && (PageData.window==='mobile' && (index+1)%2!=0)) || (!lastItem && (PageData.window==='tablet' && (index+1)%3!=0)) || (!lastItem && (PageData.window==='desktop' && (index+1)%4!=0))"
+            class="vertical-divider mt-4"></div>
+        </ion-col>
+      </ion-row>
+
+      <div class="text-center" *ngIf="PageData.listModel.TotalCount === 0">
+        {{baseService.translate('Booklet-allItem-emptyList')}}
+      </div>
+
+    </ion-col>
+  </ion-row>
+
+  <!-- myBooklet -->
+  <div *ngIf="selectedTab === 'myBooklet'">
+    <!-- myBooklet && bought -->
+    <ion-row class="d-flex pb-5"
+      *ngIf="(PageData.isTeacher && !PageData.showBookletDetails && !PageData.showUserBookletDetails && !PageData.showHeadlines && MyBookletselectedTab !== 'uploaded') || (!PageData.isTeacher && !PageData.showBookletDetails && !PageData.showUserBookletDetails && !PageData.showHeadlines)">
+      <ion-col size="11" size-md="10" size-lg="8" class="mx-auto">
+        <ion-row *ngIf="PageData.listModel.TotalCount > 0">
+          <ion-col size="6" size-md="4" size-lg="3" class="card-cursor d-flex ion-align-items-center my-1"
+            *ngFor="let item of PageData.listModel.Items;let index = index; let lastItem = last;"
+            (click)="showUserBookletDetails(item)">
+            <ion-card class="flex-1 text-center m-2 my-3 p-2">
+              <img *ngIf="item.Booklet_CoverImageFile?.length>0" [alt]="item.Title" [src]="item.Booklet_CoverImageFile"
+                class="booklet-img" />
+              <img *ngIf="!item.Booklet_CoverImageFile && item.Booklet_CoverImageFile?.length===0"
+                [alt]="item.Booklet_Title" src="./assets/files/booklet-nophoto.png" class="booklet-img" />
+              <ion-card-header class="text-center p-0">
+                <ion-card-title class="text-long text-center text-ellipsis text-small">{{item.Booklet_Title}} -
+                  {{item.Booklet_Lesson_Title}}</ion-card-title>
+                <ion-card-subtitle class="text-long text-center text-small">{{item.Booklet_Teacher_FirstName}}
+                  {{item.Booklet_Teacher_LastName}}</ion-card-subtitle>
+              </ion-card-header>
+            </ion-card>
+            <div
+              *ngIf="(!lastItem && (PageData.window==='mobile' && (index+1)%2!=0)) || (!lastItem && (PageData.window==='tablet' && (index+1)%3!=0)) || (!lastItem && (PageData.window==='desktop' && (index+1)%4!=0))"
+              class="vertical-divider mt-4"></div>
+          </ion-col>
+
+        </ion-row>
+
+        <div class="text-center" *ngIf="PageData.listModel.TotalCount ===  0">
+          {{baseService.translate('Booklet-bought-emptyList')}}
+        </div>
+      </ion-col>
+    </ion-row>
+
+    <!-- myBooklet && uploaded -->
+    <ion-row class="d-flex pb-5"
+      *ngIf="MyBookletselectedTab === 'uploaded' && PageData.isTeacher && !PageData.showBookletDetails && !PageData.showHeadlines">
+      <ion-col size="11" size-md="10" size-lg="8" class="mx-auto">
+        <ion-row *ngIf="PageData.listModel.TotalCount > 0">
+          <ion-col size="6" size-md="4" size-lg="3" class="card-cursor d-flex ion-align-items-center my-1"
+            *ngFor="let item of PageData.listModel.Items;let index = index; let lastItem = last;"
+            (click)="showBookletDetails(item)">
+            <ion-card class="flex-1 text-center m-2 my-3 p-2">
+              <img *ngIf="item.CoverImageFile?.length>0" [alt]="item.Title" [src]="item.CoverImageFile"
+                class="booklet-img" />
+              <img *ngIf="!item.CoverImageFile && item.CoverImageFile?.length===0" [alt]="item.Title"
+                src="./assets/files/booklet-nophoto.png" class="booklet-img" />
+              <ion-card-header class="text-center p-0">
+                <ion-card-title class="text-long text-center text-ellipsis text-small">{{item.Title}} -
+                  {{item.Lesson_Title}}</ion-card-title>
+                <ion-card-subtitle class="text-long text-center text-small">{{item.Teacher_FirstName}}
+                  {{item.Teacher_LastName}}</ion-card-subtitle>
+              </ion-card-header>
+            </ion-card>
+            <div
+              *ngIf="(!lastItem && (PageData.window==='mobile' && (index+1)%2!=0)) || (!lastItem && (PageData.window==='tablet' && (index+1)%3!=0)) || (!lastItem && (PageData.window==='desktop' && (index+1)%4!=0))"
+              class="vertical-divider mt-4"></div>
+          </ion-col>
+        </ion-row>
+
+        <div class="text-center" *ngIf="PageData.listModel.TotalCount === 0">
+          {{baseService.translate('Booklet-upload-emptyList')}}
+        </div>
+
+      </ion-col>
+    </ion-row>
+  </div>
+
+  <!-- UserBooklet View Details -->
+  <ion-row
+    *ngIf="(selectedTab === 'allItem' || selectedTab === 'myBooklet') && (PageData.showUserBookletDetails && !PageData.showBookletDetails && !PageData.showHeadlines && !PageData.Waiting)"
+    class="my-1 pb-1">
+    <ion-col size="11" size-md="10" size-lg="8" class="mx-auto">
+      <ion-card class="d-flex ion-justify-content-start m-0">
+        <img *ngIf="PageData.userBookletDetails.Booklet.CoverImageFile?.length>0"
+          [alt]="PageData.userBookletDetails.Booklet.Title" [src]="PageData.userBookletDetails.Booklet.CoverImageFile"
+          class="view-booklet-img" />
+        <img
+          *ngIf="!PageData.userBookletDetails.Booklet.CoverImageFile && PageData.userBookletDetails.Booklet.CoverImageFile?.length===0"
+          [alt]="PageData.userBookletDetails.Booklet.Title" src="./assets/files/booklet-nophoto.png"
+          class="view-booklet-img" />
+        <div class="flex-1 p-1 py-2 mx-1" style="width:50%;">
+          <ion-card-header class="p-0">
+            <ion-card-title>{{PageData.userBookletDetails.Booklet.Title}}
+              {{PageData.userBookletDetails.Booklet.Lesson_Title ? '-' : ''}}
+              {{PageData.userBookletDetails.Booklet.Lesson_Title}}</ion-card-title>
+            <ion-card-subtitle class="mt-1">{{PageData.userBookletDetails.Booklet.Teacher_FirstName}}
+              {{PageData.userBookletDetails.Booklet.Teacher_LastName}}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content class="d-flex flex-column px-0 pb-2">
+            <ion-text *ngIf="PageData.userBookletDetails.CreateDate">
+              {{baseService.translate('Booklet-view-userbooklet-CreateDate')}}: {{PageData.userBookletDetails.CreateDate
+              | jdate:'info'}}
+            </ion-text>
+            <span *ngIf="PageData.userBookletDetails.Booklet.Price"
+              class="mt-1">{{PageData.userBookletDetails.Booklet.Price}}
+              {{baseService.translate('score-page-title')}}</span>
+          </ion-card-content>
+          <div class="d-flex column-gap">
+            <!-- <ion-button fill="outline" (click)="openHeadlines()"
+              style="min-width:0px!important;">{{baseService.translate('Booklet-view-booklet-headlines')}}</ion-button> -->
+            <ion-button color="primary" (click)="openBooklet(PageData.userBookletDetails.Booklet)"
+              style="min-width:50px!important;">{{baseService.translate('Booklet-view-booklet-study')}}</ion-button>
+          </div>
+        </div>
+      </ion-card>
+    </ion-col>
+    <ion-col size="11" size-md="10" size-lg="8" class="text-center mx-auto mt-2">
+      <ion-button *ngIf="PageData.userBookletDetails.Booklet_Title" color="dark"
+        (click)="return(selectedTab, MyBookletselectedTab, 'showUserBookletDetails')">
+        {{this.baseService.translate("signup-return")}}
+      </ion-button>
+    </ion-col>
+  </ion-row>
+
+
+  <!-- Booklet View Details -->
+  <ion-row
+    *ngIf="(selectedTab === 'allItem' || selectedTab === 'myBooklet') && (PageData.showBookletDetails && !PageData.showUserBookletDetails && !PageData.showHeadlines && !PageData.Waiting)"
+    class="my-1 pb-1">
+    <ion-col size="11" size-md="10" size-lg="8" class="mx-auto">
+      <ion-card class="d-flex ion-justify-content-start m-0">
+        <img *ngIf="PageData.bookletDetails.CoverImageFile?.length>0" [alt]="PageData.bookletDetails.Title"
+          [src]="PageData.bookletDetails.CoverImageFile" class="view-booklet-img" />
+        <img *ngIf="!PageData.bookletDetails.CoverImageFile && PageData.bookletDetails.CoverImageFile?.length===0"
+          [alt]="PageData.bookletDetails.Title" src="./assets/files/booklet-nophoto.png" class="view-booklet-img" />
+        <div class="flex-1 p-1 py-2 mx-1" style="width:50%;">
+          <ion-card-header class="p-0">
+            <ion-card-title>{{PageData.bookletDetails.Title}} {{PageData.bookletDetails.Lesson_Title ? '-' : ''}}
+              {{PageData.bookletDetails.Lesson_Title}}</ion-card-title>
+            <ion-card-subtitle class="mt-1">{{PageData.bookletDetails.Teacher_FirstName}}
+              {{PageData.bookletDetails.Teacher_LastName}}</ion-card-subtitle>
+          </ion-card-header>
+          <ion-card-content class="d-flex flex-column px-0 pb-2">
+            <ion-text *ngIf="PageData.bookletDetails.Description">
+              {{baseService.translate('form-view-description')}}: {{PageData.bookletDetails.Description}}
+            </ion-text>
+            <span *ngIf="PageData.bookletDetails.Price" class="mt-1">{{PageData.bookletDetails.Price}}
+              {{baseService.translate('score-page-title')}}</span>
+          </ion-card-content>
+          <div class="d-flex column-gap">
+            <!-- <ion-button fill="outline" (click)="openHeadlines()"
+              style="min-width:0px!important;">{{baseService.translate('Booklet-view-booklet-headlines')}}</ion-button> -->
+            <ion-button *ngIf="PageData.bookletDetails.Mine || PageData.bookletDetails.UserBooklet_Id>0" color="primary"
+              (click)="openBooklet(PageData.bookletDetails)"
+              style="min-width:50px!important;">{{baseService.translate('Booklet-view-booklet-study')}}</ion-button>
+            <ion-button *ngIf="PageData.bookletDetails.Mine" fill="outline" style="min-width:50px!important;"
+              (click)="onEditBooklet(PageData.bookletDetails)">{{baseService.translate('common-btn-edit')}}</ion-button>
+            <ion-button *ngIf="PageData.bookletDetails.Mine" fill="outline" color="danger"
+              (click)="onDeleteBooklet(PageData.bookletDetails)"
+              style="min-width:50px!important;">{{baseService.translate('common-btn-delete')}}</ion-button>
+            <ion-button *ngIf="!PageData.bookletDetails.Mine && PageData.bookletDetails.UserBooklet_Id===0"
+              color="primary" (click)="payment(PageData.bookletDetails)"
+              style="min-width:50px!important;">{{baseService.translate('Booklet-view-booklet-payment')}}</ion-button>
+          </div>
+        </div>
+      </ion-card>
+    </ion-col>
+    <ion-col size="11" size-md="10" size-lg="8" class="text-center mx-auto mt-2">
+      <ion-button *ngIf="PageData.bookletDetails.Title" color="dark"
+        (click)="return(selectedTab, MyBookletselectedTab, 'showBookletDetails')">
+        {{this.baseService.translate("signup-return")}}
+      </ion-button>
+    </ion-col>
+  </ion-row>
+
+
+  <!-- Sale Status -->
+  <ion-row
+    *ngIf="selectedTab === 'myBooklet' && PageData.showBookletDetails && PageData.bookletDetails.Title && !PageData.showHeadlines">
+    <ion-col size="11" size-md="10" size-lg="8" class="mx-auto">
+      <div class="d-flex flex-column">
+        <ion-list (click)="openSaleStatus()" style="cursor: pointer;">
+          <div class="d-flex ion-align-items-center column-gap p-2">
+            <ion-icon *ngIf="!PageData.showSaleStatus && this.baseService.language().Direction === 'rtl'"
+              class="text-large" name="caret-back-circle"></ion-icon>
+            <ion-icon *ngIf="!PageData.showSaleStatus && this.baseService.language().Direction === 'ltr'"
+              class="text-large" name="caret-forward-circle"></ion-icon>
+            <ion-icon *ngIf="PageData.showSaleStatus" class="text-large" name="caret-down-circle"></ion-icon>
+            {{baseService.translate('Booklet-myBooklet-list-tabs-status')}}
+          </div>
+        </ion-list>
+        <div *ngIf="PageData.showSaleStatus"
+          class="d-flex flex-column ion-align-items-start ion-justify-content-center p-2">
+          <div class="d-flex ion-justify-content-between w-100">
+            <div class="status-balance text-small p-1">{{baseService.translate('Booklet-view-booklet-balance')}}:
+              {{this.PageData.SaleStatus.TotalSold}}
+              {{baseService.translate('score-page-title')}}</div>
+            <div class="text-small">{{baseService.translate('Booklet-view-booklet-totalsales')}}:
+              {{PageData.SaleStatus.TotalCount}}
+              {{baseService.translate('common-version')}}</div>
+          </div>
+          <!-- <div class="d-flex ion-justify-content-between column-gap w-100 my-2">
+            <div class="d-flex ion-justify-content-between ion-align-items-center">
+              <ion-text class="w-50 text-small">{{baseService.translate('Booklet-view-booklet-date-from')}}:</ion-text>
+              <apv-datepickerfa *ngIf="!PageData.isNonIranian"></apv-datepickerfa>
+              <apv-datepickeren *ngIf="PageData.isNonIranian"></apv-datepickeren>
+            </div>
+            <div class="d-flex ion-justify-content-between ion-align-items-center">
+              <ion-text class="w-50 text-small">{{baseService.translate('Booklet-view-booklet-date-to')}}:</ion-text>
+              <apv-datepickerfa *ngIf="!PageData.isNonIranian"></apv-datepickerfa>
+              <apv-datepickeren *ngIf="PageData.isNonIranian"></apv-datepickeren>
+            </div>
+          </div> -->
+
+          <div class="mx-auto w-100">
+            <apx-chart [series]="chartOptions.series" [chart]="chartOptions.chart"
+              [colors]="chartOptions.colors"></apx-chart>
+          </div>
+        </div>
+      </div>
+    </ion-col>
+  </ion-row>
+
+
+  <!-- Headlines -->
+  <ion-row *ngIf="(selectedTab === 'allItem' || selectedTab === 'myBooklet') && PageData.showHeadlines">
+    <ion-col size="11" size-md="10" size-lg="8" class="mx-auto">
+      <div class="d-flex flex-column">
+        <ion-text class="text-bold">{{PageData.bookletDetails.Title}} -
+          {{PageData.bookletDetails.Lesson_Title}}</ion-text>
+        <ion-text class="mt-1">{{PageData.bookletDetails.Teacher_FirstName}}
+          {{PageData.bookletDetails.Teacher_LastName}}</ion-text>
+      </div>
+    </ion-col>
+    <ion-col size="11" size-md="10" size-lg="8" class="bg-gradiant mx-auto mt-2"
+      *ngIf="PageData.bookletDetails.CurriculumFile && PageData.bookletDetails.CurriculumFile?.length>0">
+      <ion-card class="m-0 p-2">
+        <div class="iframe-container">
+          <div class="content-box">
+            <ng-container *ngIf="PageData.Waiting; then loadTemplate; else doneTemplate"></ng-container>
+            <ng-template #loadTemplate>
+              <div class="loading-box">
+                <ion-spinner name="crescent"></ion-spinner>
+                <br />
+                <ion-label>{{this.baseService.translate("common-btn-Connecting")}}</ion-label>
+              </div>
+            </ng-template>
+            <ng-template #doneTemplate>
+              <iframe [src]="PageData.bookletDetails.CurriculumFile | safeURL" frameborder="0"></iframe>
+            </ng-template>
+          </div>
+        </div>
+      </ion-card>
+    </ion-col>
+    <ion-col size="11" size-md="10" size-lg="8" class="text-center mx-auto"
+      *ngIf="!PageData.bookletDetails.CurriculumFile || PageData.bookletDetails.CurriculumFile?.length<=0">
+      <ion-text>{{this.baseService.translate("Booklet-view-booklet-noHeadlines")}}.</ion-text>
+    </ion-col>
+    <ion-col size="11" size-md="10" size-lg="8" class="text-center mx-auto">
+      <ion-button color="primary" (click)="return(selectedTab, MyBookletselectedTab, 'showHeadlines')">
+        {{this.baseService.translate("signup-return")}}
+      </ion-button>
+    </ion-col>
+  </ion-row>
+
+  <!-- Edit Booklet -->
+  <ion-modal [isOpen]="PageData.showEditBookletForm" [backdropDismiss]="false">
+    <ng-template>
+      <ion-content class="ion-padding" style="background-color: var(--ion-color-white);">
+        <ion-row class="mt-2 pb-4">
+          <ion-col size="11" size-md="10" size-lg="8"
+            class="bg-gradiant d-flex flex-column ion-justify-content-center mx-auto my-1">
+            <ion-card class="m-0 p-0" color="light">
+              <ion-card-header class="p-3 my-2 text-bold">
+                <ion-text color="primary">{{this.baseService.translate("common-btn-edit")}}</ion-text>
+              </ion-card-header>
+              <ion-card-content class="px-3">
+                <div class="d-flex flex-column w-100 my-3">
+                  <ion-text>
+                    {{this.baseService.translate("Booklet-new-booklet-title")}}: *
+                  </ion-text>
+                  <ion-input [(ngModel)]="PageData.entityModel.Title" [required]="true"></ion-input>
+                </div>
+                <div class="d-flex flex-column w-100 my-3">
+                  <ion-text>
+                    {{this.baseService.translate("Booklet-new-booklet-lesson")}}: *
+                  </ion-text>
+                  <ion-input [(ngModel)]="PageData.entityModel.Lesson_Title" [required]="true"></ion-input>
+                </div>
+                <div class="d-flex flex-column w-100 my-3">
+                  <ion-text>
+                    {{this.baseService.translate("Booklet-new-booklet-pdf-booklet")}}: *
+                  </ion-text>
+                  <apv-file-uploader [accept]="PageData.FieldType.PdfUploader" [src]="PageData.entityModel.BookletFile"
+                    (responseChange)="uploader($event , 'BookletFile')"></apv-file-uploader>
+                </div>
+                <div class="d-flex flex-column w-100 my-3">
+                  <ion-text>
+                    {{this.baseService.translate("Booklet-new-booklet-img")}}:
+                  </ion-text>
+                  <apv-file-uploader [accept]="PageData.FieldType.ImageUploader"
+                    [src]="PageData.entityModel.CoverImageFile"
+                    (responseChange)="uploader($event , 'CoverImageFile')"></apv-file-uploader>
+                </div>
+                <div class="d-flex flex-column w-100 my-3">
+                  <ion-text>
+                    {{this.baseService.translate("Booklet-new-booklet-majors")}}:
+                  </ion-text>
+                  <apv-select-box [searchable]="true" [OptionItems]="PageData.majorListModel.Items"
+                    (searchValue)="onSearchingSelect($event)" (selectedOption)="selectedMajor($event)"
+                    (scroll)="loadMajors($event)" [scrollable]="true">
+                  </apv-select-box>
+
+                  <div class="d-flex flex-wrap ion-align-items-center mt-1">
+                    <ion-chip *ngFor="let selectedMajor of PageData.entityModel.Majors" color="success">
+                      <ion-icon name="close" (click)="removeSelectedMajor(selectedMajor)"></ion-icon>
+                      <ion-label>{{selectedMajor.Major_Title}}</ion-label>
+                    </ion-chip>
+                  </div>
+                </div>
+                <!-- <div class="d-flex flex-column w-100 my-3">
+                  <ion-text>
+                    {{this.baseService.translate("Booklet-new-booklet-pdf-headlines")}}:
+                  </ion-text>
+                  <apv-file-uploader [accept]="PageData.FieldType.PdfUploader" [src]="PageData.entityModel.CurriculumFile"
+                    (responseChange)="uploader($event , 'CurriculumFile')"></apv-file-uploader>
+                </div> -->
+                <div class="d-flex flex-column w-100 my-3">
+                  <ion-text>
+                    {{this.baseService.translate("Booklet-new-booklet-price")}}:
+                  </ion-text>
+                  <ion-input [(ngModel)]="PageData.entityModel.Price" type="number" [required]="true"></ion-input>
+                </div>
+                <div class="d-flex flex-column w-100 my-3">
+                  <ion-text>
+                    {{this.baseService.translate("Booklet-new-booklet-Description")}}:
+                  </ion-text>
+                  <ion-textarea [autoGrow]="true" [(ngModel)]="PageData.entityModel.Description"
+                    [required]="true"></ion-textarea>
+                </div>
+                <div class="d-flex ion-justify-content-center ion-align-items-center w-100 my-3">
+                  <ion-button [disabled]="PageData.Waiting" color="primary" type="submit"
+                    (click)="submitEditBooklet()">{{this.baseService.translate("common-btn-confirm")}}
+                  </ion-button>
+                  <ion-button [disabled]="PageData.Waiting" color="primary" fill="clear" (click)="onBack('edit')">
+                    {{this.baseService.translate("common-btn-dismiss-informal")}}
+                  </ion-button>
+                </div>
+              </ion-card-content>
+            </ion-card>
+          </ion-col>
+        </ion-row>
+      </ion-content>
+    </ng-template>
+  </ion-modal>
+
+  <!-- New Booklet -->
+  <ion-row *ngIf="selectedTab === 'newBooklet'" class="mt-2">
+    <div class="text-center text-bold w-100 p-2">
+      <ion-text color="primary">{{this.baseService.translate("Booklet-new-booklet-form-title")}}</ion-text>
+    </div>
+    <ion-col size="11" size-md="10" size-lg="8"
+      class="bg-gradiant d-flex flex-column ion-justify-content-center mx-auto my-1">
+      <ion-card class="m-0 p-0" color="light">
+        <ion-card-content class="px-3 py-1">
+          <div class="d-flex flex-column w-100 my-3">
+            <ion-text>
+              {{this.baseService.translate("Booklet-new-booklet-title")}}: *
+            </ion-text>
+            <ion-input [(ngModel)]="PageData.entityModel.Title" [required]="true"></ion-input>
+          </div>
+          <div class="d-flex flex-column w-100 my-3">
+            <ion-text>
+              {{this.baseService.translate("Booklet-new-booklet-lesson")}}: *
+            </ion-text>
+            <ion-input [(ngModel)]="PageData.entityModel.Lesson_Title" [required]="true"></ion-input>
+          </div>
+          <div class="d-flex flex-column w-100 my-3">
+            <ion-text>
+              {{this.baseService.translate("Booklet-new-booklet-pdf-booklet")}}: *
+            </ion-text>
+            <apv-file-uploader [accept]="PageData.FieldType.PdfUploader"
+              (responseChange)="uploader($event , 'BookletFile')"></apv-file-uploader>
+          </div>
+          <div class="d-flex flex-column w-100 my-3">
+            <ion-text>
+              {{this.baseService.translate("Booklet-new-booklet-img")}}:
+            </ion-text>
+            <apv-file-uploader [accept]="PageData.FieldType.ImageUploader"
+              (responseChange)="uploader($event , 'CoverImageFile')"></apv-file-uploader>
+          </div>
+          <div class="d-flex flex-column w-100 my-3">
+            <ion-text>
+              {{this.baseService.translate("Booklet-new-booklet-majors")}}:
+            </ion-text>
+            <apv-select-box [searchable]="true" [OptionItems]="PageData.majorListModel.Items"
+              (searchValue)="onSearchingSelect($event)" (selectedOption)="selectedMajor($event)"
+              (scroll)="loadMajors($event)" [scrollable]="true">
+            </apv-select-box>
+            <div class="d-flex flex-wrap ion-align-items-center mt-1">
+              <ion-chip *ngFor="let selectedMajor of PageData.entityModel.Majors" color="success">
+                <ion-icon name="close" (click)="removeSelectedMajor(selectedMajor)"></ion-icon>
+                <ion-label>{{selectedMajor.Major_Title}}</ion-label>
+              </ion-chip>
+            </div>
+          </div>
+          <!-- <div class="d-flex flex-column w-100 my-3">
+            <ion-text>
+              {{this.baseService.translate("Booklet-new-booklet-pdf-headlines")}}:
+            </ion-text>
+            <apv-file-uploader [accept]="PageData.FieldType.PdfUploader"
+              (responseChange)="uploader($event , 'CurriculumFile')"></apv-file-uploader>
+          </div> -->
+          <div class="d-flex flex-column w-100 my-3">
+            <ion-text>
+              {{this.baseService.translate("Booklet-new-booklet-price")}}:
+            </ion-text>
+            <ion-input [(ngModel)]="PageData.entityModel.Price" type="number" [required]="true"></ion-input>
+          </div>
+          <div class="d-flex flex-column w-100 my-3">
+            <ion-text>
+              {{this.baseService.translate("Booklet-new-booklet-Description")}}:
+            </ion-text>
+            <ion-textarea [autoGrow]="true" [(ngModel)]="PageData.entityModel.Description"
+              [required]="true"></ion-textarea>
+          </div>
+          <div class="d-flex ion-justify-content-center ion-align-items-center w-100 my-3">
+            <ion-button
+              [disabled]="(PageData.Waiting || (!PageData.entityModel.BookletFile || !PageData.entityModel.Title || !PageData.entityModel.Lesson_Title))"
+              color="primary" type="submit"
+              (click)="submitNewBooklet()">{{this.baseService.translate("common-btn-confirm")}}
+            </ion-button>
+            <ion-button [disabled]="PageData.Waiting" color="primary" fill="clear" (click)="onBack('new')">
+              {{this.baseService.translate("common-btn-dismiss-informal")}}
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+
+
+</ion-content>

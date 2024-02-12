@@ -1,0 +1,26 @@
+<div class="dateBox d-flex ion-align-items-center ion-justify-content-between">
+  <span class="w-100">
+    <ion-input (click)="setOpen(true)" [value]="DateValueSelected" class="mx-2"></ion-input>
+  </span>
+  <span class="d-flex ion-align-items-center" style="cursor: pointer;">
+    <ion-icon name="calendar-outline" class="mx-2" (click)="setOpen(true)"></ion-icon>
+  </span>
+</div>
+
+<ion-modal [isOpen]="isModalOpen" [backdropDismiss]="false">
+  <ng-template>
+    <ion-header>
+      <ion-toolbar class="d-flex">
+        <ion-title>{{this.baseService.translate('date-form-Modal-title')}}</ion-title>
+        <ion-buttons slot="end">
+          <ion-button fill="clear"
+          (click)="setOpen(false)">{{this.baseService.translate('common-btn-dismiss-informal')}}</ion-button>
+        </ion-buttons>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content class="ion-padding" style="background-color: #fff;">
+      <mat-calendar [(selected)]="DateValue"></mat-calendar>
+      <ion-button class="submit mx-auto" *ngIf="DateValue != null" (click)="onSetDate(DateValue)">{{this.baseService.translate('common-btn-confirm')}}</ion-button>
+    </ion-content>
+  </ng-template>
+</ion-modal>

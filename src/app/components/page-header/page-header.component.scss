@@ -1,0 +1,48 @@
+.header {
+  z-index: 100;
+  position: relative;
+}
+
+ion-button {
+  min-width: 35px !important;
+}
+
+.score-box {
+  min-width: 50px;
+  height: 30px;
+  background-color: rgba(var(--ion-color-light-text-rgb), 0.3);
+  color: var(--ion-color-light-text);
+  border-radius: 8px;
+  gap: 0.25rem;
+  margin-left: 10px;
+  margin-right: 10px;
+  cursor: pointer;
+
+  img {
+    height: 13px;
+  }
+}
+
+.social {
+  display: flex;
+
+  ion-icon {
+    color: var(--ion-color-light-text);
+    font-size: 24px;
+  }
+
+  ion-img {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .social {
+    display: none;
+  }
+}
+
+.ios ion-title {
+  padding: 0 2.25rem !important;
+}

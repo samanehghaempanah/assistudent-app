@@ -1,0 +1,131 @@
+<apv-page-header title="{{this.baseService.translate('payment-title')}}" backButton="true"></apv-page-header>
+
+<ion-content [fullscreen]="true">
+  <ion-row class="ion-justify-content-center ion-margin-vertical">
+    <!-- Purchase Items -->
+    <ion-col size="11" size-md="10" size-lg="8" class="first-col bg-gradiant mb-3">
+      <ion-card class="m-0 p-0">
+        <ion-card-header class="pb-0">
+          <ion-badge style="width: 100px;">
+            {{this.baseService.translate('payment-purchase-items')}}
+          </ion-badge>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="payment-item d-flex ion-justify-content-between ion-align-items-center w-100 p-2 px-4 my-2">
+            <ion-text class="text-small text-bold">
+              {{this.baseService.translate('payment-purchase-items-title')}}
+            </ion-text>
+            <ion-text class="text-small text-bold">
+              {{this.baseService.translate('payment-purchase-items-price')}}
+            </ion-text>
+          </div>
+          <div class="payment-item d-flex ion-justify-content-between ion-align-items-center w-100 p-2 px-4 my-2">
+            <ion-text class="text-small">
+              {{this.paymentType}}
+            </ion-text>
+            <ion-text class="text-small">
+              {{this.Amount?.toLocaleString('en')}} {{this.baseService.translate('common-Currency')}}
+            </ion-text>
+          </div>
+          <div class="payment-item d-flex ion-justify-content-between ion-align-items-center w-100 p-2 px-4 my-2">
+            <ion-text class="text-small text-bold">
+              {{this.baseService.translate('payment-purchase-items-total')}}
+            </ion-text>
+            <ion-text class="text-small text-bold">
+              {{this.Amount?.toLocaleString('en')}} {{this.baseService.translate('common-Currency')}}
+            </ion-text>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+    <!-- Payment Method -->
+    <ion-col  size="11" size-md="10" size-lg="8" class="first-col bg-gradiant mb-3" *ngIf="this.storageService.User.TotalCredit!=0">
+      <ion-card class="m-0 p-0">
+        <ion-card-header class="pb-0">
+          <ion-badge style="width: 100px;">
+            {{this.baseService.translate('payment-payment-method')}}
+          </ion-badge>
+        </ion-card-header>
+        <ion-card-content class="d-flex flex-column">
+          <div class="d-flex ion-align-items-center mt-2">
+            <ion-checkbox justify="end" (ionChange)="onSelectedCreditPay($event)"></ion-checkbox>
+            <ion-label class="mx-2">{{this.baseService.translate('payment-payment-method1-title')}}</ion-label>
+          </div>
+          <ion-text class="text-long text-small mt-2">{{this.baseService.translate('payment-payment-method1-desc').replace('{{value}}',this.storageService.User.TotalCredit.toLocaleString('en'))}}</ion-text>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+    <!-- Final Invoice -->
+    <ion-col size="11" size-md="10" size-lg="8" class="first-col bg-gradiant mb-3">
+      <ion-card class="m-0 p-0">
+        <ion-card-header class="pb-0">
+          <ion-badge style="width: 100px;">
+            {{this.baseService.translate('payment-final-invoice')}}
+          </ion-badge>
+        </ion-card-header>
+        <ion-card-content>
+          <div class="payment-item d-flex ion-justify-content-between ion-align-items-center w-100 p-2 px-4 my-2">
+            <ion-text class="text-small">
+              {{this.baseService.translate('payment-final-invoice-total')}}
+            </ion-text>
+            <ion-text class="text-small">
+              {{this.Amount?.toLocaleString('en')}} {{this.baseService.translate('common-Currency')}}
+            </ion-text>
+          </div>
+          <div class="payment-item d-flex ion-justify-content-between ion-align-items-center w-100 p-2 px-4 my-2">
+            <ion-text class="text-small">
+              {{this.baseService.translate('payment-final-invoice-method')}}
+            </ion-text>
+            <ion-text class="text-small" *ngIf="PageData.isCreditPay">
+              {{calculatePaymentWallet().toLocaleString('en')}} {{this.baseService.translate('common-Currency')}}
+            </ion-text>
+            <ion-text class="text-small" *ngIf="!PageData.isCreditPay">
+              0 {{this.baseService.translate('common-Currency')}}
+            </ion-text>
+          </div>
+          <div class="payment-item d-flex ion-justify-content-between ion-align-items-center w-100 p-2 px-4 my-2">
+            <ion-text class="text-small text-bold">
+              {{this.baseService.translate('payment-final-invoice-total-final')}}
+            </ion-text>
+            <ion-text class="text-small text-bold" *ngIf="PageData.isCreditPay && (calculatePaymentFinall() === calculatePaymentWallet())">
+              0  {{this.baseService.translate('common-Currency')}}
+            </ion-text>
+            <ion-text class="text-small text-bold" *ngIf="!PageData.isCreditPay">
+              {{calculatePaymentFinall().toLocaleString('en')}} {{this.baseService.translate('common-Currency')}}
+            </ion-text>
+            <ion-text class="text-small text-bold" *ngIf="PageData.isCreditPay && (calculatePaymentFinall() !== calculatePaymentWallet())">
+              {{calculatePaymentFinall().toLocaleString('en')}}  {{this.baseService.translate('common-Currency')}}
+            </ion-text>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+    <!-- Payment -->
+    <ion-col size="11" size-md="10" size-lg="8" class="first-col bg-gradiant mb-3">
+      <ion-card class="m-0 p-0">
+        <ion-card-content>
+          <div class="d-flex ion-justify-content-between ion-align-items-center w-100">
+            <ion-text class="text-large text-bold" *ngIf="!PageData.isCreditPay">
+              {{calculatePaymentFinall().toLocaleString('en')}}  {{this.baseService.translate('common-Currency')}}
+            </ion-text>
+            <ion-text class="text-large text-bold" *ngIf="PageData.isCreditPay && (calculatePaymentFinall() !== calculatePaymentWallet())">
+              {{calculatePaymentFinall().toLocaleString('en')}}  {{this.baseService.translate('common-Currency')}}
+            </ion-text>
+            <ion-text class="text-large text-bold" *ngIf="PageData.isCreditPay && (calculatePaymentFinall() === calculatePaymentWallet())">
+              {{calculatePaymentFinall().toLocaleString('en')}} {{this.baseService.translate('common-Currency')}}
+            </ion-text>
+            <ion-button class="submit" (click)="onPay()" *ngIf="!PageData.isCreditPay">
+              <span>{{this.baseService.translate('payment-online-payment-btn')}}</span>
+            </ion-button>
+            <ion-button class="submit" (click)="onPay()" *ngIf="PageData.isCreditPay && (calculatePaymentFinall() !== calculatePaymentWallet())">
+              <span>{{this.baseService.translate('payment-online-payment-btn')}}</span>
+            </ion-button>
+            <ion-button class="submit" (click)="onPay()" *ngIf="PageData.isCreditPay && (calculatePaymentFinall() === calculatePaymentWallet())">
+              <span>{{this.baseService.translate('payment-online-payment-btn-fromWallet')}}</span>
+            </ion-button>
+          </div>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+</ion-content>

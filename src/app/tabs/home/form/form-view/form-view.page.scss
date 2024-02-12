@@ -1,0 +1,32 @@
+.inner-card {
+    width: 95%;
+}
+
+.column-gap {
+    column-gap: 5px;
+}
+
+.space-line {
+    white-space: pre-line;
+}
+
+.divider {
+    width: 90%;
+    height: 1px;
+    background: var(--ion-color-light-shade);
+}
+
+.historyBtn {
+    cursor: pointer;
+}
+
+ion-chip {
+    border-radius: 13px;
+    direction: rtl;
+  }
+  
+  ion-badge {
+    min-width: 80px;
+    height: 30px;
+    line-height: 22px;
+  }

@@ -1,0 +1,394 @@
+<ion-row class="first-page ion-justify-content-center">
+  <ion-col size="12" size-md="5" class="p-0 my-auto">
+    <ion-row>
+      <ion-col size="11" size-md="9" class="header-box mx-auto mb-2">
+        <div class="m-2 mx-3 d-flex">
+          <div *ngFor="let lang of PageData.languages">
+            <div *ngIf="this.baseService.language().Symbol !== lang.Symbol " class="mx-2">
+              <ion-text (click)="onChangeLanguageLogin(lang)" class="text-light text-small"
+                style="cursor: pointer;">{{lang.Caption}}</ion-text>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex flex-column ion-justify-content-start m-2 mb-2 mx-4">
+          <ion-label *ngIf="this.baseService.language().Symbol === 'fa' " class="text-light text-small">به «دانشگاه
+            من» خوش آمدید</ion-label>
+          <ion-label *ngIf="this.baseService.language().Symbol === 'en' " class="text-light text-small">Welcome To
+            “My University”</ion-label>
+          <ion-label *ngIf="this.baseService.language().Symbol === 'ar' " class="text-light text-small">مرحباََ بك في
+            "جامعتي"</ion-label>
+        </div>
+        <div class="menu mx-auto d-flex">
+          <div *ngFor="let option of PageData.menu" class="menuBox2">
+            <a (click)="goToLink(option)">
+              <div class="button mx-auto">
+                <ion-icon *ngIf="!option.Icon.startsWith('https:') && !option.Icon.startsWith('/assets')"
+                  [name]="option.Icon" class="text-xlarge" color="tertiary"></ion-icon>
+                <img *ngIf="option.Icon.startsWith('https:') || option.Icon.startsWith('/assets')"
+                  class="text-xlarge menuImg" [src]="option.Icon" />
+              </div>
+            </a>
+            <p class="mt-2 text-center">{{option.Title}}</p>
+          </div>
+        </div>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12" class="text-center my-2">
+        <ion-text color="primary">{{this.baseService.translate('signup-page-title')}}</ion-text>
+      </ion-col>
+    </ion-row>
+    <!-- Sign Up Form -->
+    <ion-row *ngIf="PageData.Step === PageData.RegisterStepType.Signup"
+      class="forms d-flex flex-column ion-align-items-center my-2">
+      <ion-col size="10" size-md="8" class="d-flex ion-justify-content-center flex-column bg-gradiant">
+        <ion-card class="main-card m-0 p-2">
+          <form (submit)="onCheckUserStatus()">
+            <ion-row class="ion-justify-content-center">
+              <ion-col size="12">
+                <ion-label
+                  class="text-dark text-small">{{this.baseService.translate('signup-input-mobile')}}</ion-label>
+                <ion-input [required]="true" [(ngModel)]="PageData.Item.MobileNumber" name="mobileNumber" type="text"
+                  enterkeyhint="next" autofocus="true" inputmode="text" maxlength="255"></ion-input>
+              </ion-col>
+              <ion-col size="12">
+                <ion-label
+                  class="text-dark text-small">{{this.baseService.translate('signup-input-studentNumber')}}</ion-label>
+                <ion-input [required]="true" [(ngModel)]="PageData.Item.StudentNumber" name="studentNumber" type="text"
+                  enterkeyhint="enter" inputmode="text" maxlength="255"></ion-input>
+              </ion-col>
+              <ion-col size="12">
+                <span *ngIf="!this.PageData.isNoIranian">
+                  <ion-label
+                    class="text-dark text-small">{{this.baseService.translate('signup-input-nationalCode')}}</ion-label>
+                  <ion-input [(ngModel)]="PageData.Item.NationalCode" name="nationalCode" type="text"
+                    enterkeyhint="enter" inputmode="text" maxlength="255"></ion-input>
+                </span>
+
+                <ion-radio-group class="d-flex ion-align-items-center column-gap mt-2">
+                  <ion-checkbox (click)="inputDisable()" mode="md" class="mx-2" color="primary"></ion-checkbox>
+                  <ion-label class="text-small" 
+                    color="dark">{{this.baseService.translate('signup-input-notIranian')}}</ion-label>
+                </ion-radio-group>
+                <ion-radio-group class="d-flex ion-align-items-center column-gap mt-2" *ngIf="PageData.isNoIranian">
+                  <ion-checkbox (click)="acceptRoles()" mode="md" class="mx-2" color="primary"></ion-checkbox>
+                  <ion-label (click)="setOpen(true)" class="text-small" style="cursor: pointer;" color="primary">
+                    {{this.baseService.translate('signup-input-acceptRoles')}}
+                  </ion-label>
+                </ion-radio-group>
+              </ion-col>
+              <ion-col size="12" class="ion-text-center">
+                <ion-button [disabled]="CheckValidFeildFirstForm()" color="primary" class="mx-2"
+                  type="submit">{{this.baseService.translate('signup-next')}}</ion-button>
+              </ion-col>
+            </ion-row>
+          </form>
+          <div class="d-flex flex-column text-center mb-1 mt-3">
+            <span class="backLoginBtn mb-1 text-primary text-small"
+              [routerLink]="['/login']">{{this.baseService.translate('signup-login')}}</span>
+          </div>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <ion-modal [isOpen]="PageData.isModalOpen" (didDismiss)="setOpen(false)">
+      <ng-template>
+        <ion-content class="ion-padding" style="background-color: var(--ion-color-white);">
+          <div class="d-flex flex-column py-3">
+            <ion-text class="text-bold mb-3">{{this.baseService.translate('university-list-rules')}}</ion-text>
+            <ion-text class="text-long space-line" style="line-height: 25px;">
+              {{this.baseService.translate('university-view-condition-desc')}}
+            </ion-text>
+          </div>
+        </ion-content>
+      </ng-template>
+    </ion-modal>
+
+    <!-- New User Form -->
+    <ion-row *ngIf="PageData.Step === PageData.RegisterStepType.NewUser"
+      class="forms d-flex flex-column ion-align-items-center mt-2">
+      <ion-col size="10" size-md="8" class="d-flex ion-justify-content-center flex-column bg-gradiant">
+        <ion-card class="main-card m-0 p-2">
+          <ion-row class="ion-justify-content-center">
+            <ion-col size="12" class="p-0">
+              <ion-label class="text-dark">{{this.baseService.translate("signup-form-firstName")}}</ion-label>
+              <ion-input [(ngModel)]="PageData.UserData.FirstName" class="my-1" type="text" enterkeyhint="next" inputmode="text"
+                maxlength="255" autofocus="true"></ion-input>
+            </ion-col>
+            <ion-col size="12" class="p-0">
+              <ion-label class="text-dark">{{this.baseService.translate("signup-form-lastName")}}</ion-label>
+              <ion-input [(ngModel)]="PageData.UserData.LastName" class="my-1" type="text" enterkeyhint="next" inputmode="text"
+                maxlength="255"></ion-input>
+            </ion-col>
+            <ion-col size="12" class="p-0">
+              <ion-label class="text-dark">{{this.baseService.translate("signup-form-birthDate")}}</ion-label>
+
+              <apv-datepickerfa (datepicker)="onChangeBirthDate($event)"
+                *ngIf="storageService.Language.Symbol === 'fa'"></apv-datepickerfa>
+
+              <apv-datepickeren (datepicker)="onChangeBirthDate($event)"
+                *ngIf="storageService.Language.Symbol !== 'fa'"></apv-datepickeren>
+
+            </ion-col>
+            <ion-col size="12" class="p-0">
+              <ion-label class="text-dark">{{this.baseService.translate("signup-form-email")}}</ion-label>
+              <ion-input [(ngModel)]="PageData.UserData.Email" class="my-1" type="email" enterkeyhint="next" inputmode="email"
+                maxlength="255"></ion-input>
+            </ion-col>
+            <ion-col size="12" class="p-0">
+              <ion-label class="text-dark">{{this.baseService.translate("signup-form-country")}}</ion-label>
+              <ion-select [(ngModel)]="PageData.UserData.Country_Id" class="my-1" interface="popover">
+                <div *ngFor="let country of PageData.countries">
+                  <ion-select-option value="{{country.Id}}">{{country.Title}}</ion-select-option>
+                </div>
+              </ion-select>
+            </ion-col>
+            <ion-col size="12" class="p-0">
+              <ion-label class="text-dark">{{this.baseService.translate("signup-form-gender")}}</ion-label>
+              <ion-select [(ngModel)]="PageData.UserData.Gender_Id" class="my-1" interface="popover">
+                <div *ngFor="let gender of PageData.genders">
+                  <ion-select-option value="{{gender.Id}}">{{gender.Title}}</ion-select-option>
+                </div>
+              </ion-select>
+            </ion-col>
+            <ion-col size="12" class="p-0">
+              <ion-label class="text-dark">{{this.baseService.translate("signup-form-lang")}}</ion-label>
+              <ion-select [(ngModel)]="PageData.UserData.OriginalLanguage_Id" class="my-1" interface="popover">
+                <div *ngFor="let lang of PageData.languageList">
+                  <ion-select-option value="{{lang.Id}}">{{lang.Title}}</ion-select-option>
+                </div>
+              </ion-select>
+            </ion-col>
+            <ion-col size="12" class="ion-text-center p-0 my-3">
+              <ion-button [disabled]="CheckValidFeildSecondForm()" (click)="onNext()" color="primary" class="mx-2"
+                type="submit">{{this.baseService.translate("signup-next")}}</ion-button>
+              <ion-button [disabled]="PageData.Waiting" (click)="onBack(PageData.RegisterStepType.Signup)" color="primary"
+                class="mx-2" fill="outline">{{this.baseService.translate("signup-return")}}</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <!-- Question Form -->
+    <ion-row *ngIf="PageData.Step === PageData.RegisterStepType.Question"
+      class="forms d-flex flex-column ion-align-items-center mt-2">
+      <ion-col size="10" size-md="8" class="d-flex ion-justify-content-center flex-column bg-gradiant">
+        <ion-card class="main-card m-0 p-2">
+          <ion-row>
+            <div *ngFor="let item of PageData.RegisterData.Questions; index as i;">
+              <ion-col size="12">
+                <ion-label class="text-dark"
+                  *ngIf="item.Question==='FirstName'">{{this.baseService.translate("signup-form-question-firstname")}}:</ion-label>
+                <ion-label class="text-dark"
+                  *ngIf="item.Question==='LastName'">{{this.baseService.translate("signup-form-question-lastname")}}:</ion-label>
+                <ion-radio-group [(ngModel)]="PageData.RegisterData.Questions[i].Answer" class="mt-2">
+                  <div *ngFor="let option of item.Options" class="d-flex w-100 ion-align-items-center m-1">
+                    <ion-radio mode="md" [value]="option"></ion-radio>
+                    <ion-label class="mx-1">{{option}}</ion-label>
+                  </div>
+                </ion-radio-group>
+              </ion-col>
+            </div>
+            <ion-col size="12" class="ion-text-center my-3">
+              <ion-button [disabled]="PageData.Waiting" (click)="onNext()" color="primary" class="mx-2"
+                type="submit">{{this.baseService.translate("signup-next")}}</ion-button>
+              <ion-button [disabled]="PageData.Waiting" (click)="onBack(PageData.RegisterStepType.Signup)" color="primary"
+                class="mx-2" fill="outline">{{this.baseService.translate("signup-return")}}</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+
+    <!-- Set Password Form -->
+    <ion-row *ngIf="PageData.Step === PageData.RegisterStepType.SetPassword"
+      class="forms d-flex flex-column ion-align-items-center mt-2">
+      <ion-col size="10" size-md="8" class="d-flex ion-justify-content-center flex-column bg-gradiant">
+        <ion-card class="main-card m-0 p-2">
+          <ion-row class="ion-justify-content-center d-flex flex-column pt-2">
+            <ion-col size="12">
+              <ion-label class="text-dark">{{this.baseService.translate("reset-pass-page3-password")}}</ion-label>
+              <ion-input [(ngModel)]="PageData.UserData.Password" class="mt-2" type="password" enterkeyhint="next"
+                inputmode="password" minlength="6" maxlength="255" autofocus="true"></ion-input>
+            </ion-col>
+            <ion-col size="12">
+              <ion-label
+                class="text-dark">{{this.baseService.translate("reset-pass-page3-repeat-password")}}</ion-label>
+              <ion-input [(ngModel)]="PageData.UserData.ConfirmPassword" class="mt-2" type="password" enterkeyhint="next"
+                inputmode="password" minlength="6" maxlength="255" autofocus="true"></ion-input>
+            </ion-col>
+            <ion-col size="12" class="p-0">
+              <ion-label class="text-dark">{{this.baseService.translate("signup-form-role")}}</ion-label>
+              <ion-select [(ngModel)]="PageData.UserData.Role_Id" class="my-1" interface="popover">
+                <div *ngFor="let role of PageData.roles">
+                  <ion-select-option value="{{role.Id}}">{{role.Title}}</ion-select-option>
+                </div>
+              </ion-select>
+            </ion-col>
+            <ion-col size="12">
+              <ion-label class="text-dark">{{this.baseService.translate('reset-pass-page2-title')}}</ion-label>
+              <form [formGroup]="confirmCodes" class="mt-1">
+                <ion-row class="ion-justify-content-center">
+                  <ion-col size="12"
+                    class="reset-box d-flex flex-row ion-justify-content-center ">
+                    <div class="flex-1 mx-1"><ion-input type="tel" maxlength="1" class="input-codes" inputmode="numeric"
+                        autocomplete="off" [ngClass]="{'input-full' : PageData.Digits.digit1}" formControlName="digit1"
+                        [(ngModel)]="PageData.Digits.digit1" #Field1 (keyup)="gotoNextField(Field2)"></ion-input></div>
+
+                    <div class="flex-1 mx-1"><ion-input type="tel" maxlength="1" class="input-codes" inputmode="numeric"
+                        autocomplete="off" [ngClass]="{'input-full' : PageData.Digits.digit2}" formControlName="digit2"
+                        [(ngModel)]="PageData.Digits.digit2" #Field2 (keyup)="gotoNextField(Field3)"></ion-input></div>
+
+                    <div class="flex-1 mx-1"><ion-input type="tel" maxlength="1" class="input-codes" inputmode="numeric"
+                        autocomplete="off" [ngClass]="{'input-full' : PageData.Digits.digit3}" formControlName="digit3"
+                        [(ngModel)]="PageData.Digits.digit3" #Field3 (keyup)="gotoNextField(Field4)"></ion-input></div>
+
+                    <div class="flex-1 mx-1"><ion-input type="tel" maxlength="1" class="input-codes" inputmode="numeric"
+                        autocomplete="off" [ngClass]="{'input-full' : PageData.Digits.digit4}" formControlName="digit4"
+                        [(ngModel)]="PageData.Digits.digit4" #Field4 (keyup)="gotoNextField(Field5)"></ion-input></div>
+
+                    <div class="flex-1 mx-1"><ion-input type="tel" maxlength="1" class="input-codes" inputmode="numeric"
+                        autocomplete="off" [ngClass]="{'input-full' : PageData.Digits.digit5}" formControlName="digit5"
+                        [(ngModel)]="PageData.Digits.digit5" #Field5 (ionChange)="onRegister()"></ion-input>
+                    </div>
+                  </ion-col>
+                </ion-row>
+              </form>
+            </ion-col>
+            <ion-col size="12" class="text-center">
+              <ion-text class="text-primary time-send">{{this.baseService.translate("login-timer")}}:
+                {{PageData.counter | formatTime}}</ion-text>
+            </ion-col>
+            <ion-col size="12" class="ion-text-center">
+              <ion-button [disabled]="PageData.Waiting" color="primary" (click)="onRegister()"
+                type="submit">{{this.baseService.translate("signup-submit")}}</ion-button>
+              <ion-button [disabled]="PageData.Waiting" (click)="onBack('prevStep')" color="primary"
+                fill="outline">{{this.baseService.translate("signup-return")}}</ion-button>
+            </ion-col>
+          </ion-row>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col size="12" class="d-flex ion-justify-content-center flex-column mt-2">
+        <div class="coverWelcomePage d-flex flex-column ion-justify-content-start ion-align-items-center">
+          <ion-img class="uniLogo mt-1" src="./assets/icon/IAUN-logo.png"></ion-img>
+        </div>
+        <div class="d-flex flex-column ion-align-items-center mb-3">
+          <ion-text class="text-medium">{{this.baseService.translate('login-select-roles-label')}}</ion-text>
+          <ion-text class="text-medium">{{this.baseService.translate('common-version')}}
+            {{version}}</ion-text>
+        </div>
+      </ion-col>
+    </ion-row>
+  </ion-col>
+
+  <!-- Image swiper -->
+  <ion-col size-md="7" class="img-swiper p-0">
+    <swiper [config]="config" dir="ltr" #swiper [pagination]="PageData.pagination">
+      <ng-template swiperSlide *ngFor="let img of PageData.Images">
+        <img [src]="img.src" [alt]="img.alt" />
+      </ng-template>
+    </swiper>
+    <div class="icon-sliders">
+      <div>
+        <ion-icon name="chevron-forward-circle-sharp"
+          class="swiper-navigation-next swiper-navigation-disabled"></ion-icon>
+      </div>
+      <div>
+        <ion-icon name="chevron-back-circle-sharp" class="swiper-navigation-prev swiper-navigation-disabled"></ion-icon>
+      </div>
+    </div>
+  </ion-col>
+</ion-row>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- <ion-row *ngIf="PageData.Step==='confirm'" class="forms d-flex flex-column mt-2">
+    <ion-col size="10" size-md="8" class="d-flex ion-justify-content-center flex-column bg-gradiant">
+      <ion-card class="main-card m-0 p-2">
+        <form (submit)="onLoginConfirm()">
+          <ion-row class="ion-justify-content-center">
+            <ion-col size="12">
+              <ion-label class="text-dark">{{this.baseService.translate('reset-pass-page2-title')}}</ion-label>
+              <ion-input [(ngModel)]="PageData.Item.ConfirmCode" name="ConfirmCode" type="number"
+                enterkeyhint="next" inputmode="number" maxlength="255" autofocus="true"></ion-input>
+            </ion-col>
+            <ion-col size="12" class="text-center">
+              <ion-text class="text-primary time-send">{{this.baseService.translate("login-timer")}} :
+                {{PageData.counter | formatTime}}</ion-text>
+            </ion-col>
+            <ion-col size="12" class="ion-text-center">
+              <ion-button [disabled]="PageData.Waiting" color="primary"
+                type="submit">{{this.baseService.translate("common-btn-confirm")}}</ion-button>
+              <ion-button [disabled]="PageData.Waiting" color="dark" (click)="onBack()"
+                color="primary">{{this.baseService.translate("offer-detail-Return")}}</ion-button>
+            </ion-col>
+          </ion-row>
+        </form>
+      </ion-card>
+    </ion-col>
+  </ion-row> -->
+
+<!-- <ion-header>
+  <ion-toolbar>
+    <ion-title class="text-light">{{this.baseService.translate("reset-pass-page3-title")}}</ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content [fullscreen]="true">
+
+  <div class="coverWelcomePage d-flex flex-column ion-justify-content-start ion-align-items-center mb-3">
+    <ion-img class="mt-3 mb-4" src="./assets/icon/IAUN-logo.png"></ion-img>
+    <ion-label class="text-primary">{{this.baseService.translate('home-title-1')}}</ion-label>
+  </div>
+
+  <ion-row class="forms d-flex flex-column">
+    <ion-col size="10" size-md="8" class="d-flex ion-justify-content-center flex-column bg-gradiant">
+      <ion-card class="main-card m-0 p-0">
+        <ion-row class="ion-justify-content-center">
+
+          <ion-col size="8" class="ion-text-center mt-3">
+            <ion-text class="reset-password-text text-style">
+              {{this.baseService.translate('reset-pass-page1-title')}}
+            </ion-text>
+          </ion-col>
+
+          <ion-col size="12">
+            <form (ngSubmit)="onRegister()" [formGroup]="registerForm">
+              <ion-row>
+                <ion-col size="12">
+                  <ion-text
+                    class="reset-text text-style text-primary">{{this.baseService.translate('reset-pass-page1-input')}}</ion-text>
+                  <ion-input type="text" formControlName="emailorPhone"></ion-input>
+                </ion-col>
+                <ion-col class="ion-text-center ion-margin-top">
+                  <ion-button color="primary" type="submit" class="text-style">
+                    {{this.baseService.translate('reset-pass-btn-send')}}
+                  </ion-button>
+                </ion-col>
+              </ion-row>
+            </form>
+            <div class="text-center">
+              <ion-list class="loginbtn text-primary"
+                routerLink="/login">{{this.baseService.translate('login-btn')}}</ion-list>
+            </div>
+          </ion-col>
+
+        </ion-row>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+</ion-content> -->

@@ -1,0 +1,23 @@
+.filter-box {
+  background: var(--ion-color-light);
+  border-radius: 13px;
+  ion-list {
+    width: fit-content;
+    color: var(--ion-color-light-text);
+    background: var(--ion-color-primary);
+    border-radius: 50px;
+  }
+}
+
+.column-gap {
+  column-gap: 5px;
+}
+
+.logo-company {
+  width: 80px;
+  height: 80px;
+  border-radius: 10px;
+  img {
+    height: 60px;
+  }
+}

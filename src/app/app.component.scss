@@ -1,0 +1,85 @@
+// Menu Header
+.userInfo {
+  width: 80%;
+  background: rgba(var(--ion-color-white-rgb), 0.85);
+  border-radius: 15px;
+  cursor: pointer;
+
+  div {
+    font-weight: 700;
+
+    label {
+      line-height: 30px;
+    }
+
+    p {
+      line-height: 18px;
+    }
+  }
+}
+
+.accounts {
+  ion-list {
+    background: none;
+    font-weight: 700;
+    cursor: pointer;
+  }
+
+  .accounts-list {
+    ion-img {
+      width: 39px;
+      height: 39px;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    ion-icon {
+      cursor: pointer;
+    }
+
+    label {
+      font-weight: 700;
+      line-height: 10px;
+    }
+  }
+}
+
+// Menu List
+.menu-list {
+  ul {
+    li {
+      width: 80%;
+      background: rgba(var(--ion-color-white-rgb), 0.85);
+      border-radius: 15px;
+      list-style-type: none;
+      display: flex;
+      flex-direction: row;
+      align-items: center;
+      margin: 10px auto;
+      cursor: pointer;
+
+      span {
+        background: var(--ion-color-white);
+        border-radius: 10px;
+        padding: 10px 10px 0;
+      }
+
+      div {
+        text-align: start;
+        font-weight: 600;
+        line-height: 19px;
+        margin-inline: 20px;
+      }
+    }
+  }
+}
+
+.space-line {
+  white-space: pre-line;
+}
+
+@media screen and (min-width: 768px) {
+  .social {
+    display: none;
+  }
+}

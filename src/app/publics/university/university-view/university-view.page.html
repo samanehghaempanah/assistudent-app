@@ -1,0 +1,189 @@
+<apv-page-header title="{{PageData.title}}" backButton="true"> </apv-page-header>
+
+<apv-scrollableTab *ngIf="Categories" [Tabs]="Categories" [selectedTab]="selectedTab" marginClasses="mt-4 mb-1"
+  [isIframe]="true" (onTabClick)="onTabClick($event)"></apv-scrollableTab>
+
+<ion-content *ngIf="PageData.IFrameURL.length===0">
+
+  <ion-row class="ion-justify-content-center ion-margin-vertical">
+    <ion-col size="11" size-md="10" size-lg="10" class="first-col bg-gradiant">
+      <!-- about -->
+      <ion-card class="main-card m-0 p-0" *ngIf="selectedTab === 'introduction' ">
+        <ion-card-header class="pb-0">
+          <ion-card-title>
+            <ion-text class="text-long text-bold text-dark my-3">
+              {{this.baseService.translate("university-list-header-aboutUni")}}
+            </ion-text>
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <p class="text-long space-line my-3">
+            {{this.baseService.translate("university-view-aboutUni-p1")}}
+          </p>
+          <p class="text-long space-line my-3">
+            {{this.baseService.translate("university-view-aboutUni-p2")}}
+          </p>
+        </ion-card-content>
+      </ion-card>
+      <!-- Tuition -->
+      <ion-card class="main-card m-0 p-0" *ngIf="selectedTab === 'tuition' && PageData.isNonIranian">
+        <ion-card-header>
+          <ion-card-title>
+            <ion-text class="text-long text-bold text-dark my-3">
+              {{this.baseService.translate("university-view-tuition-pageTitle")}}
+            </ion-text>
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <ion-row *ngFor="let major of majorsInfo; let lastItem = last;">
+            <ion-col size="12" class="my-3">
+              <ion-text class="text-bold" color="secondary">
+                {{major.Title}}
+              </ion-text>
+            </ion-col>
+            <ion-col size="12" class="d-flex text-bold my-3 py-0">
+              <ion-text class="text-center text-small w-50"
+                color="primary">{{this.baseService.translate("university-view-tuition-degreeTitle")}}</ion-text>
+              <ion-text class="text-center text-small w-50"
+                color="primary">{{this.baseService.translate("university-view-tuition-tuitionTitle")}}</ion-text>
+            </ion-col>
+            <ion-col size="12" class="d-flex flex-column py-0">
+              <div *ngFor="let tuition of major.Tuition_Data" class="d-flex my-3">
+                <ion-text class="text-center text-dark w-50">{{tuition.Degree}}</ion-text>
+                <ion-text class="text-center text-dark w-50">{{tuition.Tuition}}</ion-text>
+              </div>
+            </ion-col>
+            <hr *ngIf="!lastItem" class="divider">
+          </ion-row>
+        </ion-card-content>
+      </ion-card>
+      <!-- Register -->
+      <ion-card class="main-card m-0 p-0"
+        *ngIf="PageData.title === this.baseService.translate('university-list-registration-guide')">
+        <ion-card-header class="pb-0">
+          <ion-card-title>
+            <ion-text class="text-long text-bold text-dark">
+              {{this.baseService.translate("university-view-register-title")}}
+            </ion-text>
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <p class="text-long space-line my-3">
+            {{this.baseService.translate("university-view-register-p1")}}
+          </p>
+          <p class="text-long space-line my-3">
+            {{this.baseService.translate("university-view-register-p2")}}
+          </p>
+          <p class="text-long space-line my-3">
+            {{this.baseService.translate("university-view-register-p3")}}
+          </p>
+          <p class="text-long space-line my-3">
+            {{this.baseService.translate("university-view-register-p4")}}
+          </p>
+        </ion-card-content>
+      </ion-card>
+      <!-- Map -->
+      <ion-card class="main-card m-0 p-0" *ngIf="selectedTab === 'map'">
+        <ion-card-content>
+          <ion-img class="map-image" src="assets/icon/iaunmap.jpg">
+          </ion-img>
+        </ion-card-content>
+      </ion-card>
+      <!-- Rules -->
+      <ion-card class="main-card m-0 p-0"
+        *ngIf="PageData.title === this.baseService.translate('university-list-rules')">
+        <ion-card-header class="pb-0">
+          <ion-card-title>
+            <ion-text class="text-long text-bold text-dark my-3">
+              {{this.baseService.translate("university-list-rules")}}
+            </ion-text>
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <p class="text-long space-line my-3">
+            {{this.baseService.translate("university-view-condition-desc")}}
+          </p>
+        </ion-card-content>
+      </ion-card>
+      <!-- Coverage -->
+      <ion-card class="main-card m-0 p-0"
+        *ngIf="PageData.title === this.baseService.translate('university-list-coverage')">
+        <ion-card-header class="pb-0">
+          <ion-card-title>
+            <ion-text class="text-long text-bold text-dark my-3">
+              {{this.baseService.translate("university-view-coverage-header-title")}}
+            </ion-text>
+          </ion-card-title>
+        </ion-card-header>
+        <ion-card-content>
+          <p class="text-long space-line my-3">
+            {{this.baseService.translate("university-view-coverage-header-desc")}}
+          </p>
+          <p class="text-long text-bold my-3">
+            {{this.baseService.translate("university-view-coverage-women-title")}}
+          </p>
+          <p class="text-long space-line my-3">
+            {{this.baseService.translate("university-view-coverage-women-desc")}}
+          </p>
+          <p class="text-long text-bold my-3">
+            {{this.baseService.translate("university-view-coverage-men-title")}}
+          </p>
+          <p class="text-long space-line my-3">
+            {{this.baseService.translate("university-view-coverage-men-desc")}}
+          </p>
+          <p class="text-long text-bold my-3">
+            {{this.baseService.translate("university-view-coverage-both-title")}}
+          </p>
+          <p class="text-long space-line my-3">
+            {{this.baseService.translate("university-view-coverage-both-desc")}}
+          </p>
+        </ion-card-content>
+      </ion-card>
+      <!-- Majors -->
+      <ion-card class="main-card m-0 p-0" *ngIf="selectedTab === 'majors' && PageData.isNonIranian">
+        <ion-card-content>
+          <span *ngIf="storageService.Language.Symbol==='en' ">
+            <ion-row *ngFor="let img of majorsEnImage; let lastItem = last;">
+              <ion-col size="12" class="my-3">
+                <ion-img [src]="img.src" [alt]="img.alt"></ion-img>
+              </ion-col>
+              <hr *ngIf="!lastItem" class="divider">
+            </ion-row>
+          </span>
+          <span *ngIf="storageService.Language.Symbol==='ar'">
+            <ion-row *ngFor="let img of majorsArImage; let lastItem = last;">
+              <ion-col size="12" class="my-3">
+                <ion-img [src]="img.src" [alt]="img.alt"></ion-img>
+              </ion-col>
+              <hr *ngIf="!lastItem" class="divider">
+            </ion-row>
+          </span>
+          <span *ngIf="storageService.Language.Symbol==='fa'">
+            <ion-row *ngFor="let img of majorsFaImage; let lastItem = last;">
+              <ion-col size="12" class="my-3">
+                <ion-img [src]="img.src" [alt]="img.alt"></ion-img>
+              </ion-col>
+              <hr *ngIf="!lastItem" class="divider">
+            </ion-row>
+          </span>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+</ion-content>
+
+<ion-content class="iframe-container" *ngIf="PageData.IFrameURL.length>0">
+  <div class="content-box">
+    <ng-container *ngIf="PageData.Waiting; then loadTemplate; else doneTemplate"></ng-container>
+    <ng-template #loadTemplate>
+      <div class="loading-box">
+        <ion-spinner name="crescent"></ion-spinner>
+        <br />
+        <ion-label>{{this.baseService.translate("common-btn-Connecting")}}</ion-label>
+      </div>
+    </ng-template>
+    <ng-template #doneTemplate>
+      <iframe [src]="PageData.IFrameURL | safeURL" frameborder="0"></iframe>
+    </ng-template>
+  </div>
+</ion-content>

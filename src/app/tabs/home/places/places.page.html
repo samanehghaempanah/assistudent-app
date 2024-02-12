@@ -1,0 +1,28 @@
+<apv-page-header title="{{this.baseService.translate('location-title')}}" backButton="true"></apv-page-header>
+
+<apv-search marginClasses="mt-3 mb-1" placeholder="{{baseService.translate('location-search-input')}}"
+  (onSearchClick)="onSearchClick($event)"></apv-search>
+
+<apv-scrollableTab [Tabs]="Categories" [isCategory]="true" marginClasses="mt-1 mb-1" (onTabClick)="onTabClick($event)"
+  [selectedTab]="selectedTab"></apv-scrollableTab>
+
+<ion-content [fullscreen]="true" class="lazyLoading">
+  <ion-row class="ion-justify-content-center">
+    <ion-col size="11" size-md="10" size-lg="8" class="first-col my-1 bg-gradiant">
+      <ion-card class="main-card m-0 p-0" *ngIf="listModel?.Items">
+        <ion-card-content>
+          <ion-list class="p-0" *ngFor="let item of listModel.Items; let lastItem = last;" (click)="onMap(item)">
+            <ion-item [ngStyle]="{'--border-style' : lastItem ? ('none') : ('solid')}">{{item.Title}}
+            </ion-item>
+          </ion-list>
+
+          <ion-infinite-scroll *ngIf="listModel.HasNext" threshold="100px" (ionInfinite)="loadData($event)">
+            <ion-infinite-scroll-content loadingSpinner="crescent"
+              loadingText="{{baseService.translate('common-processing')}}">
+            </ion-infinite-scroll-content>
+          </ion-infinite-scroll>
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+</ion-content>

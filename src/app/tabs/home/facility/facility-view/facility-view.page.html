@@ -1,0 +1,108 @@
+<apv-page-header title="{{this.baseService.translate('facility-view-title')}}" backButton="true"></apv-page-header>
+
+<ion-content [fullscreen]="true">
+  <ion-row class="d-flex flex-column viewFacilities-container">
+    <ion-col size="11" class="d-flex ion-justify-content-center flex-column bg-gradiant mx-auto my-2">
+      <ion-card class="main-card m-0 pt-2 px-2">
+        <ion-card-content class="">
+          <ion-row>
+            <ion-col size="7">
+              <ion-text>
+                <p class="category">
+                  {{this.baseService.translate('facility-list-Sport')}}
+                </p>
+              </ion-text>
+              <ion-text>
+                <p class="title mt-2 text-primary">
+                  {{this.baseService.translate('facility-tag-gym')}}
+                </p>
+              </ion-text>
+              <ion-row>
+                <ion-chip class="price-chip">
+                  {{this.baseService.translate('facility-list-fipaid')}}
+                </ion-chip>
+                <span class="pt-2 mx-2">
+                  {{this.baseService.translate('facility-list-Monthly')}}
+                </span>
+              </ion-row>
+            </ion-col>
+            <ion-col size="5" class="pt-4">
+              <ion-icon name="star" color="warning"></ion-icon>
+              <ion-icon name="star" color="warning"></ion-icon>
+              <ion-icon name="star" color="warning"></ion-icon>
+              <ion-icon name="star" color="medium"></ion-icon>
+              <ion-icon name="star" color="medium"></ion-icon>
+            </ion-col>
+          </ion-row>
+          <ion-row>
+            <b class="ion-text-justify">
+              {{this.baseService.translate('facility-list-desc')}}
+            </b>
+          </ion-row>
+
+          <!-- start slider -->
+          <div class="my-4">
+            <apv-carousel [sliderItems]="images"></apv-carousel>
+          </div>
+          <!-- end slider -->
+
+          <!-- start tags -->
+          <ion-row>
+            <ion-col [size]="tag.colSize" *ngFor="let tag of tags">
+              <ion-chip class="tag-chip" [outline]="true" color="primary">
+                <img [src]="tag.img">
+                <span class="mx-2">
+                  {{tag.name}}
+                </span>
+              </ion-chip>
+            </ion-col>
+          </ion-row>
+          <!-- end tags -->
+
+          <!-- start packages -->
+          <ion-row class="mt-4">
+            <div class="drop-down-container p-2">
+              <div class="d-flex">
+                <img src="/assets/icon/figmaIcon/arrow.svg" (click)="displayPackages=!displayPackages" [ngClass]="{'transform' : displayPackages}">
+                <span class="mx-2">{{selectedPackage}}</span>
+              </div>
+              <ion-row *ngIf="displayPackages">
+                  <ion-col size="12" *ngFor="let package of packages">
+                   <button class="text-start p-2" (click)="selectPackage(package.title)">
+                      {{package.title}}
+                   </button>
+                  </ion-col>
+              </ion-row>
+            </div>
+          </ion-row>
+          <!-- end packages -->
+
+          <ion-row class="ion-justify-content-center my-4" *ngIf="!isNewFacility">
+            <ion-icon name="star" color="medium"></ion-icon>
+            <ion-icon name="star" color="medium"></ion-icon>
+            <ion-icon name="star" color="medium"></ion-icon>
+            <ion-icon name="star" color="medium"></ion-icon>
+            <ion-icon name="star" color="medium"></ion-icon>
+          </ion-row>
+
+          <ion-row class="ion-justify-content-center mt-4" *ngIf="isNewFacility">
+            <ion-button [disabled]="selectedPackage === baseService.translate('facility-select-package-default')">
+              {{this.baseService.translate('facility-view-pay-btn')}}
+            </ion-button>
+          </ion-row>
+
+          <ion-row class="ion-justify-content-center" *ngIf="!isNewFacility">
+            <ion-button [disabled]="selectedPackage === baseService.translate('facility-list-Renewal')">
+              {{this.baseService.translate('facility-list-Renewal')}}
+            </ion-button>
+            <ion-button fill="clear">
+              {{this.baseService.translate('facility-list-Release')}}
+            </ion-button>
+          </ion-row>
+
+
+        </ion-card-content>
+      </ion-card>
+    </ion-col>
+  </ion-row>
+</ion-content>

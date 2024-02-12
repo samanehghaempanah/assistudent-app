@@ -1,0 +1,130 @@
+.scroll-list::-webkit-scrollbar {
+    display: none !important;
+}
+
+.radius {
+    border-radius: 0px 0px 30px 30px;
+}
+
+.menuImg{
+    max-width: 30px;
+    max-height: 30px;
+}
+
+.list-manu__container {
+    width: 100%;
+    background-color: var(--ion-color-primary);
+    padding: 10px;
+
+    .scroll-list {
+        display: flex;
+        flex-wrap: nowrap;
+        flex-direction: row-reverse;
+        margin-bottom: -2px;
+        overflow-x: auto;
+
+        .menuBox {
+            height: 80px;
+            flex: 1;
+            cursor: pointer;
+        }
+    }
+
+    .menuBox2 {
+        cursor: pointer;
+    }
+
+    .dropdown-content {
+        max-width: 700px;
+        direction: ltr;
+
+     }
+
+    .button {
+        text-align: center !important;
+        border-radius: 15px;
+        width: 50px;
+        height: 52px;
+        background-color: var(--ion-color-light-text);
+        box-shadow: 3px 3px 5px rgba(var(--ion-color-light-text-contrast-rgb), 0.2), -3px -3px 5px rgba(var(--ion-color-light-text-rgb), 0.25), inset -5px -5px 3px var(--ion-color-light-text), inset 5px 5px 5px rgba(var(--ion-color-light-text-rgb), 0.8);
+
+        ion-img::part(image) {
+            width: 23px;
+            margin: auto;
+        }
+    }
+
+    p {
+        color: var(--ion-color-light-text);
+        font-size: 8px;
+        text-align: center;
+    }
+
+    .drop-down-container {
+        width: 100%;
+        border-radius: 10px;
+        background-color: rgba(var(--ion-color-light-text-rgb), 0.247);
+        color: var(--ion-color-light-text);
+        max-width: 700px;
+
+        img {
+            transition: all 0.2s;
+        }
+    }
+
+}
+
+
+.open {
+    transform: rotate(0.5turn);
+}
+
+.disabled {
+    opacity: 0.65;
+    cursor: default;
+}
+
+.display {
+    display: none;
+}
+
+
+@media screen and (min-width: 1074px) {
+    .list-manu__container {
+        .scroll-list {
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}
+
+@media screen and (min-width: 1074px) {
+    .hidden-menu {
+        display: none;
+    }
+}
+
+.list-menu {
+    background-color: var(--ion-color-primary) !important;
+}
+
+.mat-expansion-panel:not([class*='mat-elevation-z']) {
+    box-shadow: none;
+}
+
+
+.transform {
+    transform: rotate(0.25turn)
+}
+
+.displayDropdown{
+    color: var(--ion-color-light-text);
+}
+
+@media screen and (max-width: 768px) {
+    .dropdown-content {
+        max-height: 260px;
+        overflow: auto;
+    }
+}
+

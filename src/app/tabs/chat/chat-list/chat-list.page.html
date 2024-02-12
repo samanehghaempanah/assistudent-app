@@ -1,0 +1,95 @@
+<apv-page-header
+  title="{{this.baseService.translate('Chat-list-title')}}"
+></apv-page-header>
+
+<ion-content [fullscreen]="true">
+  <ion-row class="ion-justify-content-center ion-margin-vertical">
+    <ion-col size="11" size-md="10" size-lg="8" class="first-col">
+      <ion-row *ngFor="let chat of Chats" class="mt-3">
+        <ion-col
+          size="12"
+          class="bg-gradiant"
+          [routerLink]="['./view', chat.Client_Id]"
+        >
+          <ion-card class="m-0 p-2 py-0">
+            <div class="d-flex ion-align-items-center">
+              <ion-img
+                *ngIf="chat.ChatType===0"
+                src="./assets/icon/support.png"
+                alt="img"
+                class="avatar-box"
+              ></ion-img>
+              <ion-img
+                *ngIf="chat.ChatType===0 && !chat.ProfileImageFile"
+                src="./assets/icon/avatar.png"
+                alt="img"
+                class="avatar-box"
+              ></ion-img>
+              <!-- <ion-img *ngIf="chat.ChatType===0 && chat.ProfileImageFile"
+                src="{{chat.ProfileImageFile}}"
+                alt="img"
+                class="avatar-box"
+              ></ion-img> -->
+              <ion-card-content class="p-1 ps-0" style="flex: 1">
+                <div class="d-flex flex-column p-2">
+                  <div
+                    class="d-flex ion-justify-content-between ion-align-items-center"
+                  >
+                    <ion-text class="text-bold">{{chat.Title}}</ion-text>
+                    <ion-badge
+                      *ngIf="chat.ChatType===1 && chat.UnreadMessageCount"
+                      class="btn-chat text-small"
+                      >{{chat.UnreadMessageCount}}</ion-badge
+                    >
+                  </div>
+                  <ion-text
+                    *ngIf="chat.ChatType===1 && chat.isTyping" class="text-small"
+                    color="success"
+                    >{{this.baseService.translate('chat-view-typing')}}</ion-text
+                  >
+                  <div
+                    *ngIf="chat.ChatType===0"
+                    class="d-flex ion-justify-content-between ion-align-items-center"
+                  >
+                    <ion-text class="last-text"
+                      >{{chat.LastMessage_Hint}}</ion-text
+                    >
+                    <ion-badge
+                      *ngIf="chat.UnreadMessageCount"
+                      class="btn-chat text-small d-flex ion-justify-content-center ion-align-items-center"
+                      >{{chat.UnreadMessageCount}}</ion-badge
+                    >
+                  </div>
+                  <div
+                    *ngIf="chat.ChatType===0"
+                    class="d-flex flex-row-reverse ion-justify-content-between ion-align-items-center mt-2"
+                  >
+                    <div class="d-flex ion-align-items-center">
+                      <ion-icon
+                        *ngIf="chat.LastMessage_Status=== MessageStatus.Seen"
+                        name="checkmark-done-circle"
+                        class="mx-1 mb-1 text-medium"
+                      ></ion-icon>
+                      <ion-text class="text-small text-medium"
+                        >{{chat.LastMessage_Date | jdate:'datetime'}}</ion-text
+                      >
+                    </div>
+                    <ion-text *ngIf="chat.isTyping" color="success" class="text-small"
+                      >{{this.baseService.translate('chat-view-typing')}}</ion-text
+                    >
+                  </div>
+                </div>
+              </ion-card-content>
+            </div>
+          </ion-card>
+        </ion-col>
+        <ion-col size="12" class="text-center new-msg"
+          ><ion-button
+            ><ion-icon
+            name="people-outline" class="text-xlarge" [class]="baseService.language().Direction === 'rtl' ? 'ms-2' : 'me-2'"
+          ></ion-icon>{{this.baseService.translate('Chat-list-btn')}}</ion-button
+        ></ion-col>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+</ion-content>

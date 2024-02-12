@@ -1,0 +1,5 @@
+<swiper dir="rtl" #swiper [config]='config' (slideChange)="swiperSlideChnaged($event)">
+  <ng-template *ngFor="let item of sliderItems" swiperSlide>
+    <img [src]="item.MainFile" [alt]="item.Title" (click)="baseService.openLink(item.Link)">
+  </ng-template>
+</swiper>

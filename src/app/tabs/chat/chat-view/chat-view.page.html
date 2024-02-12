@@ -1,0 +1,198 @@
+<apv-page-header
+  title="{{this.baseService.translate('Chat-view-title')}}"
+  backButton="true"
+></apv-page-header>
+
+<ion-row class="contact-status w-100 mt-2 pt-5 px-4 pb-2">
+  <ion-col
+    size="12"
+    class="d-flex ion-justify-content-between ion-align-items-center"
+  >
+    <ion-col size="2" class="d-flex ion-align-items-center">
+      <img src="/assets/icon/support2.png" class="avatar-img" />
+    </ion-col>
+    <ion-col size="9">
+      <b> {{PageData.Item.Title}} </b>
+      <p *ngIf="PageData.Item.isTyping" class="text-small mt-1">
+        {{this.baseService.translate('chat-view-typing')}}
+      </p>
+    </ion-col>
+    <ion-col size="1">
+      <ion-icon name="ellipsis-vertical-outline" class="text-large"></ion-icon>
+    </ion-col>
+  </ion-col>
+
+  <!-- <ion-col size="12" *ngIf="displayOptions">
+    <ion-row class="ion-justify-content-center">
+      <ion-col size="9" class="button-container d-flex ion-justify-content-around ion-align-items-center py-2">
+        <button>Delete</button>
+        <button>Copy</button>
+        <button>Forward</button>
+        <button>Reply</button>
+      </ion-col>
+    </ion-row>
+  </ion-col> -->
+</ion-row>
+
+<ion-content [fullscreen]="true" class="lazyLoading pb-0">
+  <ion-row
+    class="ion-justify-content-center ion-margin-vertical pb-0"
+    style="margin-top: 80px"
+    [ngClass]="{'chat-Content-padding' : displayOptions}"
+  >
+    <ion-col size="11" size-md="10" size-lg="8" class="chat-view">
+      <ion-row>
+        <ion-col size="12">
+          <ion-row
+            *ngFor="let i=index ;let message of Messages"
+            [ngClass]="{'flex-row-reverse' : (!message.Me && baseService.language().Direction === 'rtl') || (message.Me && baseService.language().Direction === 'ltr')}"
+          >
+            <ion-col size="12" class="ion-text-center">
+              <ion-chip
+                *ngIf="(Messages[i]?.Creation_date | jdate:'date') != (Messages[i-1]?.Creation_date | jdate:'date' )"
+                color="dark"
+                >{{message.Creation_date | jdate:"date" }}</ion-chip
+              >
+            </ion-col>
+
+            <ion-col
+              (click)="selectMessage(i)"
+              size="10"
+              class="chat after-box-chat other-chat no-border-left mb-4 p-2"
+              class="{{message.disabled ? 'disabled' : ''}}"
+              *ngIf="!message.Me"
+              [ngStyle]="{'text-align' : (baseService.language().Direction === 'rtl') ? ('right') : ('left')}"
+            >
+              <ion-text> {{message.Message}} </ion-text><br />
+
+              <ion-text
+                class="text-small text-light"
+                [class]="baseService.language().Direction === 'rtl' ? 'ion-float-left' : 'ion-float-right'"
+                >{{message.Creation_date | jdate:"info" }}</ion-text
+              >
+            </ion-col>
+
+            <ion-col
+              id="green-select"
+              class="select d-flex ion-justify-content-center ion-align-items-center p-2 mb-4"
+              size="2"
+              *ngIf="message.isSelected && !message.Me"
+            >
+              <img src="/assets/icon/ok-outline.svg" />
+            </ion-col>
+
+            <!-- <ion-col size="2" *ngIf="message.Chat_Id === '1'">
+              <img [src]="message.User_ProfileImageFile"  class="avatar-img">
+            </ion-col> -->
+
+            <ion-col
+              (click)="selectMessage(i)"
+              size="10"
+              class="chat after-box-chat my-chat no-border-right mb-4 p-2"
+              class="{{message.disabled ? 'disabled' : ''}}"
+              *ngIf="message.Me"
+              [ngStyle]="{'text-align' : (baseService.language().Direction === 'rtl') ? ('right') : ('left')}"
+            >
+              <ion-text> {{message.Message}} </ion-text><br />
+              <div class="d-flex flex-row-reverse ion-align-items-center">
+                <ion-text class="text-small text-light"
+                  >{{message.Creation_date | jdate:"info"}}</ion-text
+                >
+                <ion-icon
+                  *ngIf="message.MessageStatus=== MessageStatus.Draft"
+                  name="ellipse-outline"
+                  class="mx-1"
+                ></ion-icon>
+                <ion-icon
+                  *ngIf="message.MessageStatus=== MessageStatus.ReceivedByServer"
+                  name="checkmark-circle-outline"
+                  class="mx-1"
+                ></ion-icon>
+                <ion-icon
+                  *ngIf="message.MessageStatus=== MessageStatus.Delivered"
+                  name="checkmark-done-circle-outline"
+                  class="mx-1"
+                ></ion-icon>
+                <ion-icon
+                  *ngIf="message.MessageStatus=== MessageStatus.Seen"
+                  name="checkmark-done-circle"
+                  class="mx-1"
+                ></ion-icon>
+              </div>
+            </ion-col>
+
+            <ion-col
+              id="pink-select"
+              class="select d-flex ion-justify-content-center ion-align-items-center p-2 mb-4"
+              size="2"
+              *ngIf="message.isSelected && message.Me"
+            >
+              <img src="/assets/icon/ok-outline.svg" />
+            </ion-col>
+          </ion-row>
+        </ion-col>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+</ion-content>
+
+<ion-row class="chat-view-footer ion-justify-content-center pt-1 pb-5">
+  <ion-col size="12" size-md="10" size-lg="8" class="mb-4">
+    <form (ngSubmit)="sendMessage()">
+      <ion-row>
+        <!-- <ion-col size="{{PageData.ChatMessage ? '10' : '9'}}" sizeSm="{{PageData.ChatMessage ? '11' : '10'}}"
+          class="d-flex ion-justify-content-around ion-align-items-center pe-0">
+          <ion-input class="px-2"
+            [ngStyle]="{'direction' : (baseService.language().Direction === 'rtl') ? ('rtl') : ('ltr')}" type="text"
+            name="text" [(ngModel)]="PageData.ChatMessage" (ionChange)="sendTyping()" debounce="250"
+            autocomplete="off"></ion-input>
+        </ion-col> -->
+        <!-- <ion-col size="{{PageData.ChatMessage ? '2' : '3'}}" sizeSm="{{PageData.ChatMessage ? '1' : '2'}}"
+          class="d-flex ion-justify-content-around ion-align-items-center ps-0"> -->
+        <!-- <ion-col [size]="PageData.ChatMessage === '' ? 3 : 2" class="d-flex ion-justify-content-around ion-align-items-center"> -->
+        <!-- <div class="input-option text-center pt-2" *ngIf="!PageData.ChatMessage">
+            <ion-icon name="attach-outline" (click)="file.click()" class="text-dark text-large"></ion-icon>
+            <input type="file" accept="image/*" #file class="d-none" />
+          </div>
+          <div class="input-option text-center mx-1 pt-2" *ngIf="!PageData.ChatMessage">
+            <ion-icon name="mic-outline" class="text-dark text-large"></ion-icon>
+            <input type="" class="d-none" />
+          </div>
+
+          <div class="input-option text-center mx-1 p-2" id="send-btn" (click)="sendMessage()" *ngIf="PageData.ChatMessage">
+            <ion-icon name="send" class="text-large text-light"></ion-icon>
+          </div>
+        </ion-col> -->
+        <ion-col
+          size="10"
+          sizeSm="11"
+          class="d-flex ion-justify-content-around ion-align-items-center pe-0"
+        >
+          <ion-input
+            class="px-2"
+            [ngStyle]="{'direction' : (baseService.language().Direction === 'rtl') ? ('rtl') : ('ltr')}"
+            type="text"
+            name="text"
+            [(ngModel)]="PageData.ChatMessage"
+            (ionChange)="sendTyping()"
+            debounce="250"
+            autocomplete="off"
+          ></ion-input>
+        </ion-col>
+        <ion-col
+          size="2"
+          sizeSm="1"
+          class="d-flex ion-justify-content-around ion-align-items-center ps-0"
+        >
+          <div
+            class="input-option text-center mx-1 p-2"
+            id="send-btn"
+            (click)="sendMessage()"
+          >
+            <ion-icon name="send" class="text-large text-light"></ion-icon>
+          </div>
+        </ion-col>
+      </ion-row>
+    </form>
+  </ion-col>
+</ion-row>

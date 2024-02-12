@@ -1,0 +1,8 @@
+{
+  "name": "assistudent.core.app",
+  "integrations": {
+    "capacitor": {},
+    "cordova": {}
+  },
+  "type": "angular"
+}

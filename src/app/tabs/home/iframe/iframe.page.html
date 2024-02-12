@@ -1,0 +1,22 @@
+<apv-page-header
+  title="{{PageData.IFrameTitle}}"
+  backButton="true"
+></apv-page-header>
+
+<ion-content class="iframe-container">
+  <div class="content-box">
+    <ng-container
+      *ngIf="PageData.Waiting; then loadTemplate; else doneTemplate"
+    ></ng-container>
+    <ng-template #loadTemplate>
+      <div class="loading-box">
+        <ion-spinner name="crescent"></ion-spinner>
+        <br />
+        <ion-label>Connecting ...</ion-label>
+      </div>
+    </ng-template>
+    <ng-template #doneTemplate>
+      <iframe [src]="PageData.IFrameURL | safeURL" frameborder="0"></iframe>
+    </ng-template>
+  </div>
+</ion-content>

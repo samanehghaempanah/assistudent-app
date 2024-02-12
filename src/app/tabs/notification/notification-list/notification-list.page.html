@@ -1,0 +1,176 @@
+<apv-page-header title="{{this.baseService.translate('Notification-list-title')}}"></apv-page-header>
+
+<apv-scrollableTab [Tabs]="Categories" [selectedTab]="selectedTab" [isCategory]="true" marginClasses="mt-4 mb-0"
+  (onTabClick)="onTabClick($event)"></apv-scrollableTab>
+
+<apv-search marginClasses="mt-0 mb-1" placeholder="{{baseService.translate('Notification-search-input')}}"
+  (onSearchClick)="onSearchClick($event)"></apv-search>
+
+<ion-content [fullscreen]="true">
+  <ion-row class="ion-justify-content-center">
+    <ion-col size="12" size-md="10" size-lg="8" class="first-col">
+      <ion-row *ngIf="!showNofiticationSavedList" class="d-flex ion-justify-content-center">
+        <ion-col size="11" *ngFor="let notification of listModel.Items">
+          <ion-card class="notify-card m-1 d-flex ion-align-items-center" (mouseenter)="onMouseEnter(notification)">
+            <ion-row>
+              <!-- Image And Image Footer -->
+              <ion-col size="12" size-md="4">
+                <div class="d-flex flex-column">
+                  <img alt="{{notification.Title}}" [src]="baseService.loadImage(notification.MainFile, 'Banner')"
+                    id="{{notification.Id}}" (click)="onShowImage(notification)" expand="block" />
+
+                  <div class="card-notif-bar w-full">
+                    <div class="cardActionsLeft d-flex ion-align-items-center ion-justify-content-around w-50">
+                      <div class="d-flex ion-align-items-center">
+                        <ion-icon *ngIf="notification.HasSave===true" name="bookmark-sharp" class="sharp"
+                          (click)="saveNotif(notification)"></ion-icon>
+                        <ion-icon *ngIf="notification.HasSave===false" name="bookmark-outline"
+                          (click)="saveNotif(notification)" class="text-light"></ion-icon>
+                      </div>
+                      <div class="d-flex ion-align-items-center">
+                        <ion-text class="text-small text-light px-1">{{notification.ViewCount}}</ion-text>
+                        <ion-icon name="eye-outline" class="text-large text-light mb-1"></ion-icon>
+                      </div>
+                      <div class="d-flex ion-align-items-center">
+                        <ion-text class="text-small text-light px-1">{{notification.LikeCount}}</ion-text>
+                        <span (click)="clickLike(notification)">
+                          <ion-icon *ngIf="notification.HasLike===true" name="heart-sharp"
+                            class="text-large mt-1 sharp"></ion-icon>
+                          <ion-icon *ngIf="notification.HasLike===false" name="heart-outline"
+                            class="text-large text-light mt-1"></ion-icon>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ion-col>
+
+              <!-- Notification Information -->
+              <ion-col size="12" size-md="8" class="d-flex ion-align-items-center">
+                <div>
+                  <ion-card-header class="ion-no-padding ion-padding-bottom">
+                    <div class="d-flex ion-justify-content-between pe-2 ps-2">
+                      <ion-badge color="warning" class="text-style ion-no-margin p-2">
+                        {{notification.Category_Title}}
+                      </ion-badge>
+                      <ion-text class="text-style text-medium text-small">
+                        {{notification.StartDate | jdate:'info'}}
+                      </ion-text>
+                    </div>
+                    <div class="d-flex ion-align-items-end ion-margin-top">
+                      <ion-card-title class="text-long text-bold text-dark pe-2 ps-2">
+                        {{notification.Title}}
+                      </ion-card-title>
+                      <!-- class="{{notification.id===notifyId && showTitle? 'text-style text-large' : 'text-style text-large hideTitle'}}" -->
+                      <!-- <a (click)="titleClick(notification)">
+                    <span 
+                    class="text-small"
+                    [innerHtml]="notification.id===notifyId && showTitle ? this.baseService.translate('Notification-list-card-less') : this.baseService.translate('Notification-list-card-more')">
+                    </span>
+                  </a> -->
+                    </div>
+                  </ion-card-header>
+
+                  <div class="textBox d-flex ion-margin-bottom">
+                    <ion-card-content color="medium"  class="{{notification.Id===notifyId && showDescription? 'text-long text-base ion-no-padding pe-2' : 'text-long text-base ion-no-padding hideDescription pe-2'}}">
+                      <p>{{notification.Description}}</p>
+                      <p  class="mx-3 my-2" style="text-align: end;"><span (click)="goToLink(notification)" style="cursor: pointer; color: var(--ion-color-primary);">{{notification.Link}}</span></p>
+                    </ion-card-content>
+                    <a *ngIf="notification.hasMore" (click)="descriptionClick(notification)">
+                      <span class="text-small ps-3"
+                        [innerHtml]="notification.Id===notifyId && showDescription ? this.baseService.translate('Notification-list-card-less') :  this.baseService.translate('Notification-list-card-more')">
+                      </span>
+                    </a>
+                  </div>
+                </div>
+              </ion-col>
+            </ion-row>
+          </ion-card>
+        </ion-col>
+      </ion-row>
+
+      <ion-row *ngIf="showNofiticationSavedList" class="d-flex ion-justify-content-center">
+        <ion-col size="11" *ngFor="let notification of nofiticationSavedList">
+          <ion-card class="notify-card  m-1 d-flex ion-align-items-center">
+            <ion-row>
+              <!-- Image And Image Footer -->
+              <ion-col size="12" size-md="4">
+                <div class="d-flex flex-column">
+                  <img alt="{{notification.Title}}" src="{{notification.MainFile}}" id="{{notification.Id}}"
+                    (click)="onShowImage(notification)" expand="block" />
+                  <div class="card-notif-bar w-full">
+                    <div class="cardActionsLeft d-flex ion-align-items-center ion-justify-content-around w-50">
+                      <div class="d-flex ion-align-items-center">
+                        <ion-icon *ngIf="notification.HasSave===true" name="bookmark-sharp" class="sharp"
+                          (click)="saveNotif(notification)"></ion-icon>
+                        <ion-icon *ngIf="notification.HasSave===false" name="bookmark-outline"
+                          (click)="saveNotif(notification)" class="text-light"></ion-icon>
+                      </div>
+                      <div class="d-flex ion-align-items-center">
+                        <ion-text class="text-small text-light px-1">{{notification.ViewCount}}</ion-text>
+                        <ion-icon name="eye-outline" class="text-large text-light mb-1"></ion-icon>
+                      </div>
+                      <div class="d-flex ion-align-items-center">
+                        <ion-text class="text-small text-light px-1">{{notification.LikeCount}} </ion-text>
+                        <span (click)="clickLike(notification)">
+                          <ion-icon *ngIf="notification.HasLike===true" name="heart-sharp"
+                            class="text-large mt-1 sharp"></ion-icon>
+                          <ion-icon *ngIf="notification.HasLike===false" name="heart-outline"
+                            class="text-large text-light mt-1"></ion-icon>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ion-col>
+
+              <!-- Notification Information -->
+              <ion-col size="12" size-md="8" class="d-flex ion-align-items-center">
+                <div>
+                  <ion-card-header class="ion-no-padding ion-padding-bottom">
+                    <div class="d-flex ion-justify-content-between pe-2 ps-2">
+                      <ion-badge color="warning" class="text-style ion-no-margin p-2">
+                        {{this.baseService.translate('Notification-list-card-chip1')}}
+                      </ion-badge>
+                      <ion-text class="text-style text-medium text-small">
+                        {{notification.StartDate | jdate:'info'}}
+                      </ion-text>
+                    </div>
+                    <div class="d-flex ion-align-items-end ion-margin-top">
+                      <ion-card-title class="text-long text-bold pe-2 ps-2 text-dark">
+                        {{notification.Title}}
+
+                      </ion-card-title>
+                      <!-- class="{{notification.id===notifyId && showTitle? 'text-style text-large' : 'text-style text-large hideTitle'}}" -->
+                      <!-- <a (click)="titleClick(notification)">
+                      <span 
+                      class="text-small"
+                      [innerHtml]="notification.id===notifyId && showTitle ? this.baseService.translate('Notification-list-card-less') : this.baseService.translate('Notification-list-card-more')">
+                      </span>
+                    </a> -->
+                    </div>
+                  </ion-card-header>
+
+                  <div class="d-flex ion-align-items-end ion-margin-bottom">
+                    <ion-card-content color="medium"
+                      class="{{notification.Id===notifyId && showDescription? 'text-long text-base ion-no-padding pe-2' : 'text-long text-base ion-no-padding hideDescription pe-2'}}">
+                      {{notification.Description}}
+                    </ion-card-content>
+                    <a *ngIf="notification.hasMore" (click)="descriptionClick(notification)">
+                      <span class="text-small ps-3"
+                        [innerHtml]="notification.Id===notifyId && showDescription ? this.baseService.translate('Notification-list-card-less') :  this.baseService.translate('Notification-list-card-more')">
+
+                      </span>
+                    </a>
+                  </div>
+                </div>
+              </ion-col>
+            </ion-row>
+
+
+          </ion-card>
+        </ion-col>
+      </ion-row>
+    </ion-col>
+  </ion-row>
+</ion-content>

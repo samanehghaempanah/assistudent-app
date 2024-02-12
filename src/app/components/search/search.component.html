@@ -1,0 +1,7 @@
+<ion-row class="searchBar" [class]="marginClasses">
+  <ion-col size="11" size-md="10" size-lg="8" [class]="paddingClasses" class=" mx-auto">
+    <ion-searchbar show-clear-button="never" class="p-0"
+      [ngClass]="this.baseService.language().Direction === 'rtl' ? 'rtl' : ''" placeholder="{{ placeholder }}"
+      (ionChange)="onSearch($event)"></ion-searchbar>
+  </ion-col>
+</ion-row>

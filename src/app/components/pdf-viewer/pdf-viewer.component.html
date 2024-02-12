@@ -1,0 +1,23 @@
+<!-- <div #pdfViewerContainer class="pdf-viewer-container">
+    <div>
+        <span (click)="fullScreen()">
+            <ion-icon name="expand-outline" *ngIf="!isFullScreen"></ion-icon>
+            <ion-icon name="scan-outline" *ngIf="isFullScreen"></ion-icon>
+        </span>
+    </div>
+
+    <object [data]="pdfUrl  | safeURL" type="application/pdf" width="100%" height="500px"></object>
+</div> -->
+
+<div class="pdf-viewer-container">
+    <iframe #pdfIframe [src]="pdfUrl | safeURL"  type="application/pdf" ></iframe>
+    <div class="pdf-toolbar">
+        <div class="pdf-toolbar-buttons">
+            <span (click)="toggleFullscreen()">
+                <ion-icon name="expand-outline" *ngIf="!isFullscreen"></ion-icon>
+                <ion-icon name="scan-outline" *ngIf="isFullscreen"></ion-icon>
+            </span>
+        </div>
+    </div>
+</div>
+
